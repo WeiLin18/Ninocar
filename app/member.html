@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="./assets/css/all.css">
+<link rel="stylesheet" href="./assets/css/pages/cart.css">
+<link rel="stylesheet" href="./assets/css/pages/member.css">
+<link rel="stylesheet" href="./assets/css/pages/memberNew.css">
+<link rel="shortcut icon" href="./assets/img/loho-icon.ico" />
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vuex/3.6.2/vuex.min.js"></script>
+<script src="./assets/js/all.js"></script>
+<script src="./assets/js/utils.js"></script>
+<title>MemberCollection</title>
+</head>
+
+<body>
+  <div id="app" v-cloak>
+    <vue-header></vue-header>
+
+    <member-bar></member-bar>
+    <!--  -->
+
+    @@include('pages/MemberPage/MemberNav.html')
+    <!-- your code here... -->
+
+    @@include('./components/Footer.html')
+
+  </div>
+
+</body>
+@@include('./components/VueHeader.html') @@include('pages/MemberPage/MemberBar.html')
+
+
+
+<script>
+  new Vue({
+    el: '#app',
+    store,
+    data: {
+      likeList: [],
+
+    },
+
+    watch: {
+      memberId(val) {
+        if (val === '') {
+          window.location.replace('./index-front.html')
+        }
+      }
+    },
+    mounted() {
+      if (this.memberId === null) {
+        window.location.replace('./index-front.html')
+      };
+      this.likeList = JSON.parse(localStorage.getItem('likeList')) || [];
+
+    },
+
+    methods: {
+
+
+      deleteCurrent(val) {
+
+        console.log(this.likeList.indexOf(val));
+
+        this.likeList.splice(this.likeList.indexOf(val), 1);
+
+        localStorage.setItem('likeList', JSON.stringify(this.likeList));
+
+
+      }
+    },
+    computed: {
+      memberId() {
+        return this.$store.state.memberId
+      },
+    },
+  });
+</script>
+
+</html>

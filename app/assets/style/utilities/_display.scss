@@ -1,0 +1,78 @@
+$displayList : ('block' : block,
+    'flex' : flex,
+    'inbl' : inline-block,
+    'none' : none);
+
+// ex: .d-block { display: block; }
+@each $key,
+$val in $displayList {
+    .d-#{$key} {
+        display: $val;
+    }
+}
+
+
+$positionList : ('re' : relative,
+    'ab' : absolute,
+    'fixed': fixed,
+    'sticky': sticky);
+
+
+@each $key,
+$val in $positionList {
+    .po-#{$key} {
+        position: $val;
+    }
+}
+
+
+//-----------------------------RWD
+@include rwd-lg {
+    .d-lg-none {
+        display: none;
+    }
+
+    .d-lg-flex {
+        display: flex;
+    }
+}
+
+@include rwd-md {
+    .d-md-none {
+        display: none;
+    }
+
+    .d-md-flex {
+        display: flex;
+    }
+}
+
+
+
+@include rwd-sm {
+    .d-sm-none {
+        display: none;
+    }
+}
+
+@include rwd-xs {
+    .d-xs-none {
+        display: none;
+    }
+}
+
+.overflow-hidden {
+    overflow: hidden;
+}
+
+.fl-right {
+    float: right;
+}
+
+.bottom-0 {
+    bottom: 0;
+}
+
+.z-index-3000 {
+    z-index: 3000;
+}

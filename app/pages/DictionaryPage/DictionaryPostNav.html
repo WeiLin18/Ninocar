@@ -1,0 +1,22 @@
+<nav class="block__header block__header--nav">
+    <ul class="d-flex mb-md-4">
+        <li class="mr-20 mr-md-15 mr-sm-10"><a href="#" class="block__header__title link'"
+                :class="activeNav==='all'?'link--active':''" @click.prevent="handleNavBarChange('all')">全部圖鑑</a></li>
+        <li><a href="#" class="block__header__title link" :class="activeNav==='my'?'link--active':''"
+                @click.prevent="handleNavBarChange('my')">我的圖鑑</a></li>
+    </ul>
+    <div v-if="activeNav==='all'" class="ml-auto w-md-100 d-flex text-right">
+        <button class="btn btn--link h5 text-coffee ml-auto mr-8 mr-sm-2"
+            @click="handleSearchTypeChange">切換搜尋方式</button>
+        <div class="d-inbl" v-show="searchType === 'sort'">
+            <button class="btn btn--outline mr-8 mr-sm-1" @click="handleFilterReset">清空</button>
+            <!-- <button class="btn btn--outline mr-8 mr-sm-1" @click="handleFilterAllCheck">全選</button> -->
+        </div>
+        <form class="search-bar" v-show="searchType === 'keyword'">
+            <img src="./assets/img/icon/icon-search.svg" alt="search" class="search-bar__icon">
+            <input type="text" class="search-bar__input" v-model="keywordText" @keyup="handleKeywordSearch"
+                placeholder="找圖鑑" />
+            <button class="search-bar__btn" @click.prevent="handleKeywordSearch">搜尋</button>
+        </form>
+    </div>
+</nav>

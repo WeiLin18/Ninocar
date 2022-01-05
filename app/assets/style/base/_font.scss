@@ -1,0 +1,90 @@
+/* ----------------------------------------font size */
+h1,
+.h1 {
+    font-size: $font-size-base * 3.2;
+
+    @include rwd-lg {
+        font-size: $font-size-base * 2.8;
+    }
+
+    @include rwd-md {
+        font-size: $font-size-base * 2.4;
+    }
+
+    @include rwd-sm {
+        font-size: $font-size-base * 2;
+    }
+}
+
+h2,
+.h2 {
+    font-size: $font-size-base * 2.8;
+
+    // @include rwd-lg {
+    //     font-size: $font-size-base * 2.4;
+    // }
+    @include rwd-md {
+        font-size: $font-size-base * 2.4;
+    }
+
+    @include rwd-sm {
+        font-size: $font-size-base * 2;
+    }
+}
+
+h3,
+.h3 {
+    font-size: $font-size-base * 2.4;
+
+    @include rwd-md {
+        font-size: $font-size-base * 2;
+    }
+
+    @include rwd-sm {
+        font-size: $font-size-base * 1.6;
+    }
+
+    // @include rwd-xs {
+    //     font-size: $font-size-base * 1.4; 
+    // }
+}
+
+h4,
+.h4 {
+    font-size: $font-size-base * 2;
+
+    @include rwd-md {
+        font-size: $font-size-base * 2;
+    }
+
+    @include rwd-sm {
+        font-size: $font-size-base * 1.6;
+    }
+}
+
+h5,
+.h5 {
+    font-size: $font-size-base * 1.6;
+}
+
+h6,
+.h6 {
+    font-size: $font-size-base * 1.4;
+}
+
+.font {
+
+    &-lg {
+        font-size: 36px;
+    }
+
+    &-s {
+        font-size: 12px;
+    }
+
+    @include rwd-sm {
+        &-sm-s {
+            font-size: 12px;
+        }
+    }
+}

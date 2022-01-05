@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="./assets/css/all.css">
+<link rel="stylesheet" href="./assets/css/pages/dictionary.css">
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vuex/3.6.2/vuex.min.js"></script>
+<script src="./assets/js/all.js"></script>
+<script src="./assets/js/utils.js"></script>
+<title>Document</title>
+</head>
+
+<body>
+    @@include('./components/Header.html')
+    <main class="container dictionary pt-10" id="dictionary">
+        <!-- @@include('./pages/DictionaryPage/DictionaryDisplay.html') 
+        @@include('./pages/DictionaryPage/DictionaryPosts.html')  -->
+    </main>
+</body>
+
+
+<script>
+    new Vue({
+        el: '#dictionary',
+        data: { //變數存放的地方
+            message: 'Hello, VueJS!',
+            score: 0,
+            loading: true,
+        },
+    });
+</script>
+
+</html>

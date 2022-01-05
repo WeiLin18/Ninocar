@@ -1,0 +1,121 @@
+%no-gutter {
+  margin: 0;
+  padding: 0;
+}
+
+.no-gutter {
+  margin: 0;
+  padding: 0;
+
+  @for $i from 1 to $grid-column+1 {
+    .col-#{$i} {
+      @extend %no-gutter;
+    }
+  }
+
+  @each $key,
+  $value in $break-points {
+    @for $i from 1 to $grid-column+1 {
+      .col-#{$key}-#{$i} {
+        @extend %no-gutter;
+      }
+    }
+  }
+}
+
+@mixin makeCol($breakpoint: null, $gutter:40px, $grid-column:12) {
+  @for $i from 0 through $grid-column {
+    @if ($i==0) {
+      // .col {
+      //   padding-left: $gutter / 2;
+      //   padding-right: $gutter / 2;
+      //   flex-basis: 0;
+      //   flex-grow: 1;
+      //   max-width: 100%;
+      //   position: relative;
+      // }
+
+      // .offset-#{$i} {
+      //   margin-left: 0;
+      // }
+
+      .offset-#{$breakpoint}#{$i} {
+        margin-left: 0;
+      }
+    }
+
+    @else {
+      .col-#{$breakpoint}#{$i} {
+        position: relative;
+        padding-left: $gutter / 2;
+        padding-right: $gutter / 2;
+        flex: 0 0 ($i / $grid-column) * 100%;
+        max-width: ($i / $grid-column) * 100%;
+      }
+
+      .offset-#{$breakpoint}#{$i} {
+        margin-left: calc(#{$i} / #{$grid-column} * 100%);
+      }
+    }
+  }
+}
+
+@include makeCol(null, $gutter, $grid-column);
+
+
+
+@include rwd-lg {
+  @include makeCol(lg-, $gutter-lg, $grid-lg-column);
+}
+
+;
+
+@include rwd-sm {
+  @include makeCol(sm-, $gutter-sm, $grid-sm-column);
+}
+
+;
+
+.container {
+  max-width: $container-max-widths;
+  margin-left: auto;
+  margin-right: auto;
+
+  @include rwd($container-max-widths) {
+    // width: 100%;
+    padding-right: $container-padding;
+    padding-left: $container-padding;
+  }
+
+  @include rwd-lg {
+    padding-right: $container-lg-padding;
+    padding-left: $container-lg-padding;
+  }
+
+  @include rwd-sm {
+    padding-right: $container-sm-padding;
+    padding-left: $container-sm-padding;
+  }
+}
+
+.row {
+  margin-left: -$gutter / 2;
+  margin-right: -$gutter / 2;
+  display: flex;
+  flex-flow: row wrap;
+
+  @include rwd-lg {
+    margin-left: -$gutter-lg / 2;
+    margin-right: -$gutter-lg / 2;
+  }
+
+  @include rwd-sm {
+    margin-left: -$gutter-sm / 2;
+    margin-right: -$gutter-sm / 2;
+  }
+}
+
+
+.row.no-gutter {
+  @extend %no-gutter;
+}

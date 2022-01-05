@@ -1,0 +1,17 @@
+  <script>
+      Vue.component('log-out-content', {
+          template: '#logOut',
+      });
+  </script>
+  <template id="logOut">
+      <div>
+          <h2 class="modal__title mb-18">
+              確定登出？
+          </h2>
+          <h3 class="h4 mb-10">
+              登出後，若有上在編輯的
+          </h3>
+          <button class="btn btn--fluid mb-4" @click="$emit('log-out')">登出</button>
+          <button class="btn btn--fluid btn--outline" @click="$emit('close')">返回</button>
+      </div>
+  </template>

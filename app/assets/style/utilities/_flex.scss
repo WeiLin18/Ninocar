@@ -1,0 +1,86 @@
+
+$flexList : (
+    'column' : column,
+    'reverse' : reverse);
+
+
+@each $key,$val in $flexList {
+    .flex-#{$key} {
+        flex-direction: #{$val};
+    }
+}
+
+.flex-wrap{
+    flex-wrap: wrap;
+}
+
+
+$justifyList : (
+    'center' : center,
+    'between' : space-between,
+    'around' : space-around,
+    'end' : flex-end);
+
+
+@each $key,$val in $justifyList {
+    .justify-content-#{$key} {
+        justify-content: #{$val};
+    }
+}
+
+
+$alignItemsList : (
+    'center' : center,
+    'stretch' : stretch,
+    'start' : flex-start,
+    'end' : flex-end);
+
+@each $key,$val in $alignItemsList {
+    .align-items-#{$key} {
+        align-items: #{$val};
+    }
+}
+
+@include rwd-lg{
+    .order-lg-1 {
+        order: -1;
+    }
+}
+
+@include rwd-md {
+
+    .flex-md {
+        &-wrap {
+            flex-wrap: wrap;
+        }
+
+        &-column {
+            flex-direction: column;
+        }
+    }
+
+    .order-md-1 {
+        order: -1;
+    }
+}
+
+
+@include rwd-sm {
+    .flex-sm-column {
+        flex-direction: column;
+    }
+    .flex-sm-wrap {
+        flex-wrap: wrap;
+    }
+    .order-sm-1 {
+        order: -1;
+    }
+}
+
+@include rwd-xs {
+
+    .flex-xs-wrap {
+        flex-wrap: wrap;
+    }
+
+}

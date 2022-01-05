@@ -1,0 +1,10 @@
+@each $key,$value in $colors {
+    .bg-#{$key} {
+        background-color: #{$value};
+    }
+}
+@each $key,$value in $series-colors {
+    .bg-series-#{$key} {
+        background-color: #{$value};
+    }
+}

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vuex/3.6.2/vuex.min.js"></script>
+  <link rel="shortcut icon" href="./assets/img/loho-icon.ico" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js" integrity="sha512-otOZr2EcknK9a5aa3BbMR9XOjYKtxxscwyRHN6zmdXuRfJ5uApkHB7cz1laWk2g8RKLzV9qv/fl3RPwfCuoxHQ==" crossorigin="anonymous"></script>
+  <script src="./assets/js/all.js"></script>
+  <script src="./assets/js/utils.js"></script>
+  <link rel="stylesheet" href="./assets/css/pages/cart.css">
+  <link rel="stylesheet" href="./assets/css/all.css" />
+  <link rel="stylesheet" href="./assets/css/pages/product.css" />
+  <title>Product</title>
+</head>
+
+<body>
+  <div id="app" v-cloak>
+    <vue-header @search_item="search"></vue-header>
+
+    @@include('./pages/ProductPage/ProductNav.html')
+
+    <!-- your code here... -->
+  </div>
+  @@include('./components/Footer.html') @@include('./components/VueHeader.html')
+  <script src="./assets/js/mixins/productMixins.js"></script>
+
+  <script>
+    new Vue({
+      el: '#app',
+      mixins: [productMixins],
+      store,
+      data: {
+        countOfPage: 15,
+        currPage: 1,
+        // filter_name: '',
+        filter: '',
+        newData: [],
+        sort: '',
+        productsList: [],
+        cartList: [],
+        likeList: [],
+      },
+
+      computed: {
+        seriesList() {
+          return this.$store.state.seriesList;
+        },
+        pageStart() {
+          return (this.currPage - 1) * this.countOfPage;
+        },
+        totalPage() {
+          return Math.ceil(this.showProductList.length / this.countOfPage);
+          // return Math.ceil(64 / this.countOfPage);
+        },
+      },
+
+      methods: {
+        bgClass(productSeries) {
+          return `bg-series-${productSeries}`;
+        },
+        search(val) {
+
+          console.log(val);
+          this.keywordText = val;
+          const filteredProductList = this.getProductListByKeyword();
+          this.showProductList = filteredProductList;
+
+        },
+        setPage(index) {
+          this.currPage = index;
+        },
+        nowProduct(val) {
+          console.log(val.productId);
+          localStorage.setItem('car', JSON.stringify(val.productId));
+        },
+        changeArray() {
+          let vm = this;
+          const final = vm.showProductList.sort(function(a, b) {
+            if (vm.sort === 'price' || vm.sort === 'price_reverse') {
+              a = a.price;
+              b = b.price;
+              if (vm.sort === 'price_reverse') {
+                return a - b;
+              } else if (vm.sort !== 'price_reverse') {
+                return b - a;
+              } else {
+                return;
+              }
+            }
+          });
+          // console.log(final)
+          this.showProductList = final;
+        },
+        // 加進購物車
+        addCarts(val) {
+          this.cartList.push(val);
+
+          let newArray = this.cartList.filter((item, index, arr) => {
+
+            return arr.indexOf(item) === index;
+
+
+          });
+
+          let cartJson = JSON.stringify(newArray);
+          localStorage.setItem('cartsList', cartJson);
+
+
+        },
+        likeCarts(val) {
+          this.likeList.push(val);
+          // 不重複
+          let newArray = this.likeList.filter((item, index, arr) => {
+
+            return arr.indexOf(item) === index;
+
+
+
+          })
+
+          console.log(newArray);
+          let likeCartJson = JSON.stringify(newArray);
+          localStorage.setItem('likeList', likeCartJson);
+
+        },
+        check_test() {
+          const check = this.showProductList.slice(this.pageStart, this.pageStart + this.countOfPage)
+
+          if (check.length > 0) {
+            return check
+          } else {
+            this.currPage = 1
+            return this.showProductList.slice(this.pageStart, this.pageStart + this.countOfPage)
+          }
+
+        },
+
+        productArray(val) {
+          this.showProductList = this.productList;
+          this.showProductList = this.showProductList.filter((item) => {
+
+            return item.series == val;
+          });
+        },
+
+        timeArray(val) {
+          this.showProductList = this.productList;
+          this.showProductList = this.showProductList.filter((item) => {
+
+            return item.year == val;
+          });
+        },
+
+        mounted() {
+          this.cartList = JSON.parse(localStorage.getItem('cartsList')) || [];
+          this.likeList = JSON.parse(localStorage.getItem('likeList')) || [];
+        },
+      }
+    });
+  </script>
+</body>
+
+</html>

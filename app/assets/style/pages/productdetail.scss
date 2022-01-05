@@ -1,0 +1,281 @@
+@import '../helpers/variables';
+@import '../helpers/mixin';
+@import '../helpers/rwd';
+.breadcrumb {
+  display: flex;
+  margin-top: 70px;
+  position: relative;
+  z-index: 10;
+}
+
+.breadcrumb p {
+  font-size: 0.9em;
+}
+
+.box {
+  margin-top: 100px;
+  & .display__title {
+    min-height: 300px;
+    @include rwd-sm {
+      min-height: 200px;
+    }
+  }
+}
+
+.box-2 {
+  margin-top: 100px;
+}
+
+.box-2 p {
+  margin: 20px 0px 20px 0px;
+}
+
+.box-pink {
+  height: 100px;
+  border-bottom: 1px solid #e59807;
+  line-height: 150px;
+  margin-bottom: 30px;
+}
+
+.gallery {
+  width: 20%;
+  // height: 20%;
+  display: flex;
+  margin-top: 50px;
+  @include rwd(460px) {
+    display: flex;
+    width: 20%;
+    height: 50px;
+  }
+}
+
+.gallery img {
+  padding-right: 10px;
+}
+
+.icon-down,
+.icon-down2 {
+  font-size: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease-in;
+}
+
+.select-style select {
+  width: 140px;
+  height: 40px;
+}
+
+.info-buy,
+.info-ship {
+  display: flex;
+  justify-content: space-between;
+}
+
+.box-blue img {
+  width: 100%;
+}
+
+.reImg {
+  cursor: pointer;
+}
+
+.item-card {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.product-collect {
+  display: flex;
+  justify-content: space-between;
+}
+
+.collect {
+  cursor: pointer;
+}
+
+.btn {
+  margin-bottom: 30px;
+}
+
+.item-price {
+  font-size: 2rem;
+}
+
+.lorem {
+  display: none;
+}
+
+.lorem2 {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
+.car-name {
+  font-size: 8.5rem;
+  z-index: 0;
+  position: relative;
+  -webkit-text-stroke: 2px #b57700;
+  color: white;
+}
+
+.lightBox {
+  margin-bottom: 75px;
+}
+
+.lightBox .demo {
+  width: auto;
+  transform: translateY(-40%);
+  position: absolute;
+  padding-bottom: 200px;
+  z-index: 1;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .car-name {
+    font-size: 7.5rem;
+  }
+  .box-2 {
+    margin-top: 0;
+  }
+  // .lightBox .demo {
+  //   height: 480px;
+  // }
+}
+
+@media (max-width: 414px) {
+  .car-name {
+    font-size: 5rem;
+  }
+  // .lightBox .demo {
+  //   height: 280px;
+  // }
+}
+
+//--------------------------光箱---------------------------
+.mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 100;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+}
+
+.mask img {
+  height: 70vh;
+  width: auto;
+  margin: 0 auto;
+}
+
+.closeBtn {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50px;
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+  position: absolute;
+  top: 85px;
+  right: 0px;
+  cursor: pointer;
+  color: white;
+  opacity: 0.5;
+  outline: none;
+  z-index: 200;
+  border: solid;
+}
+
+.closeBtn:hover {
+  opacity: 1;
+}
+
+
+/* 修改swiper樣式的部分 */
+
+.mask .swiper-zoom-container {
+  height: 100vh;
+}
+
+.mask .swiper-container-horizontal>.swiper-pagination-bullets,
+.mask .swiper-pagination-custom,
+.swiper-pagination-fraction {
+  bottom: 40px;
+}
+
+.mask .swiper-button-next:after,
+.mask .swiper-button-prev:after {
+  font-family: 'Font Awesome 5 Free';
+}
+
+.mask .swiper-button-prev:after,
+.mask .swiper-container-rtl .swiper-button-next:after {
+  content: '\f104';
+}
+
+.mask .swiper-button-next:after,
+.mask .swiper-container-rtl .swiper-button-prev:after {
+  content: '\f105';
+}
+
+.mask .fa-angle-left:before,
+.mask .fa-angle-right:before {
+  content: '';
+}
+
+.mask .swiper-pagination-bullet {
+  background: #fff;
+}
+
+.mask .swiper-button-prev,
+.mask .swiper-container-rtl,
+.mask .swiper-button-next {
+  /*去除預設的藍色外框*/
+  outline: none;
+}
+
+
+/*換新的CDN之後樣式設定的地方有改*/
+
+.swiper-button-next,
+.swiper-container-rtl .swiper-button-prev,
+.swiper-button-prev,
+.swiper-container-rtl .swiper-button-next {
+  background-image: none;
+  outline: none;
+}
+
+.fa-angle-left,
+.fa-angle-right {
+  font-size: 40px;
+  color: #fff;
+}
+
+// @media (max-width: 1500px) {
+//     .lightBox {
+//         display: block;
+//         margin: 10px auto 100px auto;
+//     }
+// }
+// @media (max-width: 1000px) {
+//     .lightBox .demo {
+//         width: 100%;
+//         height: auto;
+//         margin: 10px;
+//         cursor: pointer;
+//     }
+//     .lightBox p {
+//         font-size: 3em;
+//     }
+//     .mask img {
+//         height: auto;
+//         width: 70vw;
+//         margin: 0 auto;
+//     }
+// }

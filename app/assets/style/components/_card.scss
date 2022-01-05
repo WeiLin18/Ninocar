@@ -1,0 +1,78 @@
+.card {
+  background-color: #fff;
+  overflow: hidden;
+
+  &__header {
+    position: relative;
+  }
+
+  &__label {
+    display: block;
+    position: absolute;
+    color: $coffee;
+    left: -36px;
+    top: 20px;
+    padding: 6px 44px;
+    transform: rotate(-45deg);
+    z-index: 10;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: -1;
+      background: $primary;
+      transform: perspective(.5em) rotateX(2deg);
+    }
+  }
+  &__label--blue{
+    color: #fff;
+    &::before {
+      background-color: $blue;
+    }
+  }
+
+
+  &__carID {
+    @extend .carID;
+
+    @include rwd-lg {
+      @include size(80px, 80px);
+      font-size: 36px;
+    }
+
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+  }
+
+  &__body {
+    padding: 16px;
+  }
+
+  &__title {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+
+  &__details {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  &__price {
+    font-size: 20px;
+    font-weight: bold;
+    color: $coffee;
+  }
+
+  &__link {
+    color:$secondary;
+    @extend .btn,
+    .btn--link,
+  }
+
+}

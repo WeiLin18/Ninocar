@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./assets/css/all.css" />
+  <link rel="stylesheet" href="./assets/css/pages/productdetail.css" />
+  <link rel="stylesheet" href="./assets/css/pages/cart.css">
+  <link rel="shortcut icon" href="./assets/img/loho-icon.ico" />
+  <link rel="stylesheet" href="./assets/css/pages/dictionary.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js" integrity="sha512-otOZr2EcknK9a5aa3BbMR9XOjYKtxxscwyRHN6zmdXuRfJ5uApkHB7cz1laWk2g8RKLzV9qv/fl3RPwfCuoxHQ==" crossorigin="anonymous"></script>
+  <link rel="shortcut icon" type="image/png" href="image/favicon.png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.1.0/css/swiper.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.1.0/css/swiper.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.1.0/js/swiper.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.1.0/js/swiper.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vuex/3.6.2/vuex.min.js"></script>
+  <script src="./assets/js/utils.js"></script>
+  <script src="assets/js/act.js"></script>
+  <title>Product Detail</title>
+</head>
+
+<body>
+  <div id="app" v-cloak>
+    <vue-header></vue-header>
+    <main class="container pt-10">@@include('./pages/ProductPage/ItemDetail.html')</main>
+  </div>
+  @@include('./components/Footer.html') @@include('./components/VueHeader.html')
+  <script src="./assets/js/mixins/cartMixins.js"></script>
+
+  <script>
+    new Vue({
+      el: '#app',
+      mixins: [cartMixins],
+      data: {
+        //變數存放的地方
+        cartList: [],
+        likeList: [],
+        recommendProductList: [],
+        currentProductList: {},
+
+        list: {
+          productName: 'Audi R8 奧迪小客車',
+          productBrief: 'Audi TT coupe',
+          price: 195,
+          productNum: 1,
+          imgURL: [
+            './assets/img/pic/0.png',
+            './assets/img/pic/1.jpg',
+            './assets/img/pic/2.jpg',
+            './assets/img/pic/3.jpg',
+            './assets/img/pic/4.jpg',
+            './assets/img/pic/5.jpg',
+          ],
+          car: [
+            './assets/img/pic/1.jpg',
+            './assets/img/pic/2.jpg',
+            './assets/img/pic/3.jpg',
+            './assets/img/pic/4.jpg',
+            './assets/img/pic/5.jpg',
+          ],
+          seriousNum: 'PM 01',
+          pointProduct: false,
+          quantity: '0',
+        },
+        mask: false,
+        showList: [],
+        nowImg: 0,
+      },
+      methods: {
+        bgClass(productSeries) {
+          return `bg-series-${productSeries}`;
+        },
+
+        lightBox(showCar, close = false) {
+          if (close) {
+            this.mask = false;
+          } else {
+            this.mask = true;
+            this.showList = this.list[showCar];
+
+            this.$nextTick(() => {
+              let swiper = new Swiper('.swiper-container', {
+                zoom: true,
+                pagination: {
+                  el: '.swiper-pagination',
+                },
+                navigation: {
+                  nextEl: '.swiper-button-next',
+                  prevEl: '.swiper-button-prev',
+                },
+              });
+            });
+          }
+        },
+        nextImg() {
+          this.nowImg += 1;
+          if (this.nowImg >= 4) {
+            return;
+          }
+        },
+        prevImg() {
+          this.nowImg -= 1;
+          if (this.nowImg >= 4) {
+            return;
+          }
+        },
+        addCurrentCar() {
+          this.cartList.push(this.currentProductList);
+
+          let newArray = this.cartList.filter((item, index, arr) => {
+            return arr.indexOf(item) === index;
+          });
+          let cartJson = JSON.stringify(newArray);
+          localStorage.setItem('cartsList', cartJson);
+        },
+        likeCarts() {
+          this.likeList.push(this.currentProductList);
+          // 不重複
+          let newArray = this.likeList.filter((item, index, arr) => {
+            return arr.indexOf(item) === index;
+          });
+
+          console.log(newArray);
+          let likeCartJson = JSON.stringify(newArray);
+          localStorage.setItem('likeList', likeCartJson);
+        },
+        nowProduct(val) {
+          console.log(val.id);
+          localStorage.setItem('car', JSON.stringify(val.id));
+          window.location.href = `./itemdetail.html`;
+        },
+        // showProducts() {
+        // console.log(this.productsList);
+        // },
+      },
+      mounted() {
+        let num = JSON.parse(localStorage.getItem('car')) || 0;
+
+        const params = new URLSearchParams();
+        params.append('PRODUCT_ID', num);
+        axios({
+            method: 'post',
+            url: 'assets/php/getCurrentProduct.php',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            data: params,
+          })
+          .then((res) => {
+            console.log(res.data[0]);
+            let newArray = res.data.map((product) => {
+              let thisSeriesIndex = parseInt(product[`product_series`]) - 1;
+              thisSeriesIndex.toString();
+              let thisPoints = parseInt(product['product_points']);
+              let thisPrice = parseInt(product['product_price']);
+
+              let img = product['product_img'];
+              if (product['product_year'] == '2021') {
+                img = `../upload/${img}`;
+              } else {
+                img = img;
+              }
+
+              // 系列Id若是單位數，前面加0
+              let thisSeriesId;
+              if (product[`product_seriesid`].length === 1) {
+                thisSeriesId = 0 + product[`product_seriesid`];
+              } else {
+                thisSeriesId = product[`product_seriesid`];
+              }
+              return {
+                // 回傳之屬性跟值
+                name: product[`product_name`].trim(),
+                eName: product['product_ename'].trim(),
+                seriesIndex: thisSeriesIndex,
+                series: this.seriesList[thisSeriesIndex].eName,
+                seriesTag: this.seriesList[thisSeriesIndex].name,
+                seriesId: thisSeriesId,
+                imgURL: img,
+                img1: product['product_img1'],
+                img2: product['product_img2'],
+                img3: product['product_img3'],
+                img4: product['product_img4'],
+                img5: product['product_img5'],
+                displayImgURL: product['product_img1'],
+                productId: product['product_id'],
+                year: product['product_year'],
+                size: product['product_size'],
+                price: thisPrice,
+                points: parseInt(product['product_points']),
+                description: product['product_des'],
+                limitLabel: product['product_spec'],
+                productNum: 1,
+                totalPrice: 0,
+                totalPointCost: 0,
+              };
+            });
+
+            console.log(newArray[0])
+            this.currentProductList = newArray[0];
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+
+        this.cartList = JSON.parse(localStorage.getItem('cartsList')) || [];
+
+        this.likeList = JSON.parse(localStorage.getItem('likeList')) || [];
+
+
+        setTimeout(() => {
+
+
+          for (let i = 0; i < 4; i++) {
+            let b = Math.random() * 64;
+            // console.log(b);
+            let c = Math.floor(b);
+            // console.log(c);
+            let a = this.productsList;
+            let num = Math.floor(Math.random() * 64);
+
+            // console.log(num);
+            // console.log(a[c].imgURL);
+            // console.log(a[c].name);
+            // console.log(a[c].price);
+            // console.log(a[c].productId);
+
+            let changeList = {
+              img: a[c].imgURL,
+
+              name: a[c].name,
+
+              price: a[c].price,
+
+              id: a[c].productId,
+            };
+
+            this.recommendProductList.push(changeList);
+          }
+
+
+        }, 1000)
+
+      },
+    });
+  </script>
+  <script src="assets/js/new.js"></script>
+</body>
+
+</html>

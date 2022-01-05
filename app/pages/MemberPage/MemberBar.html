@@ -1,0 +1,138 @@
+<template id="memberBar">
+
+    <div class="container mb-10">
+        <div class="row member overflow-md-sm">
+            <nav class="navBar">
+                <div class="dropdownBackground">
+                    <span class="arrow"></span>
+                </div>
+                <ul class="cool member__bar block w-100">
+                    <li>
+                        <a
+                            data-page="MemberMain"
+                            href="membermain.html"
+                            class="member__page "
+                        >我的帳戶</a>
+                        <ul class="dropdown courses">
+                            <li>
+                                <span class="code"></span>
+                                <a href="#memberData">基本資料</a>
+                            </li>
+                            <li>
+                                <span class="code"></span>
+                                <a href="#memberCoupon">我的折價券</a>
+                            </li>
+                            <li>
+                                <span class="code"></span>
+                                <a href="#memberAddress">我的地址</a>
+                            </li>
+                            <li>
+                                <span class="code"></span>
+                                <a href="#memberPassword">更改密碼</a>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a
+                            href="MemberOnly.html"
+                            class="member__page"
+                            data-page="MemberDetail"
+                        >會員中心</a>
+                        <ul class="dropdown courses">
+                            <li>
+                                <span class="code"></span>
+                                <a href="#">會員狀態</a>
+                            </li>
+                            <li>
+                                <span class="code"></span>
+                                <a href="#">會員機制</a>
+                            </li>
+                            <li>
+                                <span class="code"></span>
+                                <a href="#">圖鑑成就</a>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a
+                            href="MemberNotice.html"
+                            class="member__page"
+                            data-page="MemberNotice"
+                        >通知中心</a>
+                    </li>
+                    <li>
+                        <a
+                            href="MemberPurchase.html"
+                            class="member__page"
+                            data-page="MemberPurchase"
+                        >購買清單</a>
+                        <ul class="dropdown courses">
+                            <li>
+                                <span class="code"></span>
+                                <a href="#">尚未付款</a>
+                            </li>
+                            <li>
+                                <span class="code"></span>
+                                <a href="#">處理中</a>
+                            </li>
+                            <li>
+                                <span class="code"></span>
+                                <a href="#">已出貨</a>
+                            </li>
+                            <li>
+                                <span class="code"></span>
+                                <a href="#">已完成</a>
+                            </li>
+                            <li>
+                                <span class="code"></span>
+                                <a href="#">已取消</a>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a
+                            href="member.html"
+                            class="member__page"
+                            data-page="MemberCollection"
+                        >收藏商品清單</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+
+    </div>
+</template>
+
+<script>
+  Vue.component('memberBar', {
+
+    template: '#memberBar',
+
+    data() {
+      return {}
+    },
+    methods: {
+
+
+    },
+    mounted() {
+      let nowPage = document.title;
+      let pageList = document.querySelectorAll('.member__page');
+
+      pageList.forEach((item) => {
+        let target = item.dataset.page;
+        if (target == nowPage) {
+          item.classList.add('member__page--active')
+        }
+
+      })
+
+    }
+
+
+  })
+</script>

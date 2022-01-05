@@ -1,0 +1,117 @@
+@import "../helpers/variables";
+@import "../helpers/mixin";
+@import "../helpers/rwd";
+@import "../base/font";
+
+
+.block {
+    background-color: transparent;
+
+
+    &__header {
+        background-color: #fff;
+        min-height: 88px;
+    }
+
+    .search-bar {
+        position: relative;
+        display: flex;
+        height: 55px;
+        width: 400px;
+
+        &__input {
+            @extend .h5;
+            width: 100%;
+            height: 100%;
+            padding-left: 40px;
+            padding-right: 15px;
+            border: 1px solid $secondary;
+            border-radius: 8px;
+
+            @include rwd-xl {
+                width: 60%;
+                padding: 8px;
+                border-radius: 8px 0 0 8px;
+            }
+        }
+
+        &__input::placeholder {
+            font-size: 16px;
+        }
+
+        &__icon {
+            position: absolute;
+            width: 28px;
+            left: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+
+            @include rwd-xl {
+                display: none;
+            }
+        }
+
+        &__btn {
+            @extend .h4;
+            width: 40%;
+            height: 100%;
+            display: none;
+            color: #fff;
+            background-color: $secondary;
+            border-radius: 0 8px 8px 0;
+
+            @include rwd-xl {
+                display: block;
+            }
+        }
+    }
+}
+
+
+.post {
+    background-color: #fff;
+    height: 100%;
+    display: flex;
+    padding: 12px;
+    border: 1px solid $gray-500;
+    cursor: pointer;
+
+    &:hover {
+        box-shadow: 5px 5px 10px $gray-300;
+    }
+
+    &--active {
+        outline: 2px solid $secondary;
+    }
+
+    &__text {
+        width: 30%;
+        padding-top: 8px;
+        margin-right: 12px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .carID {
+        @include size(56px, 56px);
+        font-size: 24px;
+    }
+
+    &__pic {
+        width: 70%;
+        position: relative;
+
+        >img {
+            position: relative;
+            top: 50%;
+            transform: (translateY(- 50%));
+        }
+
+        .pin {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+        }
+    }
+}

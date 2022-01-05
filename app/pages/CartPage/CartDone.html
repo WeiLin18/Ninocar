@@ -1,0 +1,344 @@
+<template id="cartDone">
+  <div>
+    <div class="container cart ">
+      <div class="row cart__topfix block">
+
+        <ul class="d-flex  block block__header  justify-content-between align-items-center w-100">
+          <li class="block__header__title">訂單明細</li>
+        </ul>
+
+      </div>
+      <div class="row  block">
+        <ul class="d-flex w-100 cart__order">
+          <li>訂單編號： <span>{{orderId}}</span></li>
+          <li>訂單金額： <span>{{finallyPrice}} 元 </span></li>
+          <li>花費點數： <span>{{totalPointCost}}點</span></li>
+          <li>訂單狀態： <span>未付款，處理中</span></li>
+          <li>收貨方式： <span>{{selectShipping}}</span></li>
+          <li>付款方式： <span>{{selectPayment}}</span></li>
+        </ul>
+      </div>
+      <div class="row cart__topfix">
+        <ul class="d-flex  block block__header  justify-content-between align-items-center w-100">
+          <li class="block__header__title">購買明細</li>
+        </ul>
+      </div>
+      <div
+        class="row  block"
+        :class="animationDisplay"
+      >
+        <div
+          class="d-flex cart__group w-100"
+          v-for="(item,listIndex) of buyList"
+        >
+          <div class="cart__group--dflex  cart__group__firstArea">
+            <div class="cart__groupImg">
+              <img
+                :src="item.imgURL"
+                alt=""
+              >
+              <p :class="bgClass(item['series'])">{{item.series}} <br> {{item.seriesId}}</p>
+            </div>
+            <div class="cart__product">
+              <p>{{item.name}}</p>
+              <p>{{item.eName}}</p>
+            </div>
+          </div>
+          <div
+            v-if="item.points"
+            class="cart__group--dflex "
+          >
+            <div class="cart__member">
+              <p>Ni</p>
+              <span>{{item.points}}</span>
+            </div>
+          </div>
+          <div
+            v-else
+            class="cart__group--dflex "
+          >
+            <p class="font-black"> NT$<span>{{item.price}}</span></p>
+          </div>
+          <div class="cart__group--dflex">
+            <select class="cart__num">
+              <option selected>{{item.productNum}}</option>
+            </select>
+          </div>
+          <div
+            v-if="item.points"
+            class="cart__group--dflex"
+          >
+            <div class="cart__member">
+              <p>Ni</p>
+              <span>{{item.totalPointCost}}</span>
+            </div>
+          </div>
+          <div
+            v-else
+            class="cart__group--dflex"
+          >
+            <p class="font-black"> NT$<span>{{item.totalPrice}}</span></p>
+          </div>
+
+        </div>
+      </div>
+      <div class="row w-100 pt-md-5 pt-20">
+        <section class="cart__payment  col-6 col-lg-6 col-xs-12 ">
+          <div class="pt-5 pb-20 px-5 form__group block ">
+            <label
+              for="productTake"
+              class="form__text mb-2 h5"
+            >選擇運送方式</label>
+            <div class="form__section mb-5">
+              <select
+                name=""
+                id="productTake"
+                class="form__select cart__select"
+              >
+                <option>{{selectShipping}}</option>
+              </select>
+            </div>
+            <label
+              for="paymentChoose"
+              class="form__text mb-2 h5"
+            >選擇付款方式</label>
+            <div class="form__section mb-5">
+              <select
+                id="paymentChoose"
+                class="form__select cart__select"
+              >
+                <option>{{selectPayment}}</option>
+
+              </select>
+            </div>
+            <label
+              for="coupon"
+              class="form__text mb-2 h5"
+            >使用優惠卷</label>
+            <div class="form__section mb-5">
+              <select
+                id="coupon"
+                class="form__select cart__select"
+              >
+                <option>{{selectCoupon}}</option>
+              </select>
+            </div>
+          </div>
+        </section>
+        <section class="cart__payment col-6 col-lg-6 col-xs-12  ">
+          <div class='pt-5 pb-20 px-5 form__group block'>
+            <header class="d-flex justify-content-center mt-5   ">
+              <div class="cart__pointCount d-flex w-50  flex-sm-wrap">
+                <p>商品花費點數</p>
+                <div class="cart__member">
+                  <p>Ni</p>
+                  <span>{{totalPointCost}}</span>
+                </div>
+              </div>
+              <ul class="cart__moneyCount  w-50">
+                <li>
+                  <p>商品總金額</p>
+                  <p class="font-black">NT$<span>{{totalMoney}}</span></p>
+                </li>
+                <li>
+                  <p>運費總計</p>
+                  <p class="font-black">NT$<span>{{sendPrice}}</span></p>
+                </li>
+                <li>
+                  <p>折價卷折抵</p>
+                  <p class="font-black"><span class="font-black pr-3">-</span>NT$<span>{{discountPrice}}</span></p>
+                </li>
+              </ul>
+            </header>
+            <div>
+              <ul class="cart__countTotal d-flex align-items-center mb-10 ">
+                <li class="cart__pointCount d-flex flex-sm-wrap">
+                  <p>總花費點數</p>
+                  <div class="cart__member ">
+                    <p>Ni</p>
+                    <span>{{totalPointCost}}</span>
+                  </div>
+                </li>
+                <li>
+                  <p>總金額</p>
+                  <p class="cart__TotalText font-black">NT$ <span>{{finallyPrice}}</span> </p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+</template>
+
+
+
+
+
+
+
+
+<script>
+  Vue.component('cartDone', {
+
+    template: "#cartDone",
+    props: ['current'],
+    data() {
+
+      return {
+        notShow: true,
+        currentData: this.current,
+        animationDisplay: "cart__displayShow",
+        payment: null,
+      }
+
+    },
+    methods: {
+      bgClass(productSeries) {
+        return `bg-series-${productSeries}`;
+      },
+
+
+      collapseArea() {
+        //收合選單
+        if (this.notShow) {
+          this.notShow = false;
+          this.animationDisplay = "cart__displayNone";
+        } else {
+          this.notShow = true;
+          this.animationDisplay = "cart__displayShow";
+        }
+
+      },
+
+    },
+    computed: {
+      // store 區塊
+      ...Vuex.mapState({
+        selectCoupon: state => state.selectCoupon,
+        buyList: state => state.buyList,
+        finallyPrice: state => state.finallyPrice,
+        totalProductNum: state => state.totalProductNum,
+        selectPayment: state => state.selectPayment,
+        totalPointCost: state => state.totalPointCost,
+        selectShipping: state => state.selectShipping,
+        discountPrice: state => state.discountPrice,
+        sendPrice: state => state.sendPrice,
+        totalMoney: state => state.totalMoney,
+        getPoint: state => state.getPoints,
+      }),
+
+      orderId() {
+        return Math.floor(Math.random() * 10000000);
+      },
+      memberId() {
+        return this.$store.state.memberId
+      },
+
+    },
+    mounted() {
+
+      this.$emit('open-window');
+
+      let newList = JSON.stringify(this.buyList);
+
+      localStorage.setItem('doneList', newList);
+
+      localStorage.removeItem('cartsList');
+
+
+      if (this.selectPayment == "線上刷卡") {
+        this.payment = 1
+      } else if (this.selectPayment == "貨到付款") {
+        this.payment = 0
+      } else if (this.selectPayment == "門市結帳") {
+        this.payment = 2
+      } else {
+        this.payment = 3
+      };
+
+      let productArray = [];
+      for (let num in this.buyList) {
+        productArray.push(parseInt(this.buyList[num].productId));
+      }
+
+      //   送出訂單
+      const params = new URLSearchParams()
+      params.append('ID', this.memberId)
+      params.append('ORDER_ID', this.orderId)
+      params.append('ORDER_COST', this.finallyPrice)
+      params.append('ORDER_POINTS', this.totalPointCost)
+      params.append('ORDER_GAIN', this.getPoint)
+      params.append('PAY_TYPE', this.payment)
+      params.append('PRODUCT_ARRAY', JSON.stringify(productArray))
+
+
+
+      axios({
+        method: 'post',
+        url: 'assets/php/setOrder.php',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        data: params,
+      }).then((res) => {
+        // console.log(res.data)
+
+
+      }).catch((error) => {
+        // console.log(error)
+
+      });
+      //更新點數
+      setTimeout(() => {
+
+        const params2 = new URLSearchParams()
+        params2.append('ID', this.memberId)
+        params2.append('ORDER_ID', this.orderId)
+        axios({
+          method: 'post',
+          url: 'assets/php/updateMemberPoint.php',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          data: params2,
+        }).then((res) => {
+          console.log(res);
+        }).catch((error) => {
+          console.log(error)
+
+        });
+      }, 100)
+
+      //更新消費
+      setTimeout(() => {
+        const params3 = new URLSearchParams()
+        params3.append('ID', this.memberId)
+        params3.append('ORDER_ID', this.orderId)
+        axios({
+          method: 'post',
+          url: 'assets/php/updateMemberCost.php',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          data: params3,
+        }).then((res) => {
+          console.log(res);
+        }).catch((error) => {
+          console.log(error)
+
+        })
+      }, 200)
+
+
+
+
+
+
+
+    }
+
+  })
+</script>

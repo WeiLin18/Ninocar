@@ -1,0 +1,46 @@
+<script>
+    Vue.component('confirm-token-content', {
+        template: '#confirmToken',
+        props: ['email', 'correct-token', 'btnUi'],
+        mixins: [inputMixins],
+        data() {
+            return {
+                token: {
+                    name: '驗證碼',
+                    text: '',
+                    remind: '',
+                    inputClass: '',
+                },
+            }
+        },
+        methods: {
+            handleTokenSubmit() {
+                if (this.token.text.trim() === '') {
+                    this.handleErrorShow(this.token, '不能空白')
+                } else if (parseInt(this.token.text) !== this.correctToken) {
+                    this.handleErrorShow(this.token, '驗證碼錯誤')
+                } else if (parseInt(this.token.text) === this.correctToken) {
+                    this.handleSuccessShow(this.token)
+                    this.$emit('submit');
+                }
+            },
+
+        }
+    });
+</script>
+<template id="confirmToken">
+    <form @submit.prevent>
+        <h2 class="modal__title mb-5">
+            請輸入驗證碼
+        </h2>
+        <h3 class="h4 mb-10">已將註冊認證信寄送至{{email}}</h3>
+        <p class="h4 mb-5">請輸入驗證碼以完成帳號註冊</p>
+        <div class="form__group mb-5">
+            <label for="token" class="form__text">驗證碼</label><span v-if="token.remind!==''"
+                class="form__text form__text--warning">{{token.remind}}</span>
+            <input type="text" class="form__input" :class="token.inputClass" v-model.lazy="token.text" name="token" />
+        </div>
+        <button class="btn btn--fluid mb-4" @click.prevent="handleTokenSubmit">{{btnUi || "送出"}}</button>
+        <button class="btn btn--fluid btn--outline mb-4" @click.prevent="console.log('開發中')">重新寄驗證碼</button>
+    </form>
+</template>

@@ -1,0 +1,68 @@
+<script>
+  Vue.component('nav-menu', {
+    template: `
+            <nav class="menu">
+                <div class="container">
+                   <div class="row mt-5 mt-md-20 mt-sm-25">
+                       <div class="col-8 col-lg-5 col-sm-4 mx-auto">
+                            <form class="po-re mb-8">
+                                <input type="text" class="search-bar__input w-100"   v-model='searchItems'/>
+                                <button class="search-bar__btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 52 52" class="icon">
+                                        <g>
+                                            <circle cx="16.5" cy="16.5" r="16.5" transform="translate(7.175 5.413)" fill="none"
+                                                stroke="#522613" stroke-linecap="round" stroke-linejoin="round" stroke-width="5" />
+                                            <circle cx="16.5" cy="16.5" r="10" transform="translate(7.175 5.413)" fill="none"
+                                                stroke="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                class="hover-stroke-coffee" />
+                                            <line x1="10" y1="10" transform="translate(35.163 34.349)" fill="none" stroke="#522613"
+                                                stroke-linecap="round" stroke-linejoin="round" stroke-width="5" />
+                                        </g>
+                                    </svg>
+                                </button>
+                            </form>
+                            <div class="d-flex flex-md-column">
+                                <ul class="w-50  w-md-100 mr-5 mr-md-0">
+                                    <li class="mb-2"><a href="product.html" class="menu__link link">全部商品<span class="h4 ml-10">All Products</span></a></li>
+                                    <li class="mb-2"><a href="product.html" class="menu__link link">最新商品<span class="h4 ml-10">New Arrival</span></a></li>
+                                    <li class="mb-2"><a href="product.html" class="menu__link link">本月主打<span class="h4 ml-10">Campaign</span></a></li>
+                                    <li class="mb-2"><a href="product.html" class="menu__link link">熱門商品<span class="h4 ml-10">Popular</span></a></li>
+                                    <li class="mb-2"><a href="product.html" class="menu__link link">點數限定<span class="h4 ml-10">Points Only</span></a></li>                 
+                                </ul>
+                                <ul class="w-50 w-md-100">
+                                <li class="mb-2"><a href="factory.html" class="menu__link link">車車工廠<span class="h4 ml-10">Customization</span></a></li>
+                                <li class="mb-2"><a href="dictionary.html" class="menu__link link">車車圖鑑<span class="h4 ml-10">Dictionary</span></a></li>
+                                <li class="mb-5"><a href="membermain.html" class="menu__link link"  v-if="login">會員中心<span class="h4 ml-10">Member</span></a></li>
+                                <li class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex ml-2">
+                                        <img src="./assets/img/icon/icon-fb.svg" class="link icon">
+                                        <img src="./assets/img/icon/icon-ig.svg" class="link icon ml-5">
+                                    </div>
+                                    <button class="header__btn px-5" v-if="login" @click="$emit('log-out')">登出</button>
+                                </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>          
+            </nav>
+            `,
+    props: ['login'],
+    data() {
+      return {
+        searchItems: '',
+      };
+    },
+    methods: {
+
+    },
+    watch: {
+      searchItems(val) {
+        this.$emit('search_props_item', val);
+      },
+    },
+
+
+
+  });
+</script>

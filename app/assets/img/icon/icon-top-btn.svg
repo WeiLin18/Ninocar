@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" class="icon">
+  <g transform="translate(-1660 -805)">
+    <g transform="translate(76 -122.041)">
+      <circle cx="40" cy="40" r="40" transform="translate(1584 927.041)" fill="#fadd61"/>
+    </g>
+    <text transform="translate(1700 862)" fill="#522613" font-size="32" font-family="NotoSans-Bold, Noto Sans" font-weight="700"><tspan x="-31.891" y="0">TOP</tspan></text>
+    <g transform="translate(1995.252 1047.249) rotate(180)">
+      <path d="M301.122,234.488a1.2,1.2,0,0,1-.864-.366l-6.664-6.875a1.2,1.2,0,0,1,1.729-1.676l5.741,5.922,4.986-5.864a1.2,1.2,0,0,1,1.834,1.559l-5.845,6.875a1.2,1.2,0,0,1-.878.423Z" transform="translate(-5.703 -8.294)" fill="#522613"/>
+    </g>
+    <g transform="translate(1995.252 1037.967) rotate(180)">
+      <path d="M301.122,234.488a1.2,1.2,0,0,1-.864-.366l-6.664-6.875a1.2,1.2,0,0,1,1.729-1.676l5.741,5.922,4.986-5.864a1.2,1.2,0,0,1,1.834,1.559l-5.845,6.875a1.2,1.2,0,0,1-.878.423Z" transform="translate(-5.703 -8.294)" fill="none" class="hover-fill-coffee"/>
+    </g>
+  </g>
+</svg>

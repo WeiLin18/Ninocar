@@ -1,0 +1,625 @@
+<template id="cart-info">
+
+	<div class="mb-10">
+		<div class="container cart">
+			<div class="row cart__topfix">
+				<ul class="d-flex  block block__header  justify-content-between align-items-center w-100">
+					<li class="block__header__title">購買明細</li>
+					<li>總花點數</li>
+					<li class="cart__member--align">
+						<p>Ni <span class="cart__member__text">{{totalPointCost}}</span></p>
+					</li>
+					<li>總金額</li>
+					<li>
+						<h3 class="cart__member__price">NT$ {{finallyPrice}}</h3>
+					</li>
+					<li
+						class="cart__collapse"
+						@click="collapseArea"
+					>
+						<img
+							v-show="notShow"
+							src="./assets/img/icon/icon-down.svg"
+							alt=""
+						>
+						<img
+							v-show="!notShow"
+							src="./assets/img/icon/icon-up.svg"
+							alt=""
+						>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="container cart cart--maginHalf ">
+
+			<div
+				class="row  block"
+				:class="animationDisplay"
+			>
+				<div
+					class="d-flex cart__group w-100"
+					v-for="(item,listIndex) of buyList"
+				>
+					<div class="cart__group--dflex  cart__group__firstArea">
+						<div class="cart__groupImg">
+							<img
+								:src="item.imgURL"
+								alt=""
+							>
+							<p :class=" bgClass(item['series']) ">{{item.series}} <br> {{item.seriesId}}</p>
+						</div>
+						<div class="cart__product">
+							<p>{{item.name}}</p>
+							<p>{{item.eName}}</p>
+						</div>
+					</div>
+					<div
+						v-if="item.points"
+						class="cart__group--dflex "
+					>
+						<div class="cart__member">
+							<p>Ni</p>
+							<span>{{item.points}}</span>
+						</div>
+					</div>
+					<div
+						v-else
+						class="cart__group--dflex "
+					>
+						<p class="font-black"> NT$<span>{{item.price}}</span></p>
+					</div>
+					<div class="cart__group--dflex">
+						<select class="cart__num">
+							<option selected>{{item.productNum}}</option>
+						</select>
+					</div>
+					<div
+						v-if="item.points"
+						class="cart__group--dflex"
+					>
+						<div class="cart__member">
+							<p>Ni</p>
+							<span>{{item.totalPointCost}}</span>
+						</div>
+					</div>
+					<div
+						v-else
+						class="cart__group--dflex"
+					>
+						<p class="font-black"> NT$<span>{{item.totalPrice}}</span></p>
+					</div>
+					<div>
+						<button
+							style="display: none;"
+							@click="deleteHandler(listIndex)"
+							class="btn btn--link cart__link--small"
+						>刪除</button>
+					</div>
+					<p class="cart__cancel"><img
+							src="./assets/img/icon/icon-close.svg"
+							alt=""
+						></p>
+				</div>
+			</div>
+			<div class="container">
+				<div class="row  pt-md-5 pt-20 ">
+					<section class="cart__payment col-6 col-lg-6 col-xs-12 ">
+						<h2 class=" block block__header__title block__header">購買人資料</h2>
+						<div class="form__group px-10 block pt-10 pb-20 ">
+							<label
+								for="buyerName"
+								class="form__text mb-2"
+							>姓名</label>
+							<span
+								v-if="buyer.remind!==''"
+								class="form__text form__text--warning"
+							>{{buyer.remind}}</span>
+							<div class="form__section mb-5">
+								<input
+									id="buyerName"
+									type="text"
+									class=" cart__select form__input"
+									placeholder="王小明"
+									:class="buyer.inputClass"
+									v-model.trim="buyer.text"
+								></input>
+							</div>
+							<label
+								for="buyerPhone"
+								class="form__text mb-2 "
+							>聯絡電話</label>
+							<span
+								v-if="phone.remind!==''"
+								class="form__text form__text--warning"
+							>{{phone.remind}}</span>
+							<div class="form__section mb-5">
+								<input
+									id="buyerPhone"
+									type="text"
+									class=" cart__select form__input"
+									placeholder="0912-222-456"
+									:class="phone.inputClass"
+									v-model.trim="phone.text"
+								></input>
+							</div>
+							<label
+								for="buyerEmail"
+								class="form__text mb-2 "
+							>電子郵件</label>
+							<span
+								v-if="email.remind!==''"
+								class="form__text form__text--warning"
+							>{{email.remind}}</span>
+							<div class="form__section mb-5">
+								<input
+									id="buyerEmail"
+									type="email"
+									:class="email.inputClass"
+									class="cart__select form__input"
+									placeholder="abc@gmail.com"
+									v-model.trim="email.text"
+									@change="emailCheck"
+								></input>
+							</div>
+						</div>
+					</section>
+					<section class="cart__payment  col-6 col-lg-6 col-xs-12 block">
+						<h2 class="block block__header__title block__header">收貨人資料</h2>
+						<div class="pt-10 px-10 form__group">
+							<label
+								for="receiverName"
+								class="form__text mb-2 mr-3 "
+							>收件人姓名</label>
+							<span
+								v-if="receiver.remind!==''"
+								class="form__text form__text--warning"
+							>{{receiver.remind}}</span>
+							<div class="d-flex  cart__checkbox">
+								<input
+									type="checkbox"
+									id="receiverSame"
+									class="mr-3"
+									@click="sameBuyer"
+								>
+								<label
+									for="receiverSame"
+									class="form__text mb-2 mr-3 "
+								>同購買人</label>
+							</div>
+							<div class="form__section mb-5">
+								<input
+									id="receiverName"
+									type="text"
+									class="cart__select form__input"
+									placeholder="王小明"
+									:class="receiver.inputClass"
+									v-model.trim="receiver.text"
+								></input>
+							</div>
+							<label
+								for="receiverPhone"
+								class="form__text mb-2 "
+							>聯絡電話</label>
+							<span
+								v-if="receiverPhone.remind!==''"
+								class="form__text form__text--warning"
+							>{{receiverPhone.remind}}</span>
+							<div class="form__section mb-5">
+								<input
+									id="receiverPhone"
+									type="text"
+									class="cart__select form__input"
+									placeholder="0910-123-456"
+									:class="receiverPhone.inputClass"
+									v-model.trim="receiverPhone.text"
+								></input>
+							</div>
+							<div class="form__group ">
+								<label
+									for="address"
+									class="form__text "
+								>地址</label>
+								<span
+									v-if="receiverRoad.remind!==''"
+									class="form__text form__text--warning"
+								>{{receiverRoad.remind}}</span>
+								<div class="form__section mb-5">
+									<select
+										name=""
+										id=""
+										class="form__select "
+										v-model="receiverCity"
+									>
+										<option
+											value=""
+											disabled
+										>城市</option>
+										<option v-for="(num,index) of selectCity">{{num}}</option>
+									</select>
+									<select
+										name=""
+										id=""
+										class="form__select "
+										v-model="receiverTown"
+									>
+										<option
+											value=""
+											disabled
+										>鄉政區</option>
+										<option v-for="(num,index) of selectTown">{{num}}</option>
+									</select>
+								</div>
+								<input
+									type="text"
+									class="cart__select form__input"
+									placeholder="街/路/巷弄/樓層"
+									:class="receiverPhone.inputClass"
+									v-model.trim="receiverRoad.text"
+									id="address"
+								/>
+								<div class="d-flex  cart__checkbox mt-10 mb-10">
+									<input
+										type="checkbox"
+										id="receiverAddress"
+										@click="saveDefaultAddress"
+									>
+									<label
+										for="receiverAddress"
+										class="form__text"
+									>設為預設地址</label>
+									<input
+										type="checkbox"
+										id="saveAddress"
+										@click="saveAddress"
+									>
+									<label
+										for="saveAddress"
+										class="form__text"
+									>儲存至我的地址</label>
+								</div>
+
+								<button
+									class="btn btn--fluid mb-xs-5  mb-5"
+									@click="pageHandler"
+								>確認付款</button>
+							</div>
+						</div>
+					</section>
+					<section
+						v-show="cardAreaIsShow"
+						class="cart__payment  col-6 col-lg-6 col-xs-12"
+					>
+						<h2 class="block block__header__title block__header">付款資料</h2>
+						<div class="pt-10 px-10 form__group block">
+							<label
+								for="cardName"
+								class="form__text mb-2 "
+							>信用卡卡號</label>
+							<span
+								v-if="cardNoConfirm"
+								class="form__text form__text--warning"
+							>此區塊必填</span>
+							<div class="form__section mb-5">
+								<input
+									id="cardName"
+									type="text"
+									class="form__select cart__select--small cart__select--input"
+									:class="classList"
+									maxlength="4"
+									data-card="0"
+									@input="nextArea"
+									v-model="cardOneArea"
+								></input>
+								<input
+									id="cardName"
+									type="text"
+									class="form__select cart__select--small cart__select--input "
+									:class="classList"
+									maxlength="4"
+									data-card="1"
+									@input="nextArea"
+									v-model="cardTwoArea"
+								></input>
+								<input
+									id="cardName"
+									type="text"
+									class="form__select cart__select--small cart__select--input "
+									:class="classList"
+									maxlength="4"
+									data-card="2"
+									@input="nextArea"
+									v-model="cardThreeArea"
+								></input>
+								<input
+									id="cardName"
+									type="text"
+									class="form__select cart__select--small cart__select--input "
+									:class="classList"
+									maxlength="4"
+									data-card="3"
+									@input="nextArea"
+									v-model="cardFourArea"
+								></input>
+							</div>
+							<label
+								for="cardDate"
+								class="form__text mb-2 "
+							>有效日期</label>
+							<div class="form__section mb-5">
+								<input
+									id="cardDate"
+									type="text"
+									class="form__select cart__select cart__select--input"
+									:class="classList"
+									placeholder="MM/YY"
+									v-model="cardDate"
+								></input>
+							</div>
+							<label
+								for="cardCode"
+								class="form__text mb-2 "
+							>背面驗證碼</label>
+							<div class="form__section mb-5">
+								<input
+									id="cardCode"
+									type="email"
+									class="form__select cart__select cart__select--input"
+									:class="classList"
+									placeholder="123"
+									v-model="cardCode"
+								></input>
+							</div>
+						</div>
+
+					</section>
+					<section
+						class="cart__payment  col-6 col-lg-6 col-xs-12"
+						v-show="!cardAreaIsShow"
+					>
+						<h2 class="block block__header__title block__header">付款資料</h2>
+						<div class="pt-10 px-10 py-10 form__group block">
+							<p class="mb-5">選擇：{{selectPayment}}</p>
+							<p>{{paymentContent}}</p>
+						</div>
+					</section>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<script>
+	Vue.component('cart-info', {
+		template: '#cart-info',
+		props: ['current'],
+		mixins: [inputMixins],
+		data() {
+			return {
+				currentData: this.current,
+				notShow: true,
+				animationDisplay: 'cart__displayNone',
+				// 購買人跟收貨人區
+				buyer: {
+					name: '姓名',
+					text: '',
+					remind: '',
+					inputClass: '',
+				},
+				phone: {
+					name: '電話',
+					text: '',
+					remind: '',
+					inputClass: '',
+				},
+				email: {
+					name: '信箱',
+					text: '',
+					remind: '',
+					inputClass: '',
+				},
+				receiver: {
+					name: '姓名',
+					text: '',
+					remind: '',
+					inputClass: '',
+				},
+				receiverPhone: {
+					name: '電話',
+					text: '',
+					remind: '',
+					inputClass: '',
+				},
+				receiverCity: "",
+				receiverTown: "",
+				receiverRoad: {
+					name: '地址',
+					text: '',
+					remind: '',
+					inputClass: '',
+				},
+				receiverAddress: "",
+				//fetch 到的東東
+				cityList: [],
+
+				// 信用卡區塊
+				cardOneArea: "",
+				cardTwoArea: "",
+				cardThreeArea: "",
+				cardFourArea: "",
+				cardNoConfirm: false,
+				classList: {
+					form__warning: false
+				},
+				cardsValue: "",
+				cardCode: "",
+				cardDate: "",
+				cardAreaIsShow: false,
+				paymentContent: "",
+			}
+		},
+		methods: {
+			bgClass(productSeries) {
+				return `bg-series-${productSeries}`;
+			},
+			pageHandler() {
+				if (this.receiver.text == "") {
+					this.handleInput();
+				} else if (this.receiverPhone.text == "") {
+					this.handleInput();
+				} else if (this.receiverRoad == "") {
+					this.handleInput();
+				} else if (this.selectPayment == "線上刷卡") {
+
+					if (this.cardCode == "") {
+						this.classList = {
+							form__warning: true
+						};
+						this.cardNoConfirm = true
+					} else {
+						this.currentData += 1;
+						this.$emit('data-handler', this.currentData);
+					}
+				} else {
+					this.currentData += 1;
+					this.$emit('data-handler', this.currentData);
+
+				}
+			},
+			collapseArea() {
+				//收合選單
+				if (this.notShow) {
+					this.notShow = false;
+					this.animationDisplay = "cart__displayShow";
+				} else {
+					this.notShow = true;
+					this.animationDisplay = "cart__displayNone";
+				}
+
+			},
+			nextArea(e) {
+				// 信用卡區塊 前後
+				const cardInputList = document.querySelectorAll('[data-card]');
+				const array = [];
+				let cardValue = parseInt(e.target.value.length);
+				if (cardValue >= 4) {
+					if (e.target.nextElementSibling !== null) {
+						e.target.nextElementSibling.focus();
+					} else {
+						return
+					}
+
+				} else if (cardValue == 0) {
+					if (e.target.previousElementSibling !== null) {
+						e.target.previousElementSibling.focus();
+					} else {
+						return
+					}
+				}
+			},
+
+			sameBuyer() {
+				this.receiver.text = this.buyer.text;
+				this.receiverPhone.text = this.phone.text;
+			},
+			saveAddress() {
+				let dataAddress;
+				dataAddress = this.receiverCity + this.receiverTown + this.receiverRoad.text;
+				this.receiverAddress = dataAddress;
+				let addressObj = {
+					address: dataAddress,
+					name: this.receiver.text,
+					phone: this.receiverPhone.text,
+				};
+				let dataAddressJson = JSON.stringify(addressObj);
+				localStorage.setItem('receiverAddress', dataAddressJson);
+			},
+			saveDefaultAddress() {
+				let defaultAddress;
+				defaultAddress = true;
+				if (defaultAddress) {
+					let dataAddressDefault = JSON.stringify(defaultAddress);
+					localStorage.setItem('receiverAddressDefault', dataAddressDefault);
+				}
+			},
+			handleInput() {
+				const isAllCheck = this.handleRequiredCheck();
+				if (isAllCheck) {
+					console.log('yes')
+				};
+			},
+			emailCheck() {
+				this.handleEmailCheck(this.email);
+			},
+		},
+		computed: {
+			// store 區塊
+			...Vuex.mapState({
+				selectCoupon: state => state.selectCoupon,
+				buyList: state => state.buyList,
+				finallyPrice: state => state.finallyPrice,
+				totalProductNum: state => state.totalProductNum,
+				selectPayment: state => state.selectPayment,
+				totalPointCost: state => state.totalPointCost,
+				selectShipping: state => state.selectShipping,
+			}),
+			selectCity() {
+				let newCityList = [];
+
+				for (let cityNum in this.cityList) {
+
+					newCityList.push(this.cityList[cityNum]['name']);
+
+				}
+
+				return newCityList;
+
+			},
+			selectTown() {
+				let newTownList = [];
+
+				for (let cityNum in this.cityList) {
+					if (this.cityList[cityNum]['name'] == this.receiverCity) {
+						newTownList = this.cityList[cityNum]['districts'].map((item) => item.name)
+					}
+
+				}
+				return newTownList;
+			},
+			cardsTotal() {
+				this.cardsValue = this.cardOneArea + this.cardTwoArea + this.cardThreeArea + this.cardFourArea;
+				return this.cardsValue;
+			},
+			inputList() {
+				return [this.buyer, this.phone, this.email, this.receiver, this.receiverPhone, this.receiverRoad]
+			}
+
+		},
+		mounted() {
+			fetch('./assets/js/taiwan_districts.json', {
+				method: "get"
+			}).then((res) => {
+				return res.json();
+			}).then((res) => {
+				this.cityList = res;
+			});
+			// 檢查是否選擇刷卡
+			if (this.selectPayment == "線上刷卡") {
+				this.cardAreaIsShow = true;
+			} else if (this.selectPayment == "ATM轉帳") {
+
+				let payNum = (Math.random().toFixed(12) * 1000000000000);
+
+				this.paymentContent = `請領取您的轉帳號碼:- ${payNum}-`;
+
+				return;
+
+			};
+			if (this.selectShipping == "自取") {
+				this.paymentContent = '請收到到貨通知後,至門市櫃檯結帳';
+			} else if (this.selectShipping == "宅配") {
+				this.paymentContent = '收到通知信後,請稍做等待2~3日運送時程';
+			}
+		}
+	})
+</script>

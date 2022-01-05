@@ -1,0 +1,71 @@
+<div class="modal text-left modal-active" v-if="isModalShow">
+    <div class="po-ab h-100 w-100" @click="isModalShow=false"></div>
+    <div class="container h-100 d-flex justify-content-center align-items-center">
+        <!-- display -->
+        <section class="display px-10 px-sm-5 py-5">
+
+            <svg role="button" aria-label="close" xmlns="http://www.w3.org/2000/svg" width="36" height="36"
+                viewBox="0 0 52 52" class="icon modal__btn modal__btn--close" @click="isModalShow=false">
+                <g transform="translate(0 0.47)">
+                    <line x1="33.493" transform="translate(14.158 13.688) rotate(45)" fill="none" stroke="#522613"
+                        stroke-linecap="round" stroke-width="5" />
+                    <line x1="33.493" transform="translate(37.842 13.688) rotate(135)" fill="none" stroke="#522613"
+                        stroke-linecap="round" stroke-width="5" />
+                </g>
+            </svg>
+            <header class="display__cover">
+                <h2 class="display__title">{{targetProduct.eName}}</h2>
+                <img :src="targetProduct.displayImgURL" class="display__img">
+                <div class="carID carID--lg display__carID" :class="bgClass(targetProduct.series)">
+                    {{targetProduct.series}}<span>{{targetProduct.seriesId}}</span>
+                </div>
+            </header>
+            <section class="d-flex justify-content-between align-items-center flex-xs-wrap pb-5 pb-sm-0">
+                <div class="mb-xs-2 w-50 w-md-100">
+                    <h2 class="h1 mb-1">{{targetProduct.name}}</h2>
+                    <h3 class="h6 d-inbl mb-5">{{targetProduct.eName}} {{targetProduct.year}}<span
+                            class="ml-5">尺寸：{{targetProduct.size}}</span></h3>
+                    <p class="display__description mb-5">{{targetProduct.description}}</p>
+                    <span class="badge mr-2"
+                        :class="bgClass(targetProduct.series)">{{seriesList[targetProduct.seriesIndex].name}}</span>
+                    <span v-if="targetProduct.limitLabel=== '2' || targetProduct.limitLabel=== '4'"
+                        :class="limitLabel.className">{{limitLabel.text}}</span>
+                </div>
+                <div class="text-right mx-xs-auto">
+                    <svg :class="pinClass(targetProduct.productId)" width="120" height="120" viewBox="0 0 80 80">
+                        <circle cx="40" cy="40" r="30" stroke-width="4" />
+                        <circle cx="40" cy="40" r="25" stroke-width="2" />
+                        <path d="M 23,30 A 20,20 0 0 1 57,30" stroke-width="1" />
+                        <path d="M 23,50 A 20,20 0 0 0 57,50" stroke-width="1" />
+                        <text x="20" y="48" class="pin__text pin__text--lg">GET</text>
+                    </svg>
+                    <!-- pin 收藏大師-->
+                    <pin-svg :disabled="!isMemberHasSeriesPin(targetProduct.series)" :series="targetProduct.series">
+                    </pin-svg>
+                </div>
+            </section>
+            <svg role="button" aria-label="prev" xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+                viewBox="0 0 52 52" class="icon hover-color-light modal__btn modal__btn--prev"
+                :class="showProductList.indexOf(targetProduct)===0?'disabled':''"
+                @click="handleModalProductChange('prev')">
+                <g transform="translate(261.207 -282.253) rotate(90)">
+                    <path
+                        d="M309.592,244.481a2.5,2.5,0,0,1-1.8-.759l-13.838-14.275a2.5,2.5,0,0,1,3.59-3.48l11.922,12.3,10.353-12.177a2.5,2.5,0,0,1,3.809,3.238L311.5,243.6a2.5,2.5,0,0,1-1.823.879Z"
+                        fill="#522613" />
+                </g>
+            </svg>
+            <svg role="button" aria-label="next" xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+                viewBox="0 0 52 52" class="icon hover-color-light modal__btn modal__btn--next"
+                :class="parseInt(showProductList.indexOf(targetProduct))+1===showProductList.length?'disabled':''"
+                @click="handleModalProductChange('next')">
+                <g transform="translate(-209.207 334.253) rotate(-90)">
+                    <path
+                        d="M309.592,244.481a2.5,2.5,0,0,1-1.8-.759l-13.838-14.275a2.5,2.5,0,0,1,3.59-3.48l11.922,12.3,10.353-12.177a2.5,2.5,0,0,1,3.809,3.238L311.5,243.6a2.5,2.5,0,0,1-1.823.879Z"
+                        fill="#522613" />
+                </g>
+            </svg>
+
+
+        </section>
+    </div>
+</div>

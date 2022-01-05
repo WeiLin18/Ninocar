@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../../css/all.css">
+<title>Document</title>
+
+</head>
+
+<body>
+
+
+
+    <div class="modal js-modal" data-modal="1">
+        <div class="modal__group">
+            <svg role="button" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 52 52" class="icon modal__close js-close">
+                        <g transform="translate(0 0.47)">
+                            <line x1="33.493" transform="translate(14.158 13.688) rotate(45)" fill="none" stroke="#522613" stroke-linecap="round" stroke-width="5"/>
+                            <line x1="33.493" transform="translate(37.842 13.688) rotate(135)" fill="none" stroke="#522613" stroke-linecap="round" stroke-width="5"/>
+                        </g>
+                        </svg>
+            <h2 class="modal__title">
+                新增地址
+            </h2>
+            <p class="modal__content--left">檢舉留言這篇留言的原因?</p>
+            <ul class="modal__textGroup">
+                <li class="modal__textGroupContent"> <input type="radio" name="check" id="bad1"> <label for="bad1">中傷、歧視、謾罵等人身攻擊言論</label> </li>
+                <li class="modal__textGroupContent"> <input type="radio" name="check" id="bad2"> <label for="bad2">包含性騷擾或血腥恐怖等讓人不舒服之內容</label></li>
+                <li class="modal__textGroupContent"> <input type="radio" name="check" id="bad3"> <label for="bad3">文章內容空泛或明顯無意義內容</label> </li>
+                <li class="modal__textGroupContent"> <input type="radio" name="check" id="bad4"> <label for="bad4">涉及宗教、種族歧視或政治對立等言論</label> </li>
+                <li class="modal__textGroupContent"> <input type="radio" name="check" id="bad5"> <label for="bad5">留言內容空泛或無關作品內容</label> </li>
+            </ul>
+            <button class="btn btn--ghost">取消</button>
+            <button class="btn ml-5 ">完成</button>
+        </div>
+    </div>
+    <div class="modal js-modal" data-modal="2">
+        <div class="modal__group">
+            <svg role="button" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 52 52" class="icon modal__close js-close">
+                        <g transform="translate(0 0.47)">
+                            <line x1="33.493" transform="translate(14.158 13.688) rotate(45)" fill="none" stroke="#522613" stroke-linecap="round" stroke-width="5"/>
+                            <line x1="33.493" transform="translate(37.842 13.688) rotate(135)" fill="none" stroke="#522613" stroke-linecap="round" stroke-width="5"/>
+                        </g>
+                        </svg>
+            <h2 class="modal__title">
+                新增地址2
+            </h2>
+            <img src="../img/pic/0.png" class="modal__img" alt="">
+            <p class="modal__content">更新完成</p>
+            <p class="modal__text">本商品為會員點數限定販售，如需購買，請先登入或註冊</p>
+            <button class="btn btn--fluid btn--outline">查看我的訂單</button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row mt-20 ml-20">
+            <button data-modal="2" class="js-btn btn">點擊開啟 2</button>
+            <button data-modal="1" class="js-btn btn">點擊開啟 1</button>
+        </div>
+    </div>
+
+    <script>
+        ;
+        (function() {
+
+            const modalbtn = document.querySelectorAll('.js-btn');
+            const modal = document.querySelectorAll('.js-modal');
+
+
+            // 查找相同data-set 的值。 `可以直接打dataset 選項`
+            modalbtn.forEach((item) => {
+                item.addEventListener('click', (e) => {
+                    const dataModal = item.getAttribute('data-modal')
+
+                    const currentModal = document.querySelector(`.js-modal[data-modal="${dataModal}"]`)
+
+                    currentModal.classList.add('-active')
+
+                })
+            })
+            modal.forEach((item) => {
+                item.querySelector('.js-close').addEventListener('click', (e) => {
+                    item.classList.remove('-active')
+                })
+            })
+
+        })();
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../css/all.css">
+<title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <form class="col-6 col-lg-4 col-xs-4 ">
+                <div class="form__group">
+                    <label for="addressee" class="form__text">收件人姓名</label>
+                    <input type="text" class="form__input" id="addressee" placeholder="收件人" />
+                </div>
+                <div class="form__group">
+                    <small class="form__text--warning">不能空白</small>
+                    <label for="contact" class="form__text">連絡電話</label>
+                    <input type="text" class="form__input form__input--warning" id="contact" placeholder="電話" />
+                </div>
+                <div class="form__group">
+                    <label for="postcount" class="form__text">郵遞區號</label>
+                    <input type="text" class="form__input form__input--success" id="postcount" placeholder="郵遞區號" />
+                </div>
+                <div class="form__group">
+                    <label for="address" class="form__text">地址</label>
+                    <div class="form__section">
+                        <select name="" id="" class="form__select">
+                            <option value="">城市</option>
+                        </select>
+                        <select name="" id="" class="form__select">
+                            <option value="">鄉政區</option>
+                        </select>
+                    </div>
+                    <input type="text" class="form__input " id="address" placeholder="街/路/巷弄/樓層" />
+                </div>
+                <div class="form__group">
+                    <label>價格</label>
+                    <label class="custom-input">全部
+                        <input type="checkbox" checked="checked" value="0" name="price0" class="custom-input__input">
+                        <span class="custom-input__checkmark"></span>
+                    </label>
+                    <label class="custom-input">100~200
+                        <input type="checkbox"  value="0" name="price0" class="custom-input__input">
+                        <span class="custom-input__checkmark"></span>
+                    </label>
+                </div>
+                <div class="form__group">
+                    <label>價格</label>
+                    <label class="custom-input">100~200
+                        <input type="radio"  value="0" name="radio" class="custom-input__input">
+                        <span class="custom-input__checkmark custom-input__checkmark--circle"></span>
+                    </label>
+                    <label class="custom-input">200~400
+                        <input type="radio"  value="1" name="radio" class="custom-input__input">
+                        <span class="custom-input__checkmark custom-input__checkmark--circle"></span>
+                    </label>
+                </div>
+                <button type="submit" class="btn btn--fluid">Submit</button>
+
+            </form>
+        </div>
+
+
+    </div>
+
+
+    </div>
+</body>
+
+</html>

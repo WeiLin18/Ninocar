@@ -1,0 +1,713 @@
+        @import "../helpers/variables";
+        @import "../helpers/mixin";
+        @import "../helpers/rwd";
+        @import "../base/font";
+        .cart {
+          //購物車本體
+          display: flex;
+          flex-direction: column;
+          text-align: center;
+          position: relative;
+          &__top {
+            padding-top: 150px;
+          }
+          &--none {
+            display: none;
+          }
+          &--maginHalf {
+            margin-top: 50px
+          }
+          @extend .h4;
+          @include rwd-sm {
+            padding: 0px 16px;
+            margin-top: 0px;
+          }
+          &__btn {
+            //購物車按鈕
+            display: flex;
+            align-items: center;
+            flex-direction: row-reverse;
+            &--none {
+              display: none;
+            }
+          }
+          &__title {
+            //購物車列表
+            display: flex;
+            justify-content: space-between;
+            padding: 36px 40px;
+            border-bottom: 2px solid $secondary;
+            @include rwd-sm() {
+              li {
+                display: none;
+              }
+            }
+            @include rwd-xs() {
+              padding: 0px 40px;
+            }
+            li {
+              flex-grow: 1;
+            }
+            li:first-child {
+              flex-grow: 2;
+              text-align: left;
+              @extend .h2;
+              @include rwd-sm() {
+                display: flex;
+              }
+            }
+            li:last-child {
+              display: none;
+              @include rwd-sm() {
+                display: flex;
+                justify-content: flex-end;
+                cursor: pointer;
+              }
+            }
+            &--left {
+              text-align: right;
+              padding-right: 40px;
+            }
+          }
+          &__link {
+            color: #AC0404;
+            padding-left: 50%;
+            &--small {
+              margin-right: 30px;
+              color: #AC0404;
+              @include rwd-md {
+                display: none;
+              }
+            }
+          }
+          &__group {
+            //產品列表
+            position: relative;
+            padding: 30px 40px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            border-bottom: 1px solid $gray-500;
+            min-width: 375px;
+            &--dflex {
+              display: flex;
+              align-items: center;
+              flex-grow: 1;
+              @include rwd-xs {
+                margin: 0;
+                margin-bottom: 10px;
+              }
+            }
+            &__firstArea {
+              flex-direction: row;
+              @include rwd-xs {
+                width: 70%;
+                height: 60%;
+              }
+            }
+            @include rwd-md {
+              justify-content: flex-end;
+              div:nth-child(2) {
+                padding-left: 50px;
+              }
+              div:nth-child(3) {
+                padding-left: 100px;
+              }
+            }
+            @include rwd-sm {
+              div:nth-child(2) {
+                padding: 0;
+                margin-right: 30px;
+              }
+              div:nth-child(3) {
+                padding: 0;
+                margin-left: 10px;
+              }
+              div:nth-child(4) {
+                margin-left: 205px;
+              }
+            }
+            @include rwd(505px) {
+              padding: 20px 10px;
+            }
+            @include rwd-xs {
+              div:nth-child(2) {
+                margin: 0;
+                justify-content: center;
+              }
+              div:nth-child(3) {
+                margin-left: 140px;
+              }
+              div:nth-child(4) {
+                margin-left: 45px;
+              }
+            }
+          }
+          &__groupImg {
+            //產品圖跟上方文字
+            width: 50%;
+            position: relative;
+            @include size(140px, 140px);
+            img {
+              display: block;
+            }
+            p {
+              display: inline-block;
+              width: 30px;
+              font-size: 12px;
+              position: absolute;
+              color: $white;
+              font-weight: 600;
+              bottom: 40px;
+              border-radius: 5px;
+              right: 0;
+              @include rwd-xs {
+                bottom: 50px;
+                right: 0;
+              }
+            }
+          }
+          &__product {
+            //產品圖右側文字
+            padding-left: 20px;
+            @extend .h4;
+            p {
+              text-align: center;
+              &:last-child {
+                color: $gray-700;
+                @extend .h5;
+              }
+              @include rwd-xs {
+                width: 150px;
+              }
+            }
+          }
+          &__num {
+            //數量
+            text-align: left;
+            padding: 10px 40px 10px 10px;
+            border: 1px solid $gray-500;
+            color: $gray-900;
+            border-radius: 5px;
+            margin-top: 10px;
+            @extend .h4;
+            @include rwd-xs {
+              padding: 5px 30px 5px 10px;
+            }
+          }
+          &__footer {
+            //購物車最底金額區
+            justify-content: space-between;
+            margin-top: 20px;
+            margin-left: 40%;
+            align-items: center;
+            @extend .h4;
+            li {
+              flex-grow: 1;
+              &:last-child {
+                @extend .h2;
+                font-weight: 900;
+                color: $coffee;
+              }
+              &:nth-child(3) {
+                width: 20%;
+                padding-right: 5px;
+              }
+            }
+            span {
+              &:last-child {
+                font-weight: 900;
+                @extend .h2;
+              }
+            }
+            @include rwd-md {
+              justify-content: center;
+              margin: 10px 0;
+              padding: 0 30px;
+            }
+          }
+          &__member {
+            //成員圓圈點數
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            // @include rwd-md {
+            //     width: 100%;
+            // }
+            // @include rwd-sm {
+            //     width: 40%;
+            // }
+            // @include rwd-xs {
+            //     width: 100%;
+            //     justify-content: flex-start;
+            // }
+            &__text {
+              color: $blue;
+              @extend .h4;
+            }
+            &__price {
+              color: $coffee;
+              font-weight: 900;
+              @extend .h2;
+            }
+            &--align {
+              p {
+                position: relative;
+                color: $white;
+                @extend .h5;
+                z-index: 2;
+                padding-left: 3px;
+                @include rwd-xs {
+                  padding-left: 1px;
+                }
+                &:after {
+                  @include rwd-xs {
+                    display: none;
+                  }
+                  position: absolute;
+                  display: block;
+                  content: "";
+                  width: 25px;
+                  height: 25px;
+                  border-radius: 50%;
+                  background-color: $blue;
+                  top: 3px;
+                  left: -3%;
+                  z-index: -1;
+                  @include rwd-md {
+                    top: 3px;
+                    left: -3%;
+                  }
+                  @include rwd-sm {
+                    top: -3px;
+                  }
+                }
+              }
+              span {
+                margin-left: 10px;
+                color: $blue;
+                @extend .h4;
+              }
+            }
+            p {
+              width: 25px;
+              height: 25px;
+              border-radius: 50%;
+              text-align: center;
+              line-height: 25px;
+              background-color: $blue;
+              color: $white;
+              margin-right: 10px;
+              @extend .h5;
+            }
+            span {
+              color: $blue;
+              @extend .h4;
+            }
+          }
+          &__text {
+            //購物車文字消失控制
+            display: none;
+            @include rwd-md {
+              display: flex;
+            }
+            &--hide {
+              @include rwd-md {
+                display: none;
+              }
+            }
+          }
+          &__cancel {
+            //單筆刪除按鈕
+            display: none;
+            cursor: pointer;
+            @include rwd-sm {
+              display: flex;
+              width: 20px;
+              position: absolute;
+              top: 10px;
+              right: 40px;
+            }
+          }
+          &__payment {
+            //訂購模式區塊
+            text-align: left;
+            position: relative;
+            &--pr {
+              padding-right: 40px;
+            }
+            @include rwd-lg {
+              padding: 10px 30px 30px;
+              text-align: center
+            }
+            @include rwd_md {
+              margin-top: 30px;
+            }
+            @include rwd_sm {
+              padding: 0;
+              padding-top: 10px;
+            }
+            @include rwd_xs {
+              padding: 0;
+            }
+            // h2 {
+            //     @extend .h2;
+            //     position: relative;
+            //     &::after {
+            //         position: absolute;
+            //         bottom: -15px;
+            //         left: -15px;
+            //         width: 103%;
+            //         display: block;
+            //         content: "";
+            //         border-bottom: 2px solid $secondary;
+            //         @include rwd-md {
+            //             left: -10px;
+            //             width: 105%;
+            //         }
+            //         @include rwd-sm {
+            //             bottom: -10px;
+            //             left: -5px;
+            //         }
+            //     }
+            // }
+            // &--nopt {
+            //     padding: 10px 30px 40px;
+            //     @include rwd-xs {
+            //         padding: 10px 30px 10px;
+            //     }
+            // }
+          }
+          &__select {
+            //選數字區
+            width: 100%;
+            padding: 10px;
+            &--small {
+              width: 22%;
+            }
+            &--input {
+              color: black;
+              padding-left: 10px;
+            }
+          }
+          &__pointCount {
+            // 收貨方式 點數區塊
+            align-items: center;
+            justify-content: space-between;
+            height: 20px;
+            padding: 0px 20px 0px 0px;
+            @extend .h5;
+          }
+          &__moneyCount {
+            //收貨方式 金額區塊
+            li {
+              display: flex;
+              justify-content: space-between;
+              padding: 0px 20px 0px 0px;
+              margin-bottom: 10px;
+              @include rwd-xs {
+                padding: 0px 10px;
+              }
+            }
+          }
+          &__countTotal {
+            //訂單明細 總花費區塊
+            padding: 10px 0;
+            border-top: 2px solid $gray-500;
+            justify-content: space-between;
+            align-items: center;
+            text-align: left;
+            li {
+              display: flex;
+              width: 50%;
+              justify-content: space-between;
+              &:last-child {
+                padding: 0px 20px 0px 0px;
+                @include rwd-xs {
+                  padding: 0px 10px 0px 0px;
+                }
+              }
+            }
+          }
+          &__pointRespond {
+            //訂單明細 點數回報
+            text-align: center;
+            padding: 15px 5px;
+            background-color: $gray-100;
+            @extend .h4;
+            span {
+              color: $blue;
+              padding: 0 7px;
+              font-weight: 500;
+            }
+            @include rwd-xs {
+              margin-bottom: 20px
+            }
+          }
+          &__hint {
+            //灰字提示區
+            @extend.h5;
+            margin-top: 5px;
+            color: $gray-900;
+          }
+          &__comment {
+            //熱門推薦
+            margin: 0 -21px;
+            text-align: left;
+            @include rwd-lg {
+              margin: 0 5px;
+            }
+            button {
+              color: $secondary-dark;
+            }
+          }
+          &__choose {
+            //側邊左右
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            z-index: 10;
+            &--left {
+              top: 50%;
+              left: -3%;
+              @include rwd-lg {
+                left: -1%;
+              }
+              @include rwd-sm {
+                left: -2%;
+              }
+              @include rwd-xs {
+                left: -3%;
+              }
+            }
+            &--right {
+              top: 50%;
+              right: -3%;
+              @include rwd-lg {
+                right: -1%;
+              }
+              @include rwd-sm {
+                right: -4%;
+              }
+              @include rwd-xs {
+                right: -7%;
+              }
+            }
+          }
+          &--overhidden {
+            //捲動Ｙ隱藏
+            justify-content: space-around;
+            @include rwd-lg {
+              overflow: hidden;
+              justify-content: unset;
+            }
+            // overflow-y: scroll;
+          }
+          &__imgGroup {
+            //card img
+            position: relative;
+            img {
+              vertical-align: middle;
+            }
+            p {
+              position: absolute;
+              @include size(64px, 60px);
+              text-align: center;
+              padding: 10px 20px;
+              font-weight: 900;
+              right: 5%;
+              bottom: 5%;
+              text-align: center;
+              color: $white;
+              border-radius: 5px;
+              background-color: $secondary;
+              @extend .h5;
+            }
+          }
+          &__textGroup {
+            //card text
+            padding: 10px;
+            position: relative;
+            h3,
+            p {
+              @extend .h5;
+            }
+            p {
+              color: $coffee;
+            }
+            button {
+              position: absolute;
+              right: 0;
+              bottom: 10%;
+              @extend .h5;
+              color: $secondary-dark;
+            }
+          }
+          &__list {
+            //購買明細
+            padding-bottom: 10px;
+            border-bottom: 2px solid $secondary;
+            &--none {
+              li {
+                &:last-child {
+                  opacity: 0;
+                }
+              }
+            }
+            @include rwd-sm {
+              margin-top: 50px;
+            }
+            li {
+              padding: 0 10px;
+              flex-grow: 1;
+              text-align: left;
+              @include rwd-sm {
+                justify-content: flex-end;
+              }
+              &:first-child {
+                flex-grow: 5;
+                @include rwd-sm {
+                  flex-grow: 1;
+                }
+              }
+              &:last-child {
+                display: flex;
+                justify-content: flex-end;
+                padding-right: 20px;
+              }
+              &:nth-child(3) {
+                p {
+                  padding-left: 1px;
+                  @include rwd-sm {
+                    padding-left: 2px;
+                    text-align: center;
+                  }
+                  &::after {
+                    @include rwd-sm {
+                      left: 1%;
+                    }
+                    @include rwd(515px) {
+                      left: 32%;
+                    }
+                    @include rwd-xs {
+                      left: 25%;
+                    }
+                  }
+                }
+                span {
+                  @include rwd-sm {
+                    padding-right: 10px;
+                  }
+                }
+              }
+            }
+          }
+          &__checkbox {
+            input {
+              margin-top: 8px;
+              margin-right: 10px;
+              @include rwd-sm {
+                margin-top: 4px;
+              }
+            }
+            label {
+              margin-right: 40px;
+              @include rwd-xl {
+                margin-right: 30px;
+              }
+              @include rwd-xs {
+                margin-right: 0px;
+              }
+            }
+          }
+          &__order {
+            justify-content: space-between;
+            text-align: left;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            margin-top: 10px;
+            li {
+              width: 50%;
+              padding: 20px 30px;
+              flex-wrap: wrap;
+              @extend .h3;
+              @include rwd-sm {
+                width: 100%;
+              }
+            }
+            span {
+              margin-left: 10%;
+              @extend .h4;
+              @include rwd-sm {
+                margin-left: 25%;
+              }
+            }
+          }
+          &__empty {
+            background-color: white;
+            justify-content: center;
+            &--left {
+              flex-grow: 1;
+              display: flex;
+              justify-content: center;
+              margin-bottom: 20px;
+            }
+            &--right {
+              flex-grow: 1;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              @include rwd-xs {
+                margin-top: 30px;
+              }
+              p {
+                text-align: left;
+                margin-bottom: 20px;
+                @include rwd-lg {
+                  text-align: center;
+                }
+              }
+              button {
+                margin-top: 10px;
+              }
+            }
+          }
+          &__topfix {
+            margin-top: 50px;
+            @include rwd-sm {
+              margin-top: 60px;
+            }
+          }
+          //  訂單資料區塊 icon指標
+          &__collapse {
+            cursor: pointer;
+            z-index: 100;
+          }
+          &__displayNone {
+            position: absolute;
+            opacity: 0;
+            transition: all 0.5s;
+            z-index: -100;
+          }
+          &__displayShow {
+            position: unset;
+            opacity: 1;
+            transition: all 0.5s;
+            z-index: 1;
+          }
+        }
+        
+        .fade {
+          &-enter {
+            opacity: 0;
+          }
+          &-leave-to {
+            opacity: 0;
+          }
+          &-enter-active {
+            transition: opacity .5s;
+          }
+          &-leave-active {
+            transition: opacity .5s;
+          }
+        }

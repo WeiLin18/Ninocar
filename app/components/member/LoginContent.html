@@ -1,0 +1,77 @@
+  <script>
+      Vue.component('login-content', {
+          template: '#login',
+          props: ['loginError', 'btn-ui'],
+          mixins: [inputMixins],
+          data() {
+              return {
+                  account: {
+                      name: '帳號',
+                      text: '',
+                      remind: '',
+                      inputClass: '',
+                  },
+                  password: {
+                      name: '密碼',
+                      text: '',
+                      remind: '',
+                      inputClass: '',
+                  },
+              }
+          },
+          computed: {
+              inputList() {
+                  return [this.account, this.password]
+              }
+          },
+          watch: {
+              loginError(message) {
+                  if (message) {
+                      this.handleErrorShow(this.account, message)
+                      this.handleErrorShow(this.password, message)
+                  }
+              },
+          },
+          methods: {
+              handleLogin() {
+                  const isAllCheck = this.handleRequiredCheck();
+                  if (isAllCheck) {
+                      this.$emit('login', this.account.text, this.password.text);
+                  }
+              },
+              handleSignUpShow() {
+                  this.$emit('change', 'sign-up-content');
+              },
+              handlePasswordResetShow() {
+                  this.$emit('change', 'reset-password-content');
+              },
+
+          }
+      });
+  </script>
+  <template id="login">
+      <form>
+          <h2 class="modal__title mb-5">
+              登入
+          </h2>
+          <div class="form__group mb-5">
+              <label for="account" class="form__text">帳號</label><span v-if="account.remind!==''"
+                  class="form__text form__text--warning">{{account.remind}}</span>
+              <input type="text" class="form__input" :class="account.inputClass" v-model.lazy="account.text"
+                  @keydown.enter.prevent="$refs.loginPassword.focus()" placeholder="abc@gmail.com"
+                  autocomplete="username" @change="handleEmailCheck(account)" />
+          </div>
+          <div class="form__group mb-12">
+              <label for="password" class="form__text">密碼</label><span v-if="password.remind!==''"
+                  class="form__text form__text--warning">{{password.remind}}</span>
+              <input type="password" ref="loginPassword" :class="password.inputClass" v-model.lazy="password.text"
+                  @change="handlePasswordCheck(password)" class="form__input" autocomplete="new-password"
+                  placeholder="***" />
+          </div>
+          <div class="text-right">
+              <a href="#" class="btn btn--link d-inbl mb-6 " @click.prevent="handlePasswordResetShow">忘記密碼</a>
+          </div>
+          <button class="btn btn--fluid mb-4" ref="loginBtn" @click.prevent="handleLogin">{{btnUi || '登入'}}</button>
+          <a href="#" class="btn btn--fluid btn--outline" @click.prevent="handleSignUpShow">註冊</a>
+      </form>
+  </template>

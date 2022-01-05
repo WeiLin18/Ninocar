@@ -1,0 +1,108 @@
+    .popovers {
+      background-color: $white;
+      padding: 10px 10px;
+      position: fixed;
+      z-index: 100;
+      bottom: 115px;
+      right: 280px;
+      opacity: 1;
+      line-height: 1.3;
+      border: 1px solid $secondary;
+      color: $coffee;
+      @include rwd(1868px) {
+        position: fixed;
+        z-index: 100;
+        bottom: 13%;
+        right: 13%;
+      }
+      @include rwd(1500px) {
+        right: 6%;
+      }
+      @include rwd-lg {
+        display: none;
+      }
+      @extend .h4;
+      &__points {
+        display: flex;
+        background-color: wheat;
+      }
+      @include rwd-md {
+        padding: 10px;
+      }
+      &__cartItems {
+        margin: 5px;
+      }
+      &__totalCost {
+        margin: 5px;
+        margin-left: 10px;
+      }
+      &__num {
+        position: absolute;
+        @extend.h5;
+        color: white;
+        top: 0px;
+        left: 0px;
+        z-index: 102;
+        &::after {
+          position: absolute;
+          content: "";
+          display: block;
+          width: 20px;
+          height: 20px;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background-color: $red;
+          border-radius: 50%;
+          z-index: -1;
+        }
+      }
+      &__member {
+        display: flex;
+        p {
+          color: $white;
+          position: relative;
+          z-index: 1;
+           ::after {
+            content: "";
+            display: block;
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            top: 2px;
+            left: -2px;
+            background-color: $blue;
+            z-index: -1;
+          }
+        }
+        span {
+          margin: 5px;
+          color: $blue;
+        }
+      }
+      &::before {
+        display: block;
+        content: "";
+        position: absolute;
+        border-top: 19px solid transparent;
+        border-left: 19px solid $secondary;
+        border-right: 19px solid transparent;
+        border-bottom: 19px solid transparent;
+        top: 40%;
+        right: -21%;
+        z-index: 100;
+      }
+      &::after {
+        display: block;
+        content: "";
+        position: absolute;
+        border-top: 18px solid transparent;
+        border-left: 19px solid $white;
+        border-right: 18px solid transparent;
+        border-bottom: 18px solid transparent;
+        top: 40.5%;
+        right: -20%;
+        z-index: 100;
+      }
+    }

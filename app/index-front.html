@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.15/swiper-bundle.min.css' />
+<link rel="stylesheet" href="./assets/css/all.css">
+<link rel="stylesheet" href="./assets/css/pages/index.css">
+<link rel="shortcut icon" href="./assets/img/loho-icon.ico" />
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vuex/3.6.2/vuex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.15/swiper-bundle.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/MotionPathPlugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/animation.gsap.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/debug.addIndicators.min.js"></script> -->
+<script src="./assets/js/utils.js"></script>
+
+<title>Ninocar</title>
+
+</head>
+
+<body>
+  <div id="app" v-cloak>
+    <transition name="collapse-slow">
+      <loading-div v-if="isLoading" page="首頁"></loading-div>
+    </transition>
+    <vue-header :modal-state-content.sync="modalStateContent"></vue-header>
+    <main class="pt-25 index">
+      @@include('./pages/HomePage/HomeParkingHeader.html') @@include('./pages/HomePage/HomeProductSection.html') @@include('./pages/HomePage/HomeMountainSection.html') @@include('./pages/HomePage/HomeFactorySection.html') @@include('./pages/HomePage/HomeAboutSection.html')
+      @@include('./pages/HomePage/HomeAddressSection.html') @@include('./pages/HomePage/HomeEndFooter.html')
+    </main>
+    @@include('./components/Footer.html')
+  </div>
+
+
+
+  @@include('./components/VueHeader.html') @@include('./components/LoadingDiv.html') @@include('./components/PinSvg.html')
+
+  <script src="./assets/js/mixins/productMixins.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      store,
+      mixins: [productMixins],
+      data: {
+        isLoading: true,
+        isDisplayPlay: false,
+        isCarNearGirl: false,
+        isCTAShow: false,
+        swiperMountain: null,
+        modalStateContent: 'login-content'
+      },
+      computed: {
+        seriesList() {
+          return this.$store.state.seriesList
+        },
+        memberId() {
+          return this.$store.state.memberId
+        },
+      },
+      watch: {
+        productList(list) {
+          if (list && list.length) {
+            this.handleInitMountainSwiper();
+          }
+        },
+      },
+      methods: {
+        handleLoginModalShow() {
+          this.modalStateContent = 'sign-up-content'
+          this.$store.commit('setLoginModalShow', true);
+        },
+        handleGirlClick() {
+          if (this.isCarNearGirl) {
+            this.isCTAShow = true;
+            let endCar = new TimelineMax();
+            endCar.to('.factory__car', 4, {
+              x: 1920,
+              ease: Linear.easeNone,
+              delay: 3,
+              reverse: false
+
+            })
+          }
+        },
+        handleSlideToIndex(index) {
+          if (this.swiperMountain) {
+            this.swiperMountain.slideTo(index);
+          }
+        },
+        handleInitMountainSwiper() {
+          const indexProductList = ['2', '27', '17', '22', '28'];
+          this.showProductList = this.productList.filter(product => indexProductList.indexOf(product
+            .productId) >= 0);
+          this.$nextTick(() => {
+            this.swiperMountain = new Swiper('#swiperContainerMountain', {
+              spaceBetween: 20,
+              autoplay: {
+                delay: 2000,
+                disableOnInteraction: false
+              },
+              loop: true,
+              speed: 800,
+              effect: 'fade',
+            });
+
+          });
+
+        }
+      },
+
+      mounted() {
+        // --------------------------------------------swiper
+        let swiperBillboard = new Swiper('#swiperContainerBillboard', {
+          spaceBetween: 20,
+          autoplay: {
+            delay: 2000,
+            disableOnInteraction: false
+          },
+          loop: true,
+          // mousewheel: true,
+          speed: 800,
+          // effect: 'fade',
+        });
+
+
+        // --------------------------------------------GSAP
+
+        let controller = new ScrollMagic.Controller();
+        let screenX = document.body.clientWidth;
+        // ----------------------parking
+        window.onload = () => {
+          this.isLoading = false;
+          // console.log('a');
+          let mvFirst = gsap.timeline();
+          mvFirst.to("#hero", {
+            opacity: 1,
+            duration: 0,
+            ease: "linear"
+          }).fromTo("#hero", {
+            y: -300
+          }, {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            ease: "bounce"
+          }).fromTo(".parking__start", {
+            opacity: 0,
+            y: -200
+          }, {
+            opacity: 1,
+            y: 0,
+            duration: .5,
+            ease: "elastic"
+          }).fromTo(".parking__car", {
+            opacity: 0,
+            y: -200
+          }, {
+            y: 0,
+            opacity: 1,
+            duration: .5,
+            ease: "elastic"
+          });
+
+        }
+        let triggerParkingOffset = 200;
+        if (screenX <= 1024 && screenX > 992) {
+          triggerParkingOffset = 50
+        } else if (screenX <= 375) {
+          triggerParkingOffset = 50
+
+        }
+        let mvParking = gsap.timeline();
+        mvParking.to('.parking__car', 1, {
+          x: -400, //5
+          y: 240, //3
+          ease: Linear.easeNone,
+        }).to('.parking__car', .2, {
+          opacity: 0
+        });
+
+        new ScrollMagic.Scene({
+            triggerElement: '.triggerParking', //觸發點
+            offset: triggerParkingOffset,
+            reverse: false
+          }).setTween(mvParking) //動畫
+          .addTo(controller);
+        // .addIndicators({
+        //     name: 'keyParking',
+        //     colorStart: '#13fe13'
+        // })
+
+
+        // ----------------------product
+        gsap.registerPlugin(MotionPathPlugin);
+
+        let mvProduct = gsap.timeline();
+        mvProduct.to('.product__car', 3, {
+          motionPath: {
+            path: "#productFirstPath",
+            align: "#productFirstPath",
+            alignOrigin: [0.5, .5],
+            autoRotate: -90,
+            transformOrigin: "50% 50%",
+          },
+          ease: Linear.easeNone,
+
+        }).to('.product__car', 1.5, {
+          motionPath: {
+            path: "#productSecondPath",
+            align: "#productSecondPath",
+            alignOrigin: [0.5, .5],
+            autoRotate: -90,
+            transformOrigin: "50% 50%",
+          },
+          ease: Linear.easeNone,
+          delay: .2,
+        }).to('.product__car', 4.5, {
+          motionPath: {
+            path: "#productEndPath",
+            align: "#productEndPath",
+            alignOrigin: [0.5, .5],
+            autoRotate: -90,
+            transformOrigin: "50% 50%",
+          },
+          ease: Linear.easeNone,
+          delay: .2,
+        }).to('.product__car', 0, {
+          opacity: 0,
+        })
+        new ScrollMagic.Scene({
+            triggerElement: '#triggerProduct',
+            reverse: false,
+            offset: 160,
+          }).setTween(mvProduct)
+          .addTo(controller)
+          // .addIndicators({
+          //     name: 'keyProduct',
+          //     colorStart: '#f20'
+
+        // })
+
+        // ----------------------mountain
+        let mvMountain = gsap.to('.mountain__car', 3, {
+          x: screenX + 250,
+          ease: Linear.easeNone,
+        });
+
+        new ScrollMagic.Scene({
+            triggerElement: '#triggerMountain',
+            offset: -200,
+            reverse: false
+          }).setTween(mvMountain)
+          .addTo(controller);
+        // .addIndicators({
+        //     name: 'keyMountain',
+        //     colorStart: '#f20'
+
+        // })
+        // ----------------------factory service
+        let mvCustom = gsap.from(".gsap-custom", 4, {
+          scale: 0,
+          ease: Elastic.easeInOut,
+          stagger: {
+            from: "inner",
+            amount: 0.25
+          }
+        });
+
+        new ScrollMagic.Scene({
+            triggerElement: '#triggerCustom',
+            offset: -100,
+            duration: "30%",
+            // reverse: false
+          }).setTween(mvCustom)
+          .addTo(controller);
+        // .addIndicators({
+        //     name: 'keyCustom',
+        //     colorStart: '#f20'
+
+        // })
+
+
+        // ----------------------factory car
+
+
+
+        let mvFactory = gsap.timeline();
+        mvFactory.to('.factory__door', 2, {
+          y: -screenX * .1,
+        }).to('.factory__car', 1.4, {
+          motionPath: {
+            path: "#factoryRoadPath",
+            align: "#factoryRoadPath",
+            alignOrigin: [0.5, .5],
+            autoRotate: -90,
+            transformOrigin: "50% 50%",
+          },
+          ease: Linear.easeNone,
+        }).to('.factory__car', 2.4, {
+          motionPath: {
+            path: "#turnRoadPath",
+            align: "#turnRoadPath",
+            alignOrigin: [0.5, .5],
+            autoRotate: -90,
+            transformOrigin: "50% 50%",
+            start: 1,
+            end: 0,
+          },
+          ease: Linear.easeNone,
+          delay: .5,
+        }).to('.factory__car', 2, {
+          motionPath: {
+            path: "#endRoadPath",
+            align: "#endRoadPath",
+            alignOrigin: [0.5, .5],
+            autoRotate: -90,
+            transformOrigin: "50% 50%",
+          },
+          ease: Linear.easeNone,
+          delay: 1,
+        }).to('.thumb--stop', 0, {
+          opacity: 1,
+          ease: Linear.easeNone,
+        }).to('.thumb--stop', 0, {
+          opacity: 0,
+          ease: Linear.easeNone,
+          delay: 1.5,
+        }).to('.factory__car', 2, {
+          xPercent: -55,
+          ease: Linear.easeNone,
+        }).then(() => {
+          this.isCarNearGirl = true;
+        })
+
+
+        new ScrollMagic.Scene({
+            triggerElement: '#triggerFactory',
+            offset: 200,
+            // reverse: false
+          }).setTween(mvFactory)
+          .addTo(controller)
+          // .addIndicators({
+          //     name: 'keyFactory',
+          //     colorStart: '#f20'
+
+        // })
+
+        // ----------------------delivery
+        let mvDelivery = gsap.from(".gsap-delivery", 4, {
+          scale: .5,
+          cycle: {
+            y: [-50, 50]
+          },
+          ease: Elastic.easeInOut,
+          stagger: {
+            from: "inner",
+            amount: 0.25
+          }
+        });
+        let triggerDeliveryOffset;
+        screenX > 768 ? triggerDeliveryOffset = 400 : triggerDeliveryOffset = -100;
+        new ScrollMagic.Scene({
+            triggerElement: '#triggerDelivery',
+            offset: triggerDeliveryOffset,
+            duration: "30%",
+            // reverse: false,
+          }).setTween(mvDelivery)
+          .addTo(controller);
+        // .addIndicators({
+        //     name: 'keyDelivery',
+        //     colorStart: '#f20'
+
+        // })
+
+
+
+      }
+
+
+
+
+    });
+  </script>
+</body>
+
+</html>

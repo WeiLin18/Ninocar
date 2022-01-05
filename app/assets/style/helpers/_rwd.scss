@@ -1,0 +1,41 @@
+//rwd 
+//example: @include rwd-xl { coding... }
+@mixin rwd-xl { //notebook
+    @media (max-width: $break-point-xl) {
+        @content;
+    }
+}
+
+@mixin rwd-lg { //pad-pro
+    @media (max-width: $break-point-lg) {
+        @content;
+    }
+}
+
+@mixin rwd-md { //pad
+    @media (max-width: $break-point-md) {
+        @content;
+    }
+}
+
+
+@mixin rwd-sm { //mobile
+    @media (max-width: $break-point-sm) {
+        @content;
+    }
+}
+
+
+@mixin rwd-xs { ///mobile-xs
+    @media (max-width: $break-point-xs) {
+        @content;
+    }
+}
+
+//custom rwd------
+//example: @include rwd(720px){ coding... }
+@mixin rwd($width) {
+    @media (max-width: $width) {
+      @content
+    }
+  };

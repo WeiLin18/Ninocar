@@ -1,0 +1,198 @@
+       //--------------------------------------custom spacing
+       @each $level in 25 {
+           .pt-#{$level} {
+               padding-top: $space-unit * $level;
+           }
+
+           .py-#{$level} {
+               padding-top: $space-unit * $level;
+               padding-bottom: $space-unit * $level;
+           }
+       }
+
+       @each $level in 30 {
+           .mr-#{$level} {
+               margin-right: $space-unit * $level;
+           }
+
+           .mt-#{$level} {
+               margin-top: $space-unit * $level;
+           }
+       }
+
+       @each $level in 25,
+       30,
+       50 {
+           .pb-#{$level} {
+               padding-bottom: $space-unit * $level;
+           }
+       }
+
+
+
+       @include rwd-lg {
+           @each $level in 25 {
+               .px-lg-#{$level} {
+                   padding-left: $space-unit * $level;
+                   padding-right: $space-unit * $level;
+               }
+           }
+
+       }
+
+       @each $level in 25,
+       30,
+       50 {
+           .mb-#{$level} {
+               margin-bottom: $space-unit * $level;
+           }
+       }
+
+       //--------------------------------------spacing
+       $spacing : ('pt' : 'padding-top',
+           'pb' : 'padding-bottom',
+           'mt' : 'margin-top',
+           'mb' : 'margin-bottom',
+           'pl' : 'padding-left',
+           'pr' : 'padding-right',
+           'ml' : 'margin-left',
+           'mr' : 'margin-right',
+       );
+
+
+
+       @for $level from 0 to 21 {
+
+           @each $key,
+           $value in $spacing {
+               .#{$key}-#{$level} {
+                   #{$value}: $space-unit * $level;
+               }
+           }
+
+           .py-#{$level} {
+               padding-top: $space-unit * $level;
+               padding-bottom: $space-unit * $level;
+           }
+
+           .px-#{$level} {
+               padding-left: $space-unit * $level;
+               padding-right: $space-unit * $level;
+           }
+       }
+
+       //--------------------------------------md spacing
+       @for $level from 0 to 21 {
+           @include rwd-lg {
+
+               @each $key,
+               $value in $spacing {
+                   .#{$key}-lg-#{$level} {
+                       #{$value}: $space-unit * $level;
+                   }
+               }
+
+               .py-lg-#{$level} {
+                   padding-top: $space-unit * $level;
+                   padding-bottom: $space-unit * $level;
+               }
+
+               .px-lg-#{$level} {
+                   padding-left: $space-unit * $level;
+                   padding-right: $space-unit * $level;
+               }
+           }
+       }
+
+       //--------------------------------------md spacing
+       @for $level from 0 to 21 {
+           @include rwd-md {
+
+               @each $key,
+               $value in $spacing {
+                   .#{$key}-md-#{$level} {
+                       #{$value}: $space-unit * $level;
+                   }
+               }
+
+               .py-md-#{$level} {
+                   padding-top: $space-unit * $level;
+                   padding-bottom: $space-unit * $level;
+               }
+
+               .px-md-#{$level} {
+                   padding-left: $space-unit * $level;
+                   padding-right: $space-unit * $level;
+               }
+           }
+       }
+
+       //--------------------------------------sm spacing
+
+       @for $level from 0 to 21 {
+           @include rwd-sm {
+
+               @each $key,
+               $value in $spacing {
+                   .#{$key}-sm-#{$level} {
+                       #{$value}: $space-unit * $level;
+                   }
+               }
+
+               .py-sm-#{$level} {
+                   padding-top: $space-unit * $level;
+                   padding-bottom: $space-unit * $level;
+               }
+
+               .px-sm-#{$level} {
+                   padding-left: $space-unit * $level;
+                   padding-right: $space-unit * $level;
+               }
+           }
+       }
+
+       //--------------------------------------xs spacing
+       @for $level from 0 to 21 {
+           @include rwd-xs {
+
+               @each $key,
+               $value in $spacing {
+                   .#{$key}-xs-#{$level} {
+                       #{$value}: $space-unit * $level;
+                   }
+               }
+
+               .py-xs-#{$level} {
+                   padding-top: $space-unit * $level;
+                   padding-bottom: $space-unit * $level;
+               }
+
+               .px-xs-#{$level} {
+                   padding-left: $space-unit * $level;
+                   padding-right: $space-unit * $level;
+               }
+           }
+       }
+
+
+
+       //--------------------------------------auto spacing
+       .ml-auto {
+           margin-left: auto;
+       }
+
+       .mr-auto {
+           margin-right: auto;
+       }
+
+       .mx-auto {
+           margin-right: auto;
+           margin-left: auto;
+       }
+
+       @include rwd-xs {
+           .mx-xs-auto {
+               margin-right: auto;
+               margin-left: auto;
+           }
+       }

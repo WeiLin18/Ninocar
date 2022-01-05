@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" class="icon">
+  <g transform="translate(-715 -383)">
+    <circle cx="40" cy="40" r="40" transform="translate(715 383)" fill="#fadd61"/>
+    <g transform="translate(734 402.037)">
+      <path  d="M16.627,32.313A2.313,2.313,0,1,1,14.313,30,2.313,2.313,0,0,1,16.627,32.313Z" transform="translate(0.072 4.523)" fill="none" stroke="#522613" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/>
+      <path d="M16.627,32.313A2.313,2.313,0,1,1,14.313,30,2.313,2.313,0,0,1,16.627,32.313Z" transform="translate(19.072 4.523)" fill="none" stroke="#522613" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/>
+      <path  d="M1.5,1.5H8.97l5,25.006a3.735,3.735,0,0,0,3.735,3.007H35.862A3.735,3.735,0,0,0,39.6,26.506l2.988-15.668H10.837" transform="translate(-2.5 1.276)" fill="none" stroke="#522613" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/>
+      <line  x1="6" transform="translate(-3 23.462)" fill="none" stroke="none" stroke-linecap="round" stroke-width="4" class="hover-stroke-coffee"/>
+      <line x1="6" transform="translate(-1 30.462)" fill="none" stroke="none" stroke-linecap="round" stroke-width="4" class="hover-stroke-coffee"/>
+    </g>
+  </g>
+</svg>

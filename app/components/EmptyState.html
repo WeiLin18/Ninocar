@@ -1,0 +1,35 @@
+  <div id="app">
+    <empty-state></empty-state>
+  </div>
+
+  <script>
+    Vue.component('empty-state', {
+      data(){
+        return{
+          description: '目前沒有作品',
+          description2: '快去完成你的作品吧',
+          btnDes: '開始製作',
+          url: "window.location='../../dist/factory.html'"
+        };
+      },
+      template: `
+          <div class="container pt-0">
+              <div class="emptyState row pt-25">
+                  <div class="empty--left col-6 col-lg-3 col-sm-2">
+                      <img src="./assets/img/illust/illust-empty.png" alt="">
+                  </div>
+                  <div class="empty--right col-6 col-lg-3 col-sm-2">
+                      <p class="mb-6 h4" v-bind:details="description">{{description}}</p>
+                      <p class="mb-12 h4"  v-bind:details="description2">{{description2}}</p>
+                      <button class="btn" v-bind:btnText="btnDes">{{btnDes}}</button>
+                  </div>
+              </div>
+              <ul class="putMywork"></ul>
+          </div>`,
+      props: ['details', 'details2', 'btn-text']
+    });
+    
+    new Vue({
+            el: '#mywork',
+        });
+  </script>

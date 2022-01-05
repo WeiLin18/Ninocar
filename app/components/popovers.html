@@ -1,0 +1,58 @@
+<template id="popovers">
+
+  <div class="popovers">
+    <p>共<span class="popovers__cartItems">{{carts_list.length}}</span>件商品</p>
+    <p>總金額：NT$<span class="popovers__totalCost">{{cost}}</span></p>
+    <div class="popovers__member">總需點數：<p>Ni <span>{{point}}</span></p>
+    </div>
+  </div>
+</template>
+
+
+
+<script>
+  Vue.component('popovers', {
+    template: '#popovers',
+    data() {
+      return {
+        carts_list: [],
+      }
+    },
+    mounted() {
+      this.carts_list = JSON.parse(localStorage.getItem('cartsList')) || [];
+    },
+    computed: {
+
+      cost() {
+
+        let num1 = 0;
+
+        for (let num in this.carts_list) {
+
+          num1 += this.carts_list[num]['price'];
+
+
+        }
+        return num1;
+
+      },
+      point() {
+
+
+        let num1 = 0;
+
+        for (let num in this.carts_list) {
+
+          num1 += this.carts_list[num]['points'];
+
+
+        }
+        return num1;
+
+
+      },
+
+    },
+
+  })
+</script>

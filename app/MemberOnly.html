@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="./assets/css/all.css">
+<link rel="stylesheet" href="./assets/css/pages/cart.css">
+<link rel="stylesheet" href="./assets/css/pages/member.css">
+<link rel="stylesheet" href="./assets/css/pages/memberNew.css">
+<link rel="shortcut icon" href="./assets/img/loho-icon.ico" />
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vuex/3.6.2/vuex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script src="./assets/js/all.js"></script>
+<script src="./assets/js/utils.js"></script>
+<title>MemberDetail</title>
+</head>
+
+<body>
+  <div id="app" v-cloak>
+    <vue-header></vue-header>
+    <member-bar></member-bar>
+    <!--  -->
+
+    @@include('./pages/MemberPage/MemberOnly.html')
+    <!-- your code here... -->
+  </div>
+
+</body>
+@@include('./components/PinSvg.html') @@include('./components/VueHeader.html') @@include('pages/MemberPage/MemberBar.html')
+<script src="./assets/js/mixins/productMixins.js"></script>
+<script>
+  new Vue({
+    el: '#app',
+    mixins: [productMixins],
+    store,
+    data: {
+      totalAmount: 0,
+      totalPoints: 0,
+      signUpDate: '2020-12-31',
+    },
+    computed: {
+      memberId() {
+        return this.$store.state.memberId
+      },
+      seriesList() {
+        return this.$store.state.seriesList
+      },
+
+      memberLevel() {
+        if (this.totalAmount >= 2000 && this.totalAmount < 5000) {
+          return {
+            imgURL: './assets/img/illust/illust-member-gold.svg',
+            name: '黃金會員',
+            levelAmount: '$5000',
+          }
+        } else if (this.totalAmount >= 5000) {
+          return {
+            imgURL: './assets/img/illust/illust-member-vip.svg',
+            name: '白金會員',
+            levelAmount: 'Max',
+          }
+        } else {
+          return {
+            imgURL: './assets/img/illust/illust-member-normal.svg',
+            name: '一般會員',
+            levelAmount: '$2000',
+          }
+        }
+      },
+      activeAmountCol() {
+        if (this.totalAmount >= 2000 && this.totalAmount < 5000) {
+          return Math.floor(this.totalAmount / 5000 * 30)
+        } else if (this.totalAmount > 5000) {
+          return 30
+        } else {
+          return Math.floor(this.totalAmount / 2000 * 30)
+        }
+      }
+
+    },
+    watch: {
+      memberId(val) {
+        if (val) {
+          this.handleGetMemberState();
+        } else if (val === '') {
+          window.location.replace('./index-front.html')
+        }
+      },
+    },
+    methods: {
+      handleGetMemberState() {
+        axios
+          .post('./assets/php/getMemberState.php', {
+            memberId: this.memberId,
+          })
+          .then((res) => {
+            const infoList = res.data.split('/');
+            this.totalAmount = parseInt(infoList[0]);
+            if (infoList[1].trim() === '') {
+              this.totalPoints = 0;
+            } else {
+              this.totalPoints = infoList[1];
+            }
+
+            this.signUpDate = infoList[2].trim().slice(0, 10);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      },
+      activePinCol(memberSeriesGroupCount) {
+        if (this.memberSeriesGroupCountList.length === 0) {
+          return 0
+        }
+        const doubleList = ['RV', 'BS', 'PA', 'CA'];
+        if (doubleList.indexOf(memberSeriesGroupCount.name) >= 0) {
+          return memberSeriesGroupCount.count / 2 * 24
+        } else {
+          return memberSeriesGroupCount.count / 3 * 24
+        }
+      },
+    },
+    mounted() {
+      if (this.memberId === null) {
+        window.location.replace('./index-front.html')
+      }
+    }
+  });
+</script>
+
+</html>

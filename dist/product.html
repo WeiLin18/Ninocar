@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vuex/3.6.2/vuex.min.js"></script>
+  <link rel="shortcut icon" href="./assets/img/loho-icon.ico" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js" integrity="sha512-otOZr2EcknK9a5aa3BbMR9XOjYKtxxscwyRHN6zmdXuRfJ5uApkHB7cz1laWk2g8RKLzV9qv/fl3RPwfCuoxHQ==" crossorigin="anonymous"></script>
+  <script src="./assets/js/all.js"></script>
+  <script src="./assets/js/utils.js"></script>
+  <link rel="stylesheet" href="./assets/css/pages/cart.css">
+  <link rel="stylesheet" href="./assets/css/all.css" />
+  <link rel="stylesheet" href="./assets/css/pages/product.css" />
+  <title>Product</title>
+</head>
+
+<body>
+  <div id="app" v-cloak>
+    <vue-header @search_item="search"></vue-header>
+
+    <div class="container">
+  <div class="row">
+    <div class="col-3 col-lg-6 col-sm-6">
+      <div class="box-green">
+        <div class="item-menu">
+          <li class="item" id="all-items">
+            <a href="#all-items" class="menu-btn" @click="productList(showProductList)">全部商品</a>
+            <div class="smenu">
+              <a href="javascript:void(0)" @click="productArray('CA')">轎車系</a>
+              <a href="javascript:void(0)" @click="productArray('EN')">工程車系</a>
+              <a href="javascript:void(0)" @click="productArray('RV')">RV休旅車系</a>
+              <a href="javascript:void(0)" @click="productArray('TA')">計程車系</a>
+              <a href="javascript:void(0)" @click="productArray('BS')">巴士系</a>
+              <a href="javascript:void(0)" @click="productArray('PA')">警車系</a>
+              <a href="javascript:void(0)" @click="productArray('EM')">消防系</a>
+              <a href="javascript:void(0)" @click="productArray('EM')">救護系</a>
+              <a href="javascript:void(0)" @click="productArray('PM')">Premium系</a>
+            </div>
+          </li>
+
+          <li class="item" id="year-items">
+            <a href="#year-items" class="menu-btn">年份分車</a>
+            <div class="smenu">
+              <a href="javascript:void(0)" @click="timeArray('1970')">1970</a>
+              <a href="javascript:void(0)" @click="timeArray('1980')">1980</a>
+              <a href="javascript:void(0)" @click="timeArray('1990')">1990</a>
+              <a href="javascript:void(0)" @click="timeArray('2010')">2010</a>
+              <a href="javascript:void(0)" @click="timeArray('2020')">2020</a>
+            </div>
+          </li>
+
+          <li class="item" id="new-items">
+            <a href="#new-items" class="menu-btn">最新商品</a>
+            <div class="smenu">
+              <a href="javascript:void(0)">Audi TT Coupe</a>
+              <a href="javascript:void(0)">Lamborghini Urus</a>
+            </div>
+          </li>
+
+          <li class="item" id="hot-items">
+            <a href="#hot-items" class="menu-btn">熱門商品</a>
+            <div class="smenu">
+              <a href="javascript:void(0)">Audi TT Coupe</a>
+              <a href="javascript:void(0)">Lamborghini Urus</a>
+            </div>
+          </li>
+
+          <li class="item" id="hightlight-items">
+            <a href="#hightlight-items" class="menu-btn">本月主打</a>
+            <div class="smenu">
+              <a href="#">Audi TT Coupe</a>
+              <a href="#">Lamborghini Urus</a>
+            </div>
+          </li>
+
+          <li class="item" id="point-items">
+            <a href="#point-items" class="menu-btn">點數限定</a>
+            <div class="smenu">
+              <a href="#">Audi TT Coupe</a>
+              <a href="#">Lamborghini Urus</a>
+            </div>
+          </li>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-9 col-lg-6 col-sm-6" style="margin-top: 200px">
+      <div class="box-yellow">
+        <div class="row">
+          <div class="col-12 col-lg-12 col-sm-12">
+            <select class="area" v-model="sort" @change="changeArray">
+              <option
+                value=""
+                disabled
+              >-- 請選擇 --</option>
+              <option value="依上架時間">最新上架</option>
+              <option value="price">依價格(由高至低)</option>
+              <option value="price_reverse">依價格(由低至高)</option>
+              <option value="依銷售度">熱門銷售</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <ul class="col-12 col-lg-6 col-sm-6">
+        <div class="box-blue">
+          <ul class="row">
+            <li class="col-4 col-lg-6 col-sm-4" v-for="(item,index) in check_test()">
+              <div class="card">
+                <div class="card__header">
+                  <a href="ItemDetail.html"><img @click="nowProduct(item)" :src="item.imgURL" /></a>
+                  <div class="card__carID " :class="bgClass(item['series'])">{{item.series}}<span>{{item.seriesId}}</span></div>
+                  <span class="card__label">本月主打</span>
+                </div>
+                <div class="card__body">
+                  <h2 class="card__title">{{item.eName}}</h2>
+                  <div class="card__details" v-if="item.price !==0">
+                    <p class="card__price">NT$ <span>{{item.price}}</span></p>
+                    <button class="card__link" @click="likeCarts(item)">收藏</button>
+                  </div>
+                  <div class="card__details" v-else>
+                    <div class="cart__member">
+                      <p>Ni</p>
+                      <span>{{item.points}}</span>
+                    </div>
+                    <button class="card__link" @click="likeCarts(item)">收藏</button>
+                  </div>
+                </div>
+                <button class="btn btn--fluid btn--outline" @click="addCarts(item)">加入購物車</button>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </ul>
+      <!---- 頁籤 ---->
+      <div class="row">
+        <ul class="col-12 col-lg-12 col-sm-12">
+          <div class="box-pink">
+            <div class="page col-4 col-lg-6 col-sm-4 justify-content-center">
+              <div class="page_btn_nb"></div>
+              <nav aria-label="..." class="pagination">
+                <ul class="d-flex">
+                  <li :class="{'disabled': (currPage === 1)}" @click.prevent="setPage(currPage-1)">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                      <span class="material-icons material-icons-md text-dark-primary text-left" aria-hidden="true">chevron_left</span>
+                    </a>
+                  </li>
+                  <li v-for="page in totalPage" :class="{'active' : (currPage === (page))}" @click.prevent="setPage(page)">
+                    <a class="page-link" href="#">{{ page }}</a>
+                  </li>
+                  <li :class="{'disabled': (currPage === totalPage)}" @click.prevent="setPage(currPage+1)">
+                    <a class="page-link" href="#">
+                      <span class="material-icons text-dark-primary text-left" aria-hidden="true">chevron_right</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- your code here... -->
+  </div>
+  <footer class="footer">
+    <div class="container">
+        <ul class="row py-10">
+            <li class="col-3 col-lg-3 col-sm-4 mb-sm-4">
+                <h4 class="footer__title">商品相關</h4>
+                <nav>
+            <li><a href="#" class="link w-100 py-2 px-sm-10">商品一覽</a></li>
+            <li><a href="#" class="link w-100 py-2 px-sm-10">本月主打</a></li>
+            <li><a href="#" class="link w-100 py-2 px-sm-10">車車工廠</a></li>
+            <li><a href="#" class="link w-100 py-2 px-sm-10">車車圖鑑</a></li>
+            <li><a href="#" class="link w-100 py-2 px-sm-10">退貨機制</a></li>
+            </nav>
+            </li>
+            <li class="col-3 col-lg-3 col-sm-4 mb-sm-4">
+                <h4 class="footer__title">會員權益</h4>
+                <nav>
+            <li><a href="#" class="link w-100 py-2 px-sm-10">會員Q&A</a></li>
+            <li><a href="#" class="link w-100 py-2 px-sm-10">訊息公告</a></li>
+            <li><a href="#" class="link w-100 py-2 px-sm-10">會員機制說明</a></li>
+            <li><a href="#" class="link w-100 py-2 px-sm-10">隱私權政策</a></li>
+            <li><a href="./policy.html" class="link w-100 py-2 px-sm-10">服務條款</a></li>
+            </nav>
+            </li>
+            <li class="col-3 col-lg-3 col-sm-4 mb-sm-4">
+                <h4 class="footer__title">關於Nino</h4>
+                <nav>
+            <li><a href="#" class="link w-100 py-2 px-sm-10">關於我們</a></li>
+            <li><a href="#" class="link w-100 py-2 px-sm-10">合作夥伴</a></li>
+            <li><a href="#" class="link w-100 py-2 px-sm-10">工作機會</a></li>
+            <li><a href="#" class="link w-100 py-2 px-sm-10">媒體報導</a></li>
+            </nav>
+            </li>
+            <li class="col-3 col-lg-3 col-sm-4">
+                <h4 class="footer__title">聯絡我們</h4>
+                <nav class="d-flex">
+                    <img src="./assets/img/icon/icon-fb.svg" class="link icon">
+                    <img src="./assets/img/icon/icon-ig.svg" class="link icon ml-5">
+                </nav>
+            </li>
+        </ul>
+        <div class="copyright">
+            Copyright &copy; 2021 nino car
+        </div>
+</footer> <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+
+<script>
+  Vue.component('vue-header', {
+    template: `
+        <header class="header">
+        <div class="container d-flex justify-content-between align-items-center po-re py-2">
+            <div class="d-flex align-items-center">
+                <a href="./index.html" class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="160" height="30" viewBox="0 0 160 30">
+                        <g  transform="translate(-2903 -1670)">
+                            <path d="M70.215,346.391c0,1.045.156,2.2-.3,2.786-.422.585-1.292.446-2.558.446s-2.068.139-2.49-.446c-.454-.591-.364-1.74-.364-2.786V330.422c0-1.4,1-2.284,3.178-2.284a4.18,4.18,0,0,1,3.892,1.958l7.2,9.927v-8.653c0-1.046-.112-2.2.342-2.785.419-.585,1.248-.447,2.511-.447s2.024-.139,2.446.447a5.163,5.163,0,0,1,.41,2.785v16c0,1.566-1.006,2.35-2.758,2.35a3.937,3.937,0,0,1-3.5-1.862l-8.01-10.545Z" transform="translate(2842.501 1345.877)" fill="#3f1b0f"/>
+                            <path  d="M112.247,344.522a6.062,6.062,0,0,0,2.272-.457,10.145,10.145,0,0,1,2.745-.943c1.525,0,1.828,2.021,1.828,3.2,0,.912.022,1.472-1.017,2.093a14.035,14.035,0,0,1-6.12,1.5c-6.066,0-10.574-4.146-10.574-10.9,0-7.25,5.157-10.942,10.737-10.942a13.91,13.91,0,0,1,5.936,1.213c1.1.651,1.039,1.5,1.039,2.381,0,1.143-.228,2.972-1.85,2.972a9.713,9.713,0,0,1-2.918-.72,6.184,6.184,0,0,0-2.272-.457c-2.564,0-4.7,1.8-4.7,5.489C107.35,342.826,109.751,344.522,112.247,344.522Z" transform="translate(2897.619 1345.936)" fill="#512616"/>
+                            <path  d="M122.969,345.248h-7.234l-.941,2.372c-.681,1.892-1.136,2-3.178,2-1.85,0-2.652-.452-2.652-1.5a5.037,5.037,0,0,1,.478-1.639l6.618-15.806c.682-1.666,1.46-2.546,3.535-2.546,2.109,0,2.791.912,3.44,2.546l6.388,15.839a5.8,5.8,0,0,1,.352,1.566c0,1.174-.969,1.536-2.816,1.536-1.947,0-2.266.229-3.013-1.794Zm-5.612-4.506h4.021l-2.012-5.487Z" transform="translate(2910.036 1346.06)" fill="#3f1b0f"/>
+                            <path  d="M123.64,346.432a5.09,5.09,0,0,1-.418,2.684c-.422.585-1.14.548-2.373.548s-1.941.038-2.363-.548a5.084,5.084,0,0,1-.426-2.684v-14.6c0-1.176,0-2.581,2.077-3.235a15.671,15.671,0,0,1,4.508-.487,13.065,13.065,0,0,1,5.579.977,5.962,5.962,0,0,1,3.567,5.781,6.363,6.363,0,0,1-3.31,5.846l3.824,5.1,1.091,1.4c1.036,1.4-.047,2.448-2.838,2.448-2.142,0-2.675-.39-3.681-1.923l-2.515-3.923c-.581-.915-1.036-1.794-1.036-1.794H123.64Zm0-8.915s.454.033.906.033c2.4,0,3.343-.948,3.343-2.353,0-1.634-1.266-2.154-2.951-2.154a9,9,0,0,0-1.3.1Z" transform="translate(2924.037 1346.019)" fill="#3f1b0f"/>
+                            <g class="logo__child">
+                                <path d="M79.843,341.791c0,.554-.059.947-.5,1.152a5.991,5.991,0,0,1-2.464.281c-1.441,0-1.988-.024-2.488-.336s-.506-.8-.506-1.349l-.281-6.326c0-2.74,1.4-3.408,3.275-3.408,1.763,0,3.272.449,3.272,3.508Z" transform="translate(2857.399 1352.276)" fill="#3f1b0f"/>
+                                <path  d="M3.014,6.028A3.014,3.014,0,1,1,6.028,3.014,3.018,3.018,0,0,1,3.014,6.028ZM3,3.808c-.763,0-1.133.126-1.133.387a.83.83,0,0,0,.384.547A1.335,1.335,0,0,0,3,5.036a1.335,1.335,0,0,0,.749-.294.83.83,0,0,0,.384-.547C4.13,3.935,3.76,3.808,3,3.808Z" transform="translate(2931.234 1677.165)" fill="#3f1b0f" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
+                            </g>
+                            <path  d="M70.215,346.391c0,1.045.156,2.2-.3,2.786-.422.585-1.292.446-2.558.446s-2.068.139-2.49-.446c-.454-.591-.364-1.74-.364-2.786V330.422c0-1.4,1-2.284,3.178-2.284a4.18,4.18,0,0,1,3.892,1.958l7.2,9.927v-8.653c0-1.046-.112-2.2.342-2.785.419-.585,1.248-.447,2.511-.447s2.024-.139,2.446.447a5.163,5.163,0,0,1,.41,2.785v16c0,1.566-1.006,2.35-2.758,2.35a3.937,3.937,0,0,1-3.5-1.862l-8.01-10.545Z" transform="translate(2877.501 1345.877)" fill="#3f1b0f"/>
+                        </g>
+                        <g>
+                            <path  d="M97.356,328.182a10.935,10.935,0,1,0,10.861,10.936A10.941,10.941,0,0,0,97.356,328.182Zm0,4.315a6.627,6.627,0,0,1,6.307,4.764.5.5,0,0,0-.254-.275,13.651,13.651,0,0,0-12.108,0,.5.5,0,0,0-.254.275A6.627,6.627,0,0,1,97.356,332.5Zm-6.447,7.925a.5.5,0,0,0,.414.37l1.209.169a3.555,3.555,0,0,1,2.991,3.011l.168,1.217a.5.5,0,0,0,.3.389A6.655,6.655,0,0,1,90.908,340.423Zm6.447.215a1.521,1.521,0,1,1,1.509-1.519A1.519,1.519,0,0,1,97.356,340.638Zm1.366,4.941a.5.5,0,0,0,.3-.389l.168-1.217a3.557,3.557,0,0,1,2.991-3.011l1.209-.169a.507.507,0,0,0,.416-.37A6.658,6.658,0,0,1,98.721,345.579Z" transform="translate(-23.492 -324.04)" fill="#3f1b0f"/>
+                            <animateTransform attributeName="transform" dur="2s" type="rotate" values="-30 73.8 14.9;30 73.8 14.9;-30 73.8 14.9" additive="sum" repeatCount="indefinite"></animateTransform>
+                        </g>
+                    </svg>
+                    <h1 class="logo__h1">NINO CAR</h1>
+                </a>
+                <form class="d-md-none ml-5 po-re">
+                    <input type="text" class="search-bar__input" placeholder="想找什麼車？"  v-model='searchItem' />
+                    <button class="search-bar__btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 52 52" class="icon">
+                            <g>
+                                <circle cx="16.5" cy="16.5" r="16.5" transform="translate(7.175 5.413)" fill="none"
+                                    stroke="#522613" stroke-linecap="round" stroke-linejoin="round" stroke-width="5" />
+                                <circle cx="16.5" cy="16.5" r="10" transform="translate(7.175 5.413)" fill="none"
+                                    stroke="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    class="hover-stroke-coffee" />
+                                <line x1="10" y1="10" transform="translate(35.163 34.349)" fill="none" stroke="#522613"
+                                    stroke-linecap="round" stroke-linejoin="round" stroke-width="5" />
+                            </g>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+            <nav>
+                <ul class="d-flex align-items-center">
+                    <li class="lg-1" v-if="isLogin">
+                        <a href="membermain.html" aria-label="member">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 52 52"
+                                class="icon">
+                                <g transform="translate(3 6.5)">
+                                    <g transform="translate(9 -1)" fill="none" stroke="#522613" stroke-width="5">
+                                        <circle cx="14" cy="14" r="14" stroke="none" />
+                                        <circle cx="14" cy="14" r="11.5" fill="none" />
+                                    </g>
+                                    <g transform="translate(4 29)" fill="none" stroke="#522613" stroke-width="5">
+                                        <ellipse cx="18.5" cy="7.5" rx="18.5" ry="7.5" stroke="none" />
+                                        <ellipse cx="18.5" cy="7.5" rx="16" ry="5" fill="none" />
+                                    </g>
+                                    <circle cx="2" cy="2" r="2" transform="translate(17 8.725)"
+                                        class="hover-fill-coffee" fill="none" />
+                                    <circle cx="2" cy="2" r="2" transform="translate(25 8.725)"
+                                        class="hover-fill-coffee" fill="none" />
+                                </g>
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="lh-1 ml-10 ml-sm-5" v-if="isLogin">
+                        <a href="MemberNotice.html" aria-label="message" @click.prevent="sendMail">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 52 52"
+                                class="icon">
+                                <g transform="translate(6.473 4.772)">
+                                    <path
+                                        d="M32.3,14.12a11.12,11.12,0,0,0-22.24,0C10.06,27.094,4.5,30.8,4.5,30.8H37.86S32.3,27.094,32.3,14.12"
+                                        transform="translate(-1.601 -0.584)" fill="none" stroke="#522613"
+                                        stroke-linecap="round" stroke-linejoin="round" stroke-width="5" />
+                                    <path d="M22.932,31.5a4.351,4.351,0,0,1-7.527,0" transform="translate(0.413 6.835)"
+                                        fill="none" stroke="#522613" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="5" />
+                                    <path d="M22.3,8.281S25.877,9.8,25.621,18.86" fill="none" stroke="none"
+                                        stroke-linecap="round" stroke-width="3" class="hover-stroke-coffee" />
+                                </g>
+                            </svg>
+                        </a>
+                    </li>
+                    <li v-if="!isLogin">
+                        <button class="header__btn" @click="handleLoginModalShow">登入 / 註冊</button>
+                    </li>
+                    <li class="ml-10 ml-sm-5 lh-1">
+                        <svg role="button" aria-label="menu" xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+                            viewBox="0 0 50 50" class="icon" v-if="!isMenuShow" @click="isMenuShow=true">
+                            <circle cx="25" cy="25" r="23" fill="none" stroke="#522613" stroke-width="4"
+                                class="hover-fill-white" />
+                            <line x1="15" y1="17" x2="35" y2="17" stroke="#522613" stroke-width="4"
+                                stroke-linecap="round" />
+                            <line x1="15" y1="25" x2="35" y2="25" stroke="#522613" stroke-width="4"
+                                stroke-linecap="round" />
+                            <line x1="15" y1="32" x2="35" y2="32" stroke="#522613" stroke-width="4"
+                                stroke-linecap="round" />
+                        </svg>
+                        <svg role="button" aria-label="close" xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+                            viewBox="0 0 50 50" class="icon close-icon" v-if="isMenuShow" @click="isMenuShow=false">
+                            <circle cx="25" cy="25" r="23" fill="#fff" stroke="#522613" stroke-width="4" />
+                            <line x1="15" y1="15" x2="35" y2="35" stroke="#522613" stroke-width="4"
+                                stroke-linecap="round" />
+                            <line x1="15" y1="35" x2="35" y2="15" stroke="#522613" stroke-width="4"
+                                stroke-linecap="round" />
+                        </svg>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <link-group />
+        <transition name="fade">
+            <modal-member v-if="isLoginModalShow" :is-error.sync="modalState['isError']" :content.sync="modalState['content']"
+             :ui-state="modalState['uiState']" :sign-up-token="signUpInfo['token']" :sign-up-account="signUpInfo.account" 
+             @close="handleLoginModalClose" @login="handleLogin" @log-out="handleLogOut" @sign-up="handleSignUp" 
+             @submit-token="handleCompleteSignUp" @done-account="handleAccountIsValidCheck"/>
+        </transition>
+        <transition name="collapse">
+            <nav-menu v-if="isMenuShow" @search_props_item="searchChange"  :login="isLogin" @log-out="handleLogOut"></nav-menu>
+        </transition>
+        <div class="modal-active" v-if="isMenuShow" @click="isMenuShow=false"></div>
+    </header>`,
+    props: ['modalStateContent'],
+    data() {
+      return {
+        memberId: '',
+        secretKey: 'nino',
+        isLogin: false,
+        isMenuShow: false,
+        modalState: {
+          isError: '',
+          content: this.modalStateContent || 'login-content',
+          uiState: '',
+        },
+        signUpInfo: {
+          account: '',
+          password: '',
+          token: '',
+        },
+        searchItem: '',
+      }
+    },
+    mounted() {
+      const storageMemberId = localStorage.getItem('memberId');
+      if (storageMemberId) {
+        const rawMemberId = CryptoJS.AES.decrypt(storageMemberId, this.secretKey).toString(CryptoJS.enc
+          .Utf8);
+        console.log(rawMemberId)
+        this.memberId = rawMemberId;
+        this.isLogin = true;
+        this.$store.commit('setMemberId', rawMemberId);
+      }
+    },
+    store,
+    watch: {
+      modalStateContent(val) {
+        this.modalState.content = val;
+      },
+      searchItem(val) {
+        this.$emit('search_item', val);
+      },
+    },
+    computed: {
+      isLoginModalShow() {
+        return this.$store.state.isLoginModalShow
+      },
+    },
+    methods: {
+      searchChange(val) {
+        this.$emit('search_item', val);
+
+      },
+      handleLoginModalClose() {
+        this.$store.commit('setLoginModalShow', false);
+        this.modalState.isError = '';
+        if (this.modalStateContent) {
+          console.log('update to login')
+          this.$emit('update:modalStateContent', 'login-content')
+        } else {
+          this.modalState.content = 'login-content'
+        }
+      },
+      handleLoginModalShow() {
+        this.$store.commit('setLoginModalShow', true);
+      },
+      handleAccountIsValidCheck(theAccount) {
+        this.modalState.isError = '';
+        axios.post('./assets/php/getMemberInfo.php', {
+            "account": theAccount,
+          }).then(res => {
+            console.log(res)
+            if (Array.isArray(res.data)) {
+              this.modalState.isError = '此帳號已被註冊';
+            } else {
+              this.modalState.isError = '';
+            }
+          })
+          .catch(error => {
+            console.log(error)
+          });
+
+      },
+
+      handleLogin(theAccount, thePassword) {
+        this.modalState.isError = '';
+        this.modalState.uiState = 'loading';
+        axios.post('./assets/php/login.php', {
+          "account": theAccount,
+          "password": thePassword
+        }).then(res => {
+          console.log(res)
+          this.modalState.uiState = '';
+
+          if (Array.isArray(res.data)) {
+            this.modalState.content = 'success-login-content';
+            this.handleLoginKeep(res.data[0]['member_id']);
+            setTimeout(() => {
+              this.$store.commit('setLoginModalShow', false);
+            }, 3000)
+
+            const params = new URLSearchParams()
+            params.append('ID', res.data[0]['member_id'])
+
+            axios({
+              method: 'post',
+              url: 'assets/php/setMemberCoupon.php',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+              },
+              data: params,
+            }).then((res) => {
+              console.log(res);
+            }).catch((error) => {
+              console.log(error)
+
+            })
+
+
+          } else {
+            this.modalState.isError = res.data;
+          }
+        }).catch(error => {
+          console.log(error)
+        });
+
+      },
+      handleLoginKeep(rawMemberId) {
+        this.isLogin = true;
+        this.memberId = rawMemberId;
+        // crypto加密
+        const encryptedId = CryptoJS.AES.encrypt(rawMemberId, this.secretKey).toString()
+        localStorage.setItem('memberId', encryptedId);
+        this.$store.commit('setMemberId', rawMemberId);
+      },
+      handleLogOut() {
+        this.isMenuShow = false;
+        this.isLogin = false;
+        this.modalState.content = 'login-content';
+        this.$store.commit('setMemberId', '');
+        localStorage.removeItem('memberId');
+        //會員頁寫判斷式回首頁
+        //window.location = 'http://localhost:8080/nino-scss/dist/index-front.html'
+      },
+      handleSignUp(theAccount, thePassword) {
+        if (this.modalState.isError === '') {
+          this.signUpInfo.account = theAccount;
+          this.signUpInfo.password = thePassword;
+          this.modalState.uiState = '傳送認證信中';
+          let templateParams = {
+            token: Math.floor(Math.random() * 1000),
+            userMail: theAccount,
+          }
+
+          let service_id = "service_p77rlm2";
+          let template_id = "template_8r123bp";
+          let userID = "user_DeGKwX1jMT522C5BEPsyo"
+          emailjs.send(service_id, template_id, templateParams, userID)
+            .then((response) => {
+              console.log('SUCCESS! 寄出驗證信');
+              this.modalState.uiState = '';
+              this.signUpInfo.token = templateParams.token;
+              this.modalState.content = 'confirm-token-content'
+            })
+            .catch((error) => {
+              console.log('FAILED...', error);
+              this.modalState.isError = error;
+            })
+        }
+
+      },
+      handleCompleteSignUp() {
+        this.modalState.uiState = 'loading';
+        axios.post('./assets/php/signUp.php', {
+            "account": this.signUpInfo.account,
+            "password": this.signUpInfo.password
+          })
+          .then(res => {
+            console.log(res)
+            this.modalState.uiState = '';
+            if (Array.isArray(res.data)) {
+              this.modalState.content = 'success-sign-up-content';
+              this.handleLoginKeep(res.data[0]['member_id']);
+              setTimeout(() => {
+                this.$store.commit('setLoginModalShow', false);
+              }, 3000)
+              this.handleSendSuccessSignUpMail(this.signUpInfo.account);
+
+              const params = new URLSearchParams()
+              params.append('ID', res.data[0]['member_id'])
+
+              axios({
+                method: 'post',
+                url: 'assets/php/setMemberCoupon.php',
+                headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                data: params,
+              }).then((res) => {
+                console.log(res);
+              }).catch((error) => {
+                console.log(error)
+
+              })
+
+            } else {
+              this.modalState.isError = res.data;
+              throw new Error(res.data);
+            }
+          })
+          .catch(error => {
+            console.log(error)
+          });
+      },
+      handleSendSuccessSignUpMail(account) { //問老師寫在上面? //能讀data值嗎
+        axios.post(
+          `./assets/php/sendSuccessSignUpMail.php`, {
+            "account": account,
+          }
+        ).then(res => {
+          console.log(res)
+        }).catch(err => {
+          console.log(err);
+        })
+
+      },
+
+    }
+
+    // handleLogin(theAccount, thePassword) {
+    //     console.log(theAccount, thePassword)
+    //     const qs = QS;
+    //     const json = {
+    //         "account": theAccount,
+    //         "password": thePassword
+    //     }
+    //     axios.post('http://localhost:8080/nino-scss/app/assets/php/login.php', json, {
+    //             //配置`transformRequest` ，在向伺服器傳送前，修改請求資料，axios會根據修改後的資料，自動設定請求頭
+    //             transformRequest: [function (data) {
+    //                 return qs.stringify(data); //把資料轉化為QueryString
+    //             }]
+    //         }).then(res => {
+    //             console.log(res)
+    //         })
+    //         .catch(error => {
+    //             console.log(error)
+    //         });
+    //     console.log('parents')
+
+
+    //     // this.isLogin = true;
+    //     // this.isLoginModalShow = false
+    // },
+
+
+  });
+</script>
+
+
+<script>
+  Vue.component('link-group', {
+    template: `
+            <div class="container">
+            <nav class="link-group" @mouseover="isPopover = true">
+                <ul>
+                    <li>
+                        <a href="cart.html" aria-label="cart"  @mouseenter="isPopover = false">
+                          <span v-if="carts_list.length>=1" class="popovers__num">{{carts_list.length}}</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 80 80" class="icon">
+                                <g transform="translate(-715 -383)">
+                                    <circle cx="40" cy="40" r="37" transform="translate(715 383)" fill="#fadd61"  stroke="#ffffff" stroke-width="3"/>
+                                    <g transform="translate(734 402.037)">
+                                    <path  d="M16.627,32.313A2.313,2.313,0,1,1,14.313,30,2.313,2.313,0,0,1,16.627,32.313Z" transform="translate(0.072 4.523)" fill="none" stroke="#522613" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/>
+                                    <path d="M16.627,32.313A2.313,2.313,0,1,1,14.313,30,2.313,2.313,0,0,1,16.627,32.313Z" transform="translate(19.072 4.523)" fill="none" stroke="#522613" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/>
+                                    <path  d="M1.5,1.5H8.97l5,25.006a3.735,3.735,0,0,0,3.735,3.007H35.862A3.735,3.735,0,0,0,39.6,26.506l2.988-15.668H10.837" transform="translate(-2.5 1.276)" fill="none" stroke="#522613" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/>
+                                    <line  x1="6" transform="translate(-3 23.462)" fill="none" stroke="none" stroke-linecap="round" stroke-width="4" class="hover-stroke-coffee"/>
+                                    <line x1="6" transform="translate(-1 30.462)" fill="none" stroke="none" stroke-linecap="round" stroke-width="4" class="hover-stroke-coffee"/>
+                                    </g>
+                                </g>
+                            </svg>
+                    <transition name="fade">  
+                    <popovers  v-if="isPopover"></popovers>
+                    </transition>
+                        </a>
+
+                    </li>
+                    <li>
+                        <a href="#" aria-label="top" v-show="isTopBtnVisible" @click.prevent="scrollTop">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 80 80" class="icon">
+                                <g transform="translate(-1660 -805)">
+                                    <g transform="translate(76 -122.041)">
+                                        <circle cx="40" cy="40" r="37" transform="translate(1584 927.041)" fill="#fadd61" stroke="#ffffff" stroke-width="3"/>
+                                    </g>
+                                    <text transform="translate(1700 862)" fill="#522613" font-size="32" font-family="NotoSans-Bold, Noto Sans" font-weight="700"><tspan x="-31.891" y="0">TOP</tspan></text>
+                                    <g transform="translate(1995.252 1047.249) rotate(180)">
+                                    <path d="M301.122,234.488a1.2,1.2,0,0,1-.864-.366l-6.664-6.875a1.2,1.2,0,0,1,1.729-1.676l5.741,5.922,4.986-5.864a1.2,1.2,0,0,1,1.834,1.559l-5.845,6.875a1.2,1.2,0,0,1-.878.423Z" transform="translate(-5.703 -8.294)" fill="#522613"/>
+                                    </g>
+                                    <g transform="translate(1995.252 1037.967) rotate(180)">
+                                    <path d="M301.122,234.488a1.2,1.2,0,0,1-.864-.366l-6.664-6.875a1.2,1.2,0,0,1,1.729-1.676l5.741,5.922,4.986-5.864a1.2,1.2,0,0,1,1.834,1.559l-5.845,6.875a1.2,1.2,0,0,1-.878.423Z" transform="translate(-5.703 -8.294)" fill="none" class="hover-fill-coffee"/>
+                                    </g>
+                                </g>
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+            `,
+    data() {
+      return {
+        isTopBtnVisible: false,
+        isPopover: false,
+        carts_list: [],
+      }
+    },
+    methods: {
+      scrollTop() {
+        this.intervalId = setInterval(() => {
+          if (window.pageYOffset === 0) {
+            clearInterval(this.intervalId)
+          }
+          window.scroll(0, window.pageYOffset - 50)
+        }, 20)
+      },
+      scrollListener() {
+        this.isTopBtnVisible = window.scrollY > 100
+      },
+      checkCarts_list() {
+        setInterval(() => {
+          this.carts_list = JSON.parse(localStorage.getItem('cartsList')) || [];
+        }, 100);
+
+      },
+
+    },
+    mounted() {
+      window.addEventListener('scroll', this.scrollListener);
+      this.checkCarts_list();
+    },
+    beforeDestroy() {
+      window.removeEventListener('scroll', this.scrollListener)
+    }
+
+  });
+</script> <script>
+  Vue.component('nav-menu', {
+    template: `
+            <nav class="menu">
+                <div class="container">
+                   <div class="row mt-5 mt-md-20 mt-sm-25">
+                       <div class="col-8 col-lg-5 col-sm-4 mx-auto">
+                            <form class="po-re mb-8">
+                                <input type="text" class="search-bar__input w-100"   v-model='searchItems'/>
+                                <button class="search-bar__btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 52 52" class="icon">
+                                        <g>
+                                            <circle cx="16.5" cy="16.5" r="16.5" transform="translate(7.175 5.413)" fill="none"
+                                                stroke="#522613" stroke-linecap="round" stroke-linejoin="round" stroke-width="5" />
+                                            <circle cx="16.5" cy="16.5" r="10" transform="translate(7.175 5.413)" fill="none"
+                                                stroke="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                class="hover-stroke-coffee" />
+                                            <line x1="10" y1="10" transform="translate(35.163 34.349)" fill="none" stroke="#522613"
+                                                stroke-linecap="round" stroke-linejoin="round" stroke-width="5" />
+                                        </g>
+                                    </svg>
+                                </button>
+                            </form>
+                            <div class="d-flex flex-md-column">
+                                <ul class="w-50  w-md-100 mr-5 mr-md-0">
+                                    <li class="mb-2"><a href="product.html" class="menu__link link">全部商品<span class="h4 ml-10">All Products</span></a></li>
+                                    <li class="mb-2"><a href="product.html" class="menu__link link">最新商品<span class="h4 ml-10">New Arrival</span></a></li>
+                                    <li class="mb-2"><a href="product.html" class="menu__link link">本月主打<span class="h4 ml-10">Campaign</span></a></li>
+                                    <li class="mb-2"><a href="product.html" class="menu__link link">熱門商品<span class="h4 ml-10">Popular</span></a></li>
+                                    <li class="mb-2"><a href="product.html" class="menu__link link">點數限定<span class="h4 ml-10">Points Only</span></a></li>                 
+                                </ul>
+                                <ul class="w-50 w-md-100">
+                                <li class="mb-2"><a href="factory.html" class="menu__link link">車車工廠<span class="h4 ml-10">Customization</span></a></li>
+                                <li class="mb-2"><a href="dictionary.html" class="menu__link link">車車圖鑑<span class="h4 ml-10">Dictionary</span></a></li>
+                                <li class="mb-5"><a href="membermain.html" class="menu__link link"  v-if="login">會員中心<span class="h4 ml-10">Member</span></a></li>
+                                <li class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex ml-2">
+                                        <img src="./assets/img/icon/icon-fb.svg" class="link icon">
+                                        <img src="./assets/img/icon/icon-ig.svg" class="link icon ml-5">
+                                    </div>
+                                    <button class="header__btn px-5" v-if="login" @click="$emit('log-out')">登出</button>
+                                </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>          
+            </nav>
+            `,
+    props: ['login'],
+    data() {
+      return {
+        searchItems: '',
+      };
+    },
+    methods: {
+
+    },
+    watch: {
+      searchItems(val) {
+        this.$emit('search_props_item', val);
+      },
+    },
+
+
+
+  });
+</script> <script>
+    Vue.component('modal-member', {
+        template: '#modal-member',
+        props: ['is-error', 'content', 'ui-state', 'sign-up-token', 'sign-up-account'],
+        methods: {
+            handleModalClose() {
+                this.$emit('close');
+            },
+            handleContentChange(targetContent) {
+                // this.content = targetContent;
+                this.$emit('update:content', targetContent);
+                this.$emit('update:isError', '');
+            },
+            handleLoginInform(account, password) {
+                this.$emit('login', account, password)
+            },
+            handleSignUpInform(account, password) {
+                this.$emit('sign-up', account, password)
+            },
+            handleSubmitTokenInform(token) {
+                this.$emit('submit-token', token)
+            },
+            handleDoneAccountInform(account) {
+                this.$emit('done-account', account)
+            }
+        },
+    });
+</script>
+
+<template id="modal-member">
+    <div class="modal">
+        <div class="po-ab h-100 w-100" @click="handleModalClose"></div>
+        <div class="modal__group modal__group--sm">
+            <svg role="button" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 52 52"
+                class="icon modal__btn modal__btn--close" @click="handleModalClose">
+                <g transform="translate(0 0.47)">
+                    <line x1="33.493" transform="translate(14.158 13.688) rotate(45)" fill="none" stroke="#522613"
+                        stroke-linecap="round" stroke-width="5" />
+                    <line x1="33.493" transform="translate(37.842 13.688) rotate(135)" fill="none" stroke="#522613"
+                        stroke-linecap="round" stroke-width="5" />
+                </g>
+            </svg>
+            <login-content v-if="content === 'login-content'" :login-error="isError" :btn-ui="uiState"
+                @login="handleLoginInform" @change="handleContentChange">
+            </login-content>
+            <success-login-content v-else-if="content === 'success-login-content'"></success-login-content>
+            <success-sign-up-content v-else-if="content === 'success-sign-up-content'"></success-sign-up-content>
+            <log-out-content v-else-if="content === 'log-out-content'" @log-out="$emit('log-out')"
+                @close="handleModalClose" :btn-ui="uiState"></log-out-content>
+            <sign-up-content v-else-if="content === 'sign-up-content'" :account-error="isError" :btn-ui="uiState"
+                @sign-up="handleSignUpInform" @done-account="handleDoneAccountInform" @change="handleContentChange">
+            </sign-up-content>
+            <confirm-token-content v-else-if="content === 'confirm-token-content'" :btn-ui="uiState"
+                :email="signUpAccount" :correct-token="signUpToken" @submit="handleSubmitTokenInform">
+            </confirm-token-content>
+            <reset-password-content v-else-if="content === 'reset-password-content'" @reset="$emit('reset')"
+                @change="handleContentChange">
+            </reset-password-content>
+        </div>
+    </div>
+</template>
+
+<script src="./assets/js/mixins/InputMixins.js"></script>
+  <script>
+      Vue.component('login-content', {
+          template: '#login',
+          props: ['loginError', 'btn-ui'],
+          mixins: [inputMixins],
+          data() {
+              return {
+                  account: {
+                      name: '帳號',
+                      text: '',
+                      remind: '',
+                      inputClass: '',
+                  },
+                  password: {
+                      name: '密碼',
+                      text: '',
+                      remind: '',
+                      inputClass: '',
+                  },
+              }
+          },
+          computed: {
+              inputList() {
+                  return [this.account, this.password]
+              }
+          },
+          watch: {
+              loginError(message) {
+                  if (message) {
+                      this.handleErrorShow(this.account, message)
+                      this.handleErrorShow(this.password, message)
+                  }
+              },
+          },
+          methods: {
+              handleLogin() {
+                  const isAllCheck = this.handleRequiredCheck();
+                  if (isAllCheck) {
+                      this.$emit('login', this.account.text, this.password.text);
+                  }
+              },
+              handleSignUpShow() {
+                  this.$emit('change', 'sign-up-content');
+              },
+              handlePasswordResetShow() {
+                  this.$emit('change', 'reset-password-content');
+              },
+
+          }
+      });
+  </script>
+  <template id="login">
+      <form>
+          <h2 class="modal__title mb-5">
+              登入
+          </h2>
+          <div class="form__group mb-5">
+              <label for="account" class="form__text">帳號</label><span v-if="account.remind!==''"
+                  class="form__text form__text--warning">{{account.remind}}</span>
+              <input type="text" class="form__input" :class="account.inputClass" v-model.lazy="account.text"
+                  @keydown.enter.prevent="$refs.loginPassword.focus()" placeholder="abc@gmail.com"
+                  autocomplete="username" @change="handleEmailCheck(account)" />
+          </div>
+          <div class="form__group mb-12">
+              <label for="password" class="form__text">密碼</label><span v-if="password.remind!==''"
+                  class="form__text form__text--warning">{{password.remind}}</span>
+              <input type="password" ref="loginPassword" :class="password.inputClass" v-model.lazy="password.text"
+                  @change="handlePasswordCheck(password)" class="form__input" autocomplete="new-password"
+                  placeholder="***" />
+          </div>
+          <div class="text-right">
+              <a href="#" class="btn btn--link d-inbl mb-6 " @click.prevent="handlePasswordResetShow">忘記密碼</a>
+          </div>
+          <button class="btn btn--fluid mb-4" ref="loginBtn" @click.prevent="handleLogin">{{btnUi || '登入'}}</button>
+          <a href="#" class="btn btn--fluid btn--outline" @click.prevent="handleSignUpShow">註冊</a>
+      </form>
+  </template>
+  <script>
+      Vue.component('log-out-content', {
+          template: '#logOut',
+      });
+  </script>
+  <template id="logOut">
+      <div>
+          <h2 class="modal__title mb-18">
+              確定登出？
+          </h2>
+          <h3 class="h4 mb-10">
+              登出後，若有上在編輯的
+          </h3>
+          <button class="btn btn--fluid mb-4" @click="$emit('log-out')">登出</button>
+          <button class="btn btn--fluid btn--outline" @click="$emit('close')">返回</button>
+      </div>
+  </template>
+   <script>
+       Vue.component('sign-up-content', {
+           template: '#signUp',
+           mixins: [inputMixins],
+           props: ['accountError', 'btn-ui'],
+           data() {
+               return {
+                   account: {
+                       name: '帳號',
+                       text: '',
+                       remind: '',
+                       inputClass: '',
+                   },
+                   password: {
+                       name: '密碼',
+                       text: '',
+                       remind: '',
+                       inputClass: '',
+                   },
+                   confirmPassword: {
+                       name: '確認密碼',
+                       text: '',
+                       remind: '',
+                       inputClass: '',
+                   },
+                   policy: {
+                       isAgree: false,
+                       spanClass: '',
+                   },
+               }
+           },
+           computed: {
+               inputList() {
+                   return [this.account, this.password, this.confirmPassword]
+               }
+           },
+           watch: {
+               accountError(message) {
+                   if (message) {
+                       this.handleErrorShow(this.account, message)
+                   }
+               },
+           },
+           methods: {
+               handleLoginShow() {
+                   this.$emit('change', 'login-content');
+               },
+               handleSignUp() {
+                   this.handlePasswordMatchCheck(this.password, this.confirmPassword);
+                   const isAllCheck = this.handleRequiredCheck();
+                   if (!this.policy.isAgree) {
+                       this.policy.spanClass = "warning"
+                   } else if (isAllCheck && this.policy.isAgree) {
+                       this.$emit('sign-up', this.account.text, this.password.text);
+                   }
+               },
+               handleAccountDoubleCheck() {
+                   this.handleEmailCheck(this.account)
+                   if (this.account.remind === '') {
+                       this.$emit('done-account', this.account.text);
+                   }
+               },
+               handlePolicyAgreeCheck() {
+                   this.policy.isAgree ? this.policy.spanClass = '' : ''
+               }
+           }
+       });
+   </script>
+   <template id="signUp">
+       <form method="POST" @submit.prevent="handleSignUp">
+           <h2 class="modal__title mb-5">
+               註冊新帳號
+           </h2>
+           <div class="form__group mb-5">
+               <label for="account" class="form__text">帳號</label><span v-if="account.remind!==''"
+                   class="form__text form__text--warning">{{account.remind}}</span>
+               <input type="text" class="form__input" :class="account.inputClass" v-model.lazy="account.text"
+                   @keydown.enter.prevent="$refs.signUpPassword.focus()" autocomplete="username"
+                   placeholder="abc@gmail.com" @change="handleAccountDoubleCheck" id="account" />
+           </div>
+           <div class="form__group mb-5">
+               <label for="password" class="form__text">密碼</label><span v-if="password.remind!==''"
+                   class="form__text form__text--warning">{{password.remind}}</span>
+               <input type="password" ref="signUpPassword" :class="password.inputClass" v-model.lazy="password.text"
+                   @keydown.enter.prevent="$refs.signUpConfirmPassword.focus()" @change="handlePasswordCheck(password)"
+                   class="form__input" placeholder="請輸入6至12位大小寫字母和數字" autocomplete="new-password" id="password" />
+           </div>
+           <div class="form__group mb-4">
+               <label for="confirmPpassword" class="form__text">確認密碼</label><span v-if="confirmPassword.remind!==''"
+                   class="form__text form__text--warning">{{confirmPassword.remind}}</span>
+               <input type="password" ref="signUpConfirmPassword" :class="confirmPassword.inputClass"
+                   v-model.lazy="confirmPassword.text" @change="handlePasswordMatchCheck(password,confirmPassword)"
+                   class="form__input" placeholder="請確認密碼" autocomplete="new-password" id="confirmPpassword" />
+           </div>
+           <div class="text-left">
+               <label class="custom-input mb-4 ">同意<a href="./policy.html" target="blank"
+                       class="d-inbl link underline">資料使用政策與使用條款</a>
+                   <input type="checkbox" v-model="policy.isAgree" class="custom-input__input"
+                       @change="handlePolicyAgreeCheck">
+                   <span class="custom-input__checkmark" :class="policy.spanClass" ref="policyCheckbox"></span>
+               </label>
+           </div>
+           <button class="btn btn--fluid mb-4" ref="signUpBtn" type="submit"
+               @click.prevent="handleSignUp">{{btnUi || '註冊'}}</button>
+           <a href="#" class="btn btn--link" @click.prevent="handleLoginShow">回上一頁</a>
+       </form>
+   </template>
+<script>
+  Vue.component('success-login-content', {
+    template: '#successLogin',
+    data() {
+      return {
+
+      }
+    },
+    computed: {
+
+    },
+    methods: {
+
+    }
+  });
+</script>
+<template id="successLogin">
+    <div>
+        <h2 class="modal__title mb-18">
+            登入成功
+        </h2>
+        <svg
+            width="80"
+            height="80"
+        >
+            <circle
+                cx="40"
+                cy="40"
+                r="40"
+                fill="#fadd61"
+            />
+            <polyline
+                points="25,43 38,58 58,28"
+                style="fill:none;stroke:#522613;stroke-width:7;stroke-linecap:round ;stroke-linejoin:round"
+            >
+            </polyline>
+        </svg>
+        <h3 class="h4 mb-10">歡迎回來</h3>
+        <p class="h4 text-left mb-4">你不在的這段時間，有新商品推出囉！點擊下方按鈕查看最新商品</p>
+        <a
+            href="./product.html"
+            class="btn btn--fluid mb-4"
+        >看看最新商品</a>
+        <a
+            href="./membermain.html"
+            class="btn btn--fluid btn--outline"
+        >查看我的帳戶</a>
+    </div>
+</template>
+<script>
+  Vue.component('success-sign-up-content', {
+    template: '#successSignUp',
+    data() {
+      return {
+
+      }
+    },
+    computed: {
+      countDown() {
+
+      }
+    },
+    methods: {
+
+    }
+  });
+</script>
+<template id="successSignUp">
+    <div>
+        <h2 class="modal__title mb-18">
+            註冊成功
+        </h2>
+        <svg
+            width="80"
+            height="80"
+        >
+            <circle
+                cx="40"
+                cy="40"
+                r="40"
+                fill="#fadd61"
+            />
+            <polyline
+                points="25,43 38,58 58,28"
+                style="fill:none;stroke:#522613;stroke-width:7;stroke-linecap:round ;stroke-linejoin:round"
+            >
+            </polyline>
+        </svg>
+        <h3 class="h4 mb-10">歡迎加入</h3>
+        <p class="h4 text-left mb-4">72 小時內首次購物享 9 折優惠，剩餘有效時間 {{countDown}}</p>
+        <a
+            href="./product.html"
+            class="btn btn--fluid mb-4"
+        >逛逛熱門商品</a>
+        <a
+            href="./memberNotice.html"
+            class="btn btn--fluid btn--outline"
+        >查看我的優惠券</a>
+    </div>
+</template>
+<script>
+    Vue.component('confirm-token-content', {
+        template: '#confirmToken',
+        props: ['email', 'correct-token', 'btnUi'],
+        mixins: [inputMixins],
+        data() {
+            return {
+                token: {
+                    name: '驗證碼',
+                    text: '',
+                    remind: '',
+                    inputClass: '',
+                },
+            }
+        },
+        methods: {
+            handleTokenSubmit() {
+                if (this.token.text.trim() === '') {
+                    this.handleErrorShow(this.token, '不能空白')
+                } else if (parseInt(this.token.text) !== this.correctToken) {
+                    this.handleErrorShow(this.token, '驗證碼錯誤')
+                } else if (parseInt(this.token.text) === this.correctToken) {
+                    this.handleSuccessShow(this.token)
+                    this.$emit('submit');
+                }
+            },
+
+        }
+    });
+</script>
+<template id="confirmToken">
+    <form @submit.prevent>
+        <h2 class="modal__title mb-5">
+            請輸入驗證碼
+        </h2>
+        <h3 class="h4 mb-10">已將註冊認證信寄送至{{email}}</h3>
+        <p class="h4 mb-5">請輸入驗證碼以完成帳號註冊</p>
+        <div class="form__group mb-5">
+            <label for="token" class="form__text">驗證碼</label><span v-if="token.remind!==''"
+                class="form__text form__text--warning">{{token.remind}}</span>
+            <input type="text" class="form__input" :class="token.inputClass" v-model.lazy="token.text" name="token" />
+        </div>
+        <button class="btn btn--fluid mb-4" @click.prevent="handleTokenSubmit">{{btnUi || "送出"}}</button>
+        <button class="btn btn--fluid btn--outline mb-4" @click.prevent="console.log('開發中')">重新寄驗證碼</button>
+    </form>
+</template>
+  <script>
+      Vue.component('reset-password-content', {
+          template: '#resetPassword',
+          mixins: [inputMixins],
+          methods: {
+              handlePasswordReset() {
+                  this.$emit('reset');
+              },
+              handleLoginShow() {
+                  this.$emit('change', 'login-content');
+              },
+
+          }
+      });
+  </script>
+  <template id="resetPassword">
+      <form @submit.prevent>
+          <h2 class="modal__title mb-5">
+              忘記密碼
+          </h2>
+          <h3 class="h4 mb-10">
+              請輸入註冊時的電子信箱，我們會發送一封信，點擊信件中的連結以重設密碼
+          </h3>
+          <div class="form__group mb-18">
+              <label for="account" class="form__text">電子信箱</label>
+              <input type="text" class="form__input" id="account" placeholder="abc@gmail.com" />
+          </div>
+          <button class="btn btn--fluid mb-4" @click.prevent="handlePasswordReset">送出</button>
+          <button class="btn btn--link" @click="handleLoginShow">回上一頁</button>
+      </form>
+  </template> <template id="popovers">
+
+  <div class="popovers">
+    <p>共<span class="popovers__cartItems">{{carts_list.length}}</span>件商品</p>
+    <p>總金額：NT$<span class="popovers__totalCost">{{cost}}</span></p>
+    <div class="popovers__member">總需點數：<p>Ni <span>{{point}}</span></p>
+    </div>
+  </div>
+</template>
+
+
+
+<script>
+  Vue.component('popovers', {
+    template: '#popovers',
+    data() {
+      return {
+        carts_list: [],
+      }
+    },
+    mounted() {
+      this.carts_list = JSON.parse(localStorage.getItem('cartsList')) || [];
+    },
+    computed: {
+
+      cost() {
+
+        let num1 = 0;
+
+        for (let num in this.carts_list) {
+
+          num1 += this.carts_list[num]['price'];
+
+
+        }
+        return num1;
+
+      },
+      point() {
+
+
+        let num1 = 0;
+
+        for (let num in this.carts_list) {
+
+          num1 += this.carts_list[num]['points'];
+
+
+        }
+        return num1;
+
+
+      },
+
+    },
+
+  })
+</script>
+  <script src="./assets/js/mixins/productMixins.js"></script>
+
+  <script>
+    new Vue({
+      el: '#app',
+      mixins: [productMixins],
+      store,
+      data: {
+        countOfPage: 15,
+        currPage: 1,
+        // filter_name: '',
+        filter: '',
+        newData: [],
+        sort: '',
+        productsList: [],
+        cartList: [],
+        likeList: [],
+      },
+
+      computed: {
+        seriesList() {
+          return this.$store.state.seriesList;
+        },
+        pageStart() {
+          return (this.currPage - 1) * this.countOfPage;
+        },
+        totalPage() {
+          return Math.ceil(this.showProductList.length / this.countOfPage);
+          // return Math.ceil(64 / this.countOfPage);
+        },
+      },
+
+      methods: {
+        bgClass(productSeries) {
+          return `bg-series-${productSeries}`;
+        },
+        search(val) {
+
+          console.log(val);
+          this.keywordText = val;
+          const filteredProductList = this.getProductListByKeyword();
+          this.showProductList = filteredProductList;
+
+        },
+        setPage(index) {
+          this.currPage = index;
+        },
+        nowProduct(val) {
+          console.log(val.productId);
+          localStorage.setItem('car', JSON.stringify(val.productId));
+        },
+        changeArray() {
+          let vm = this;
+          const final = vm.showProductList.sort(function(a, b) {
+            if (vm.sort === 'price' || vm.sort === 'price_reverse') {
+              a = a.price;
+              b = b.price;
+              if (vm.sort === 'price_reverse') {
+                return a - b;
+              } else if (vm.sort !== 'price_reverse') {
+                return b - a;
+              } else {
+                return;
+              }
+            }
+          });
+          // console.log(final)
+          this.showProductList = final;
+        },
+        // 加進購物車
+        addCarts(val) {
+          this.cartList.push(val);
+
+          let newArray = this.cartList.filter((item, index, arr) => {
+
+            return arr.indexOf(item) === index;
+
+
+          });
+
+          let cartJson = JSON.stringify(newArray);
+          localStorage.setItem('cartsList', cartJson);
+
+
+        },
+        likeCarts(val) {
+          this.likeList.push(val);
+          // 不重複
+          let newArray = this.likeList.filter((item, index, arr) => {
+
+            return arr.indexOf(item) === index;
+
+
+
+          })
+
+          console.log(newArray);
+          let likeCartJson = JSON.stringify(newArray);
+          localStorage.setItem('likeList', likeCartJson);
+
+        },
+        check_test() {
+          const check = this.showProductList.slice(this.pageStart, this.pageStart + this.countOfPage)
+
+          if (check.length > 0) {
+            return check
+          } else {
+            this.currPage = 1
+            return this.showProductList.slice(this.pageStart, this.pageStart + this.countOfPage)
+          }
+
+        },
+
+        productArray(val) {
+          this.showProductList = this.productList;
+          this.showProductList = this.showProductList.filter((item) => {
+
+            return item.series == val;
+          });
+        },
+
+        timeArray(val) {
+          this.showProductList = this.productList;
+          this.showProductList = this.showProductList.filter((item) => {
+
+            return item.year == val;
+          });
+        },
+
+        mounted() {
+          this.cartList = JSON.parse(localStorage.getItem('cartsList')) || [];
+          this.likeList = JSON.parse(localStorage.getItem('likeList')) || [];
+        },
+      }
+    });
+  </script>
+</body>
+
+</html>

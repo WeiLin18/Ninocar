@@ -1,0 +1,91 @@
+<template id="modal">
+  <div>
+    <div :class="modalLoginClass">
+      <div
+        class="po-ab h-100 w-100"
+        @click="handleCloseModal"
+      ></div>
+      <div class="modal__group ">
+        <svg
+          role="button"
+          xmlns="http://www.w3.org/2000/svg"
+          width="32"
+          height="32"
+          viewBox="0 0 52 52"
+          class="icon modal__btn modal__btn--close"
+          @click="handleCloseModal"
+        >
+          <g transform="translate(0 0.47)">
+            <line
+              x1="33.493"
+              transform="translate(14.158 13.688) rotate(45)"
+              fill="none"
+              stroke="#522613"
+              stroke-linecap="round"
+              stroke-width="5"
+            />
+            <line
+              x1="33.493"
+              transform="translate(37.842 13.688) rotate(135)"
+              fill="none"
+              stroke="#522613"
+              stroke-linecap="round"
+              stroke-width="5"
+            />
+          </g>
+        </svg>
+
+        <slot name="header">
+
+        </slot>
+
+
+        <slot name="content">
+
+        </slot>
+        <slot name="maintext">
+
+        </slot>
+
+        <slot name="footer">
+
+        </slot>
+      </div>
+    </div>
+  </div>
+</template>
+
+
+
+<script>
+  Vue.component('modal-custom-made', {
+
+    template: '#modal',
+    props: [],
+    data() {
+      return {
+        state: true,
+      }
+    },
+    Mounted() {},
+    methods: {
+      handleCloseModal() {
+        this.$emit('close-modal');
+      },
+
+    },
+    computed: {
+      modalLoginClass() {
+        if (this.state) {
+          return {
+            modal: true,
+            "modal-active": true
+          }
+        } else {
+          return 'modal '
+        }
+      },
+    }
+
+  })
+</script>

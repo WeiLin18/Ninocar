@@ -1,0 +1,350 @@
+@import "../helpers/variables";
+@import "../helpers/mixin";
+@import "../helpers/rwd";
+@import "../base/font";
+.favorites {
+  margin: 100px 50px 20px;
+  &_link {
+    width: 100%;
+    margin-top: 20px;
+    border-top: 3px solid orange;
+  }
+}
+
+// .d-flex {
+//     display: flex;
+//     flex-wrap: wrap;
+// }
+.cart__comment {
+  padding: 30px 20px;
+  margin: 0 45px;
+  @include rwd-xs {
+    margin: 0px;
+  }
+}
+
+.bg-secondary {
+  margin-top: 40px;
+  margin-left: 20px;
+}
+
+.toggleIcon2 {
+  margin-top: 25px;
+  margin-right: 70px;
+}
+
+.purchase {
+  margin: 100px 50px 20px;
+  &_pay {
+    padding: 20px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  &--left {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    @include rwd-lg {
+      margin-top: 20px;
+      width: 100%;
+    }
+  }
+}
+
+.notice {
+  margin-top: 50px;
+  &__info {
+    background-color: $white;
+  }
+  &__cupon {
+    margin: 50px auto;
+    padding: 10px 40px;
+    background-color: $white;
+    box-shadow: 1px 1px 5px $gray-500;
+    line-height: 2;
+    display: flex;
+    align-items: center;
+    @include rwd(1116px) {
+      margin: 20px 40px 0px 40px;
+    }
+    @include rwd-lg {
+      margin: 0px;
+      margin-top: 20px;
+    }
+  }
+  &__cuponText {
+    padding-top: 40px;
+    padding-left: 20px;
+    color: $secondary;
+    text-align: center;
+    position: relative;
+    z-index: 3;
+    &::before {
+      position: absolute;
+      display: block;
+      content: "";
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 1px solid $secondary;
+      top: 50%;
+      left: 50%;
+      transform: translate(-40%, -50%);
+    }
+    &--big {
+      font-size: 72px;
+    }
+    &--small {
+      font-size: 27px;
+    }
+    &--mid {
+      font-size: 33px;
+    }
+    &--middle {
+      font-size: 28px;
+    }
+  }
+}
+
+.toggleIcon2 {
+  margin-top: 25px;
+  margin-right: 0px;
+}
+
+.only__cuponText {
+  margin-top: 130px;
+  margin-left: 50px;
+}
+
+.only {
+  &__normal {
+    display: block;
+    margin-top: 5px;
+    margin-left: 10px;
+    font-size: 20px;
+  }
+  &__cuponContent {
+    display: block;
+    margin: 50px auto 50px;
+    line-height: 2.5;
+  }
+  &__textout {
+    display: flex;
+  }
+  &__textin {
+    margin-left: 43px;
+  }
+  &__btn {
+    color: orange;
+    font-size: 14px;
+    margin: 3px 45px;
+  }
+  &__text {
+    width: 120px;
+    margin: 40px;
+  }
+  &__data {
+    padding: 10px 20px;
+    align-items: center;
+    background-color: $white;
+    justify-content: space-between;
+    border-bottom: 1px solid $gray-500;
+    font-weight: 300;
+  }
+  &__cupon {
+    display: block;
+    float: left;
+    position: relative;
+    width: 5rem;
+    height: 5rem;
+    background-color: $gray-900;
+    display: block;
+    overflow: hidden;
+    padding: 5%;
+    margin-top: 36px;
+    border-radius: 50%;
+    &--color {
+      display: block;
+      float: left;
+      position: relative;
+      width: 5rem;
+      height: 5rem;
+      background-color: $blue;
+      display: block;
+      overflow: hidden;
+      padding: 5%;
+      margin-top: 36px;
+      border-radius: 50%;
+    }
+  }
+  &__nigold {
+    position: absolute;
+    font-size: 32px;
+    font-weight: bolder;
+    color: $white;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+  }
+  &__title {
+    margin: 30px -200px;
+    line-height: 2.5;
+  }
+  &__readMore {
+    padding: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px 0;
+  }
+  &__more {
+    font-size: 20px;
+    color: $coffee;
+  }
+  &__icon {
+    margin-bottom: 0px;
+  }
+  &__medal {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__man {
+    margin: 25px 15px;
+  }
+  // &__tds {
+  //     width: 1000px;
+  //     height: 250px;
+  //     margin: 30px 0;
+  // }
+  // &__td {
+  //     width: 150px;
+  //     text-align: center;
+  //     line-height: 5.6;
+  // }
+  // &__tt {
+  //     width: 500px;
+  //     height: 80px;
+  //     text-align: center;
+  //     line-height: 1.5;
+  // }
+  // &__dd {
+  //     width: 500px;
+  //     height: 120px;
+  //     text-align: center;
+  //     line-height: 1.5;
+  // }
+  // &__log {
+  //     text-align: center;
+  // }
+  &__smallmark {
+    display: inline-block;
+    font-size: 16px;
+    font-weight: normal;
+    // border: 1px solid red;
+    margin-left: 20px;
+  }
+  &__front {
+    display: flex;
+    margin-right: 10px;
+    //border: 1px solid red;
+  }
+  &__condition {
+    margin-left: 10px;
+  }
+  &__last {
+    display: flex;
+    margin-right: 45px;
+    //border: 1px solid red;
+  }
+  &__smallall {
+    margin: 30px 30px;
+  }
+  &__progbarfoot {
+    display: flex;
+  }
+  &__progbarfootall {
+    display: flex;
+    margin-left: 20px;
+    margin-top: 7px;
+    border: 1px solid #ccc;
+    transform: translate(1%, -20%);
+  }
+  &__progbarfootin {
+    width: 5px;
+    height: 15px;
+    background-color: #ccc;
+    margin-left: 3px;
+    margin-top: 8px;
+  }
+  &__progbardigital {
+    display: inline-block;
+    font-size: 10px;
+    margin: 4px 10px;
+  }
+}
+
+.bd-all {
+  border: 1px solid $gray-700;
+}
+
+.bd-no-right {
+  border: 1px solid $gray-700;
+  border-right: none;
+}
+
+.vertical-middle {
+  vertical-align: middle;
+}
+
+.no-wrap {
+  white-space: nowrap;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.table {
+  border-collapse: collapse;
+  min-width: 900px;
+  &__th {
+    white-space: nowrap;
+    border: 1px solid $gray-700;
+    border-left: none;
+    vertical-align: middle;
+  }
+}
+
+.level-progress {
+  display: flex;
+  align-items: center;
+  border: 1px solid $gray-500;
+  padding: 8px;
+  &__col {
+    width: 5px;
+    height: 15px;
+    background-color: #ccc;
+    margin-right: 3px;
+  }
+  &__col--active {
+    background-color: $blue;
+  }
+}
+
+.navBar {
+  min-width: 500px;
+  // height: 40px;
+  width: 100%;
+  background-color: #fff;
+}
+
+@include rwd-sm {
+  .overflow-md-sm {
+    overflow: scroll;
+  }
+}

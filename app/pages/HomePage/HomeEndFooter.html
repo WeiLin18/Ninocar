@@ -1,0 +1,81 @@
+          <!-- end -->
+          <footer class="end d-sm-none">
+              <div class="container po-re mb-30 mb-xl-0">
+                  <svg width="1400" height="560" viewBox="0 0 1400 560" class="end__turn">
+                      <path d="M1933,-226 v227 c0,144,96,244,214,244 h450" transform="translate(-1713 226)" fill="none"
+                          stroke="none" stroke-width="1" id="endRoadPath" />
+                      <path d="M1933,-226 v227 c0,144,96,244,214,244 h1400" transform="translate(-1713 226)" fill="none"
+                          stroke="#3c3d41" stroke-width="160" class="end__path" />
+                      <path d="M1933,-226 v227 c0,144,96,244,214,244 h700" transform="translate(-1713 226)" fill="none"
+                          stroke="#ffffff" stroke-width="5" stroke-dasharray="60" />
+                      <g transform="translate(5,-100)">
+                          <rect width="4" height="161" x="1210" y="490" fill="#fff"></rect>
+                          <rect width="20" height="20" x="1220" y="490" fill="#fff"></rect>
+                          <rect width="20" height="20" x="1220" y="530" fill="#fff"></rect>
+                          <rect width="20" height="20" x="1220" y="570" fill="#fff"></rect>
+                          <rect width="20" height="20" x="1220" y="610" fill="#fff"></rect>
+                          <rect width="20" height="20" x="1240" y="510" fill="#fff"></rect>
+                          <rect width="20" height="20" x="1240" y="550" fill="#fff"></rect>
+                          <rect width="20" height="20" x="1240" y="590" fill="#fff"></rect>
+                          <rect width="20" height="21" x="1240" y="630" fill="#fff"></rect>
+                          <rect width="20" height="20" x="1260" y="490" fill="#fff"></rect>
+                          <rect width="20" height="20" x="1260" y="530" fill="#fff"></rect>
+                          <rect width="20" height="20" x="1260" y="570" fill="#fff"></rect>
+                          <rect width="20" height="20" x="1260" y="610" fill="#fff"></rect>
+                          <rect width="20" height="20" x="1280" y="510" fill="#fff"></rect>
+                          <rect width="20" height="20" x="1280" y="550" fill="#fff"></rect>
+                          <rect width="20" height="20" x="1280" y="590" fill="#fff"></rect>
+                          <rect width="20" height="21" x="1280" y="630" fill="#fff"></rect>
+                          <rect width="20" height="20" x="1300" y="490" fill="#fff"></rect>
+                          <rect width="20" height="20" x="1300" y="530" fill="#fff"></rect>
+                          <rect width="20" height="20" x="1300" y="570" fill="#fff"></rect>
+                          <rect width="20" height="20" x="1300" y="610" fill="#fff"></rect>
+                          <rect width="20" height="20" x="1320" y="510" fill="#fff"></rect>
+                          <rect width="20" height="20" x="1320" y="550" fill="#fff"></rect>
+                          <rect width="20" height="20" x="1320" y="590" fill="#fff"></rect>
+                          <rect width="20" height="21" x="1320" y="630" fill="#fff"></rect>
+                          <rect width="20" height="20" x="1340" y="490" fill="#fff"></rect>
+                          <rect width="20" height="20" x="1340" y="530" fill="#fff"></rect>
+                          <rect width="20" height="20" x="1340" y="570" fill="#fff"></rect>
+                          <rect width="20" height="20" x="1340" y="610" fill="#fff"></rect>
+                          <rect width="20" height="20" x="1360" y="510" fill="#fff"></rect>
+                          <rect width="20" height="20" x="1360" y="550" fill="#fff"></rect>
+                          <rect width="20" height="20" x="1360" y="590" fill="#fff"></rect>
+                          <rect width="20" height="21" x="1360" y="630" fill="#fff"></rect>
+                          <rect width="4" height="161" x="1385" y="490" fill="#fff"></rect>
+                          <text x="500" y="-1165" class="small" fill="#fff" transform="rotate(90)" font-size="40px"
+                              font-weight="700" style="letter-spacing:3">FINISH</text>
+                      </g>
+                  </svg>
+                  <transition name="fade">
+                      <div class="end__illust">
+                          <img src="./assets/img/illust/illust-showgirl.svg" alt="girl" class="end__illust__girl"
+                              v-show="!isCTAShow" :style="isCarNearGirl?'cursor:pointer':''" @click="handleGirlClick">
+                          <div class="thumb thumb--stop">
+                              <img src="./assets/img/illust/illust-message.svg" alt="thumb" class="thumb__svg--stop">
+                              <p class="thumb__text thumb__text--stop">!</p>
+                          </div>
+                      </div>
+                  </transition>
+
+                  <svg width="1400" height="660" viewbox="0 0 1400 660" class="end__road--extend">
+                      <g transform="translate(0 ,495)">
+                          <line stroke="#3c3d41" x1="0" y1="70" x2="1400" y2="70" stroke-width="160"></line>
+                          <line stroke="#fff" x1="50" y1="70" x2="1400" y2="70" stroke-width="5" stroke-dasharray="60">
+                          </line>
+                      </g>
+                  </svg>
+
+              </div>
+              <transition name="down">
+                  <div class="container po-re" v-show="isCTAShow">
+                      <div class="end__frame frame">
+                          <h2 class="index__title highlight mb-2">註冊會員9折折價券</h2>
+                          <p class="h4 mb-5">新註冊會員，不限金額，消費結帳即享9折優惠</p>
+                          <p class="h6 end__frame__sign">唯你專屬</p>
+                          <a href="#" class="btn d-inbl" @click.prevent="handleLoginModalShow">註冊新會員</a>
+                      </div>
+                      <img src="./assets/img/illust/illust-showgirl-lg.svg" alt="girl" class="end__girl--lg">
+                  </div>
+              </transition>
+          </footer>

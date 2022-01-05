@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="./assets/css/all.css">
+<link rel="stylesheet" href="./assets/css/pages/cart.css">
+<link rel="shortcut icon" href="./assets/img/loho-icon.ico" />
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/vuex/3.5.1/vuex.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.15/swiper-bundle.js'></script>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.15/swiper-bundle.min.css' />
+<script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js' integrity='sha512-otOZr2EcknK9a5aa3BbMR9XOjYKtxxscwyRHN6zmdXuRfJ5uApkHB7cz1laWk2g8RKLzV9qv/fl3RPwfCuoxHQ==' crossorigin='anonymous'></script>
+<script src="./assets/js/all.js"></script>
+<script src="./assets/js/utils.js"></script>
+<script src="./assets/js/mixins/cartMixins.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
+
+<title>Cart</title>
+</head>
+
+<body>
+  <div id="app">
+    <vue-header></vue-header>
+
+
+    @@include('./pages/CartPage/CartProgress.html')
+
+
+    <transition name="fade" mode="out-in" v-if="carts_list">
+      <cart-area @login-check="loginHandler" @data-handler="dataChange" :list="carts_list" :current="current_section" :is-exist="listIsExist" v-if="current_section === 0" :key=" 'index-1' + listIsExist"></cart-area>
+
+      <cart-info @data-handler="dataChange" :current="current_section" v-if="current_section === 1" key="index-2">
+      </cart-info>
+
+      <cart-done ref="order" @open-window="openModal" v-if="current_section === 2" :current="current_section" key=" index-3 ">
+      </cart-done>
+    </transition>
+
+
+    <modal-custom-made v-show="isModalShow " @close-modal="closeHandler ">
+      <template #header>
+        <!-- 傳入文字 -->
+        <h2 class="modal__title  mb-10  h3">訂單成立</h2>
+      </template>
+      <template #content>
+        <!-- 自行決定要傳入什麼 -->
+        <div>
+          <img
+            class="mx-auto "
+            src="./assets/img/icon/icon-good.svg"
+            alt=" "
+          >
+        </div>
+      </template>
+      <template #maintext>
+        <!-- 若有文字可以使用 ，也可以關掉-->
+        <div>
+          <p class="modal__text">訂單已成立，感謝您的購買！已寄一份訂單明細至您的購買清單列表</p>
+        </div>
+      </template>
+      <template #footer>
+        <a href="#"><button
+            class="btn btn--fluid btn--outline mt-3 "
+            @click="orderConfirm"
+          >查看我的訂單</button></a>
+      </template>
+
+    </modal-custom-made>
+    <modal-custom-made v-show="noLogin" @close-modal="closeHandler">
+      <template #header>
+        <!-- 傳入文字 -->
+        <h2 class="modal__title  mb-10  h3">請先登入會員喔！</h2>
+      </template>
+      <template #content>
+        <!-- 自行決定要傳入什麼 -->
+        <div>
+          <img
+            class="mx-auto "
+            src="./assets/img/icon/icon-good.svg"
+            alt=" "
+          >
+        </div>
+      </template>
+      <template #maintext>
+        <!-- 若有文字可以使用 ，也可以關掉-->
+        <div>
+          <p class="modal__text">請先右上角，登入會員方便結帳！</p>
+        </div>
+      </template>
+      <!-- <template #footer>
+        <a href="./MemberPurchase.html"><button class="btn btn--fluid btn--outline mt-3 "></button></a>
+      </template> -->
+
+    </modal-custom-made>
+
+
+
+    @@include('./components/Footer.html')
+
+
+  </div>
+
+  @@include('./components/VueHeader.html')
+  <!--  -->
+  @@include('./pages/CartPage/CartArea.html')
+  <!--  -->
+  @@include('./pages/CartPage/CartInfo.html')
+  <!--  -->
+  @@include('./pages/CartPage/CartDone.html')
+  <!--  -->
+  @@include('./components/ModalNormal.html')
+
+
+
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        listIsExist: false,
+        current_section: 0,
+        isModalShow: false,
+        noLogin: false,
+        carts_list: [],
+        userData: '',
+      },
+      store,
+      methods: {
+        dataChange(val) {
+          this.current_section = val;
+        },
+        // 若有要使用記得加上這個方法控制開關
+        openModal() {
+          if (this.isModalShow) {
+            this.isModalShow = false;
+          } else {
+            this.isModalShow = true;
+          }
+        },
+        closeHandler() {
+          this.isModalShow = false;
+          this.noLogin = false;
+        },
+        loginHandler(val) {
+          this.noLogin = true;
+        },
+        orderConfirm() {
+          // 訂單成立 寄一封信
+
+          let num = this.$refs.order.orderId;
+
+
+          let templateParams = {
+            "order_id": num,
+            "userMail": this.userData.account,
+            "reply_to": "wow",
+          }
+          let service_id = "service_nc71unc";
+          let template_id = "template_n6r3opy";
+          let userID = "user_TzSSXb2sF6bb0qvrAeRv0";
+          emailjs.send(service_id, template_id, templateParams, userID)
+            .then((response) => {
+              console.log('SUCCESS! 寄出訂單通知信');
+            })
+            .catch((error) => {
+              console.log('FAILED...', error);
+            });
+
+
+          setTimeout(() => {
+            window.location.href = 'MemberPurchase.html';
+          }, 2000)
+
+
+        },
+        // deleteOneItem(value) {
+
+        //   this.carts_list.splice(value, 1);
+
+        //   let cartJson = JSON.stringify(this.carts_list);
+        //   localStorage.setItem('cartsList', cartJson);
+        // @delete-one="deleteOneItem"
+
+        // }
+
+      },
+      computed: {
+        ...Vuex.mapState({
+          selectCoupon: state => state.selectCoupon,
+          buyList: state => state.buyList,
+          finallyPrice: state => state.finallyPrice,
+          totalProductNum: state => state.totalProductNum,
+          selectPayment: state => state.selectPayment,
+          totalPointCost: state => state.totalPointCost,
+          selectShipping: state => state.selectShipping,
+          getPoint: state => state.getPoints,
+        }),
+        memberId() {
+          return this.$store.state.memberId
+        },
+
+      },
+      mounted() {
+
+
+        axios.post('./assets/php/getMemberAll.php', {
+          "memberId": this.memberId,
+        }).then((res) => {
+          // console.log('123', res.data)
+
+          let newData;
+          newData = res.data.map((item) => {
+
+            return {
+              name: item.member_name,
+              account: item.member_account,
+              gender: item.member_gender,
+              address: item.member_address,
+              birthday: item.member_birthday,
+              phone: item.member_phone,
+              photo: item.member_photo,
+              password: item.member_pwd,
+            }
+          });
+          this.userData = newData[0];
+
+        }).catch((error) => {
+          console.log(error)
+        });
+
+
+
+        //確認有無購買
+
+        this.carts_list = JSON.parse(localStorage.getItem('cartsList')) || [];
+
+        for (let listNum in this.carts_list) {
+
+          if (listNum) {
+            this.listIsExist = true;
+          };
+          // //確認是否為點數商品
+          if (this.carts_list[listNum].product_points !== "0") {
+            // console.log(`${(listNum
+            //   *
+            //   1
+            //   +
+            //   1)}是點數商品`)
+          }
+        };
+
+        // axios({
+        //   method: 'get',
+        //   url: 'assets/php/getMemberCoupon.php',
+        //   headers: {
+        //     'Content-Type': 'application/x-www-form-urlencoded',
+        //   },
+        //   // data: params,
+        // }).then((res) => {
+        //   console.log(res.data)
+        // }).catch((error) => {
+        //   console.log(error)
+        // });
+
+
+
+
+      },
+    });
+  </script>
+
+
+
+</body>
+
+
+</html>

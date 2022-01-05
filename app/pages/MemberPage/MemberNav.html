@@ -1,0 +1,35 @@
+<div class="favorites mb-10">
+  <h2>收藏商品清單</h2>
+  <div class="favorites_link"></div>
+</div>
+
+<div class="container mb-10 block">
+  <div class="row w-100">
+    <section class=" cart__payment cart__payment--nopt w-100">
+      <div class=" d-flex flex-wrap  ml-xs-3 ml-20">
+        <div class="cart__comment col-3 col-lg-6" v-for="(item,index) in likeList">
+          <div class="cart__imgGroup">
+            <img :src="item.imgURL">
+            <div class="card__carID bg-series-BS">{{item.series}}<span>{{item.seriesId}}</span></div>
+          </div>
+          <div class="cart__textGroup">
+            <h3>{{item.eName}}</h3>
+            <p v-if="item.price !==0">NT$ <span>{{item.price}}</span></p>
+            <p v-else>NI <span>{{item.points}}</span></p>
+            <button class="btn btn--ghost btn--small" @click="deleteCurrent(item)">取消收藏</button>
+          </div>
+          <a href="product.html"> <button class="btn btn--outline btn--fluid ">加進購物車</button></a>
+        </div>
+      </div>
+    </section>
+    <div class="row   w-100" v-show="likeList.length<1">
+      <div class="member__orderImg col-12 col-lg-6">
+        <img class="member__orderImg--mid" src="./assets/img/illust/illust-empty.png">
+        <p>
+          沒有收藏中的車車
+        </p>
+      </div>
+    </div>
+
+  </div>
+  </div

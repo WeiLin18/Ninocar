@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./assets/css/all.css">
+  <link rel="stylesheet" href="./assets/css/pages/index.css">
+  <link rel="shortcut icon" href="./assets/img/loho-icon.ico" />
+
+  <style>
+    .car {
+      width: 300px;
+      height: 200px;
+      background-image: url(./assets/img/pic/0.png);
+      background-size: cover;
+    }
+    
+    .board {
+      text-align: center;
+      border: 3px solid #522613;
+      position: relative;
+      padding: 40px 60px;
+      text-align: center;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    
+    .show:hover .board_girl {
+      opacity: 1;
+    }
+    
+    .board:hover {
+      animation: wowShow 2s ease-in-out infinite;
+    }
+    
+    @keyframes wowShow {
+      50% {
+        transform: rotate(20deg)
+      }
+      100% {
+        transform: rotate(-20deg)
+      }
+    }
+    
+    .board::after {
+      content: " ";
+      position: absolute;
+      z-index: -1;
+      top: 7px;
+      left: 7px;
+      right: 7px;
+      bottom: 7px;
+      border: 2px dashed #522613;
+    }
+    
+    .board_girl {
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      position: absolute;
+      bottom: -400px;
+      left: 37%;
+      width: 200px;
+    }
+  </style>
+
+  <title>Leading page</title>
+</head>
+
+<body>
+  <div class="container  pt-20">
+    <div class="row">
+      <div class="show col-6">
+        <div class="board bg-white">
+          <a href="./index-front.html" class="index__title highlight mb-2">前台</a>
+        </div>
+        <img src="./assets/img/illust/illust-showgirl-lg.svg" alt="girl" class="board_girl">
+      </div>
+      <div class="show col-6">
+        <div class="board bg-white">
+          <a href="./backend/index.php" class="index__title highlight mb-2">後台</a>
+        </div>
+        <img src="./assets/img/illust/illust-showgirl-lg.svg" alt="girl" class="board_girl">
+      </div>
+    </div>
+  </div>
+</body>
+
+
+<script>
+</script>
+
+
+
+
+</html>

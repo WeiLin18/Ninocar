@@ -1,0 +1,46 @@
+$sizeList : ('25' : 25%,
+    '30' : 30%,
+    '33': 33%,
+    '50' : 50%,
+    '70' : 70%,
+    '75' : 75%,
+    '100' : 100%, );
+
+@each $key,
+$val in $sizeList {
+    .w-#{$key} {
+        width: #{$val};
+    }
+}
+
+@include rwd-md {
+
+    @each $key,
+    $val in $sizeList {
+        .w-md-#{$key} {
+            width: #{$val};
+        }
+    }
+}
+
+@include rwd-lg {
+
+    .w-lg-100 {
+        width: 100%;
+    }
+}
+
+@include rwd-xs {
+
+    .w-xs-100 {
+        width: 100%;
+    }
+
+    .w-xs-80 {
+        width: 80%;
+    }
+}
+
+.h-100 {
+    height: 100%;
+}

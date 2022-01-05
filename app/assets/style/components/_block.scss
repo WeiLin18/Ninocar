@@ -1,0 +1,28 @@
+.block {
+    background-color: #fff;
+
+    &__header {
+        padding: 16px 40px;
+        border-bottom: 1px solid $secondary;
+
+        @include rwd-lg {
+            padding: 20px 24px;
+        }
+    }
+
+    &__header--nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    &__header__title {
+        @extend .h3;
+        font-weight: 500;
+    }
+
+    &__body {
+        padding-top: 20px;
+    }
+}

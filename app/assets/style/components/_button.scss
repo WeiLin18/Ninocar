@@ -1,0 +1,82 @@
+.btn {
+  @extend.h4;
+  border-radius: 8px;
+  color: $white;
+  background-color: $secondary;
+  min-width: 160px;
+  padding: 12px 0px;
+  white-space: nowrap;
+  cursor: pointer;
+
+  @include rwd-md {
+    min-width: 128px;
+    padding: 12px 0px;
+  }
+
+  @include rwd-sm {
+    min-width: 100px;
+  }
+
+  @include rwd-xs {
+    min-width: 72px;
+  }
+
+  &:hover {
+    background-color: $secondary-dark;
+  }
+
+  &--outline {
+    background: transparent;
+    border: 1px solid $secondary;
+    color: $secondary;
+
+    &:hover {
+      background-color: $primary-light;
+    }
+  }
+
+  &--ghost {
+    color: $black;
+    background-color: transparent;
+
+    &:hover {
+      background-color: $gray-300;
+    }
+  }
+
+  &--link {
+    @extend .h4;
+    color: $coffee;
+    min-width: auto;
+    text-decoration: underline;
+    background-color: transparent;
+    text-align: center;
+    padding: 0;
+
+    &:hover {
+      opacity: .8;
+      background-color: transparent;
+    }
+  }
+
+  &--disabled {
+    background-color: $gray-500;
+    cursor: auto;
+
+    &:hover {
+      background-color: $gray-500;
+    }
+  }
+
+
+
+
+  &--fluid {
+    width: 100%;
+  }
+
+  &--small {
+    min-width: auto;
+    padding: 4px 24px;
+  }
+}

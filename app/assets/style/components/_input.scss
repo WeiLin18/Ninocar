@@ -1,0 +1,149 @@
+.form {
+  &__input {
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    color: $gray-900;
+    outline: none;
+    border: 1px solid #CBCBCB;
+    margin-bottom: 5px;
+    @extend h4;
+
+    &:focus {
+      border: 2px solid $blue;
+    }
+
+    &::placeholder {
+      font-size: 16px;
+    }
+
+    &--warning {
+      border: 2px solid $red;
+
+      &:focus {
+        border: 2px solid $red;
+      }
+    }
+
+    &--success {
+      border: 2px solid $green;
+
+      &:focus {
+        border: 2px solid $green;
+      }
+    }
+  }
+
+  &__text {
+    margin-bottom: 5px;
+    @extend h4;
+    float: left;
+
+    &--warning {
+      @extend h5;
+      float: right;
+      color: $red;
+    }
+  }
+
+  &__section {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__select {
+    width: calc(45%);
+    padding: 5px;
+    border-radius: 5px;
+    color: $gray-900;
+    outline: none;
+    border: 1px solid #CBCBCB;
+    margin-bottom: 5px;
+    margin-bottom: 10px;
+    @extend h4;
+
+    &:focus {
+      border: 1px solid $blue;
+    }
+  }
+
+  &__warning {
+    padding: 5px;
+    border-radius: 5px;
+    color: $gray-900;
+    outline: none;
+    border: 2px solid $red;
+    margin-bottom: 5px;
+    margin-bottom: 10px;
+    @extend h4;
+  }
+}
+
+.custom-input {
+  display: inline-block;
+  position: relative;
+  padding-left: 36px;
+  cursor: pointer;
+  font-size: 16px;
+  user-select: none;
+
+  &:hover &__checkmark {
+    background-color: #ddd;
+  }
+
+  &__input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+
+  &__input:checked~&__checkmark {
+    background-color: $secondary;
+  }
+
+  &__checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+
+    &:after {
+      content: "";
+      position: absolute;
+      display: none;
+      left: 9px;
+      top: 5px;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 3px 3px 0;
+      transform: rotate(45deg);
+    }
+
+    &--circle {
+      border-radius: 50%;
+    }
+
+    &--circle::after {
+      top: 9px;
+      left: 9px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: white;
+    }
+
+    &.warning {
+      border: 2px solid $red;
+    }
+  }
+
+  &__input:checked~&__checkmark:after {
+    display: block;
+  }
+}

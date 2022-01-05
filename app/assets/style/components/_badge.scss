@@ -1,0 +1,112 @@
+.badge {
+    @extend .h5;
+    color: white;
+    border-radius: 4px;
+    padding: 4px;
+
+    &--primary {
+        color: $coffee;
+        background-color: $primary;
+    }
+}
+
+.carID {
+    @include size(64px, 64px); //card
+    font-size: 28px;
+    font-weight: 700;
+    line-height: .9;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    border-radius: 8px;
+    z-index: 10;
+
+    &--lg {
+        @include size(120px, 120px); //product-details/dictionary-display
+        font-size: 48px;
+        @include rwd-lg{
+            @include size(100px, 100px); 
+            font-size: 40px;
+        }
+        @include rwd-md{
+            @include size(80px, 80px); 
+            font-size: 36px;
+        }
+        @include rwd-sm{
+            @include size(64px, 64px); 
+            font-size: 28px;
+        }
+    }
+
+    &--md {
+        @include size(80px, 80px); //dictionary-post
+        font-size: 36px;
+    }
+}
+
+.pin {
+    stroke: $red;
+    fill: none;
+
+
+    &--green {
+        stroke: $green;
+
+        .pin__text {
+            fill: $green;
+        }
+    }
+
+    &--blue {
+        stroke: $series-PA;
+        .pin__text {
+            fill: $series-PA;
+        }
+    }
+
+    &--gray {
+        stroke: $series-PM;
+        .pin__text {
+            fill: $series-PM;
+        }
+    }
+
+    &--yellow {
+        stroke: $series-TA;
+        .pin__text {
+            fill: $series-TA;
+        }
+    }
+
+    &--coffee {
+        stroke: $coffee;
+        .pin__text {
+            fill: $coffee;
+        }
+    }
+
+
+    &__text {
+        font-weight: 500;
+        stroke: none;
+        fill: $red;
+        font-size: 12px;
+    }
+
+    &__text--lg {
+        font-size: 20px;
+        font-weight: 900;
+        letter-spacing: 2px;
+        fill: $red;
+    }
+
+    &--disabled{
+        stroke: $gray-500;
+        .pin__text {
+            fill: $gray-500;
+        }
+    }
+
+}

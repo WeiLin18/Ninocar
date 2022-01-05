@@ -1,0 +1,39 @@
+@mixin size($w:80px, $h:48px) {
+  width: $w;
+  height: $h;
+}
+
+@mixin circle($w:40px, $h:40px) {
+  width: $w;
+  height: $h;
+  border-radius: 50%;
+  @content;
+}
+
+@mixin one-line {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+@mixin text-hide {
+  text-indent: 101%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+@mixin mx-auto() {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// @mixin before($width, $height) {
+//   &::before {
+//     content: '';
+//     width: $width;
+//     height: $height;
+//     display: inline-block;
+
+//     @content;
+//   }
+// }

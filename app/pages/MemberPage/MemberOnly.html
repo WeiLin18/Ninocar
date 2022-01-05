@@ -1,0 +1,268 @@
+<section class="block container mb-10">
+  <header class="block__header">
+    <h2 class="block__header__title" id="memberCoupon">
+      會員狀態
+    </h2>
+  </header>
+  <section class="block__body d-flex flex-wrap justify-content-center align-items-center py-20 py-lg-10">
+    <div class="mr-30 mr-lg-20 mr-md-0 w-md-100 mb-md-10 text-center">
+      <img :src="memberLevel.imgURL" alt="member" class="d-inbl  mb-2">
+      <h2 class="h3">{{memberLevel.name}}</h2>
+    </div>
+    <ul class="h4">
+      <li class="mb-7 mb-md-4">會員等級： <span class="ml-6">{{memberLevel.name}}</span></li>
+      <li class="mb-7 mb-md-4">會員點數： <span class="ml-6">{{totalPoints || 0}} 點</span></li>
+      <li class="mb-7 mb-md-4">註冊日期： <span class="ml-6">{{signUpDate}}</span></li>
+      <li class="d-flex flex-sm-column">距離升等：
+        <div class="level-progress ml-6 ml-sm-0">
+          <div v-for='item in activeAmountCol' class="level-progress__col level-progress__col--active">
+          </div>
+          <div v-for='item in (30-activeAmountCol)' class="level-progress__col"></div>
+          <span class="font-s ml-2">${{totalAmount || 0}} / {{memberLevel.levelAmount}}</span>
+        </div>
+      </li>
+    </ul>
+  </section>
+</section>
+
+
+
+<section class="block container mb-10">
+  <header class="block__header">
+    <h2 class="block__header__title" id="memberCoupon">
+      會員機制
+    </h2>
+  </header>
+  <section class="block__body table-container py-20  py-lg-10">
+    <table class="mx-auto table">
+      <thead>
+        <tr>
+          <th>&nbsp;</th>
+          <th class="py-4"> <img src="./assets/img/illust/illust-member-normal.svg" alt="member" class="d-inbl vertical-middle mr-2">一般會員
+          </th>
+          <th class="py-4"> <img src="./assets/img/illust/illust-member-gold.svg" alt="member" class="d-inbl vertical-middle mr-2">黃金會員</th>
+          <th class="py-4"> <img src="./assets/img/illust/illust-member-vip.svg" alt="member" class="d-inbl vertical-middle mr-2">白金會員</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th class="table__th py-6 px-6">升級條件</th>
+          <td class="vertical-middle bd-all py-6 px-6">註冊即為一般會員</td>
+          <td class="vertical-middle bd-all py-6 px-6">累積消費＄2000<br>或單筆消費＄2000</td>
+          <td class="vertical-middle bd-no-right py-6 px-6">累積消費＄5000<br>或單筆消費＄5000</td>
+        </tr>
+        <tr>
+          <th class="table__th py-6 px-6">會員福利</th>
+          <td class="vertical-middle bd-all py-6 px-6">100點會員點數<br>生日七折兑換卷<br>72小時全館9折折價卷乙張</td>
+          <td class="vertical-middle bd-all py-6 px-6">200點會員點數<br>生日七折兑換卷<br>免運折價卷乙張(每月)</td>
+          <td class="vertical-middle bd-no-right py-6 px-6">
+            500點會員點數<br>生日七折兑換卷<br>免運折價卷乙張(每月)<br>買一送一折價卷乙張(每半年)</td>
+        </tr>
+        <tr>
+          <th class="table__th py-6 px-6">消費贈點</th>
+          <td class="vertical-middle bd-no-right text-center py-6 px-6" colspan="3">
+            購物滿100元送會員點數1點，200元2點以此累推
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </section>
+</section>
+
+<section class="block container mb-10">
+  <header class="block__header">
+    <h2 class="block__header__title" id="memberCoupon">
+      圖鑑成就 <span class="h5 ml-5 vertical-middle">滿一個成就送會員點數50點</span>
+    </h2>
+  </header>
+  <section class="block__body py-10">
+    <ul class="d-flex flex-wrap">
+      <li class="d-flex flex-wrap align-items-center w-50  w-md-100 pl-5 pl-sm-0">
+        <pin-svg :disabled="!isMemberHasSeriesPin('EM')" series="EM"></pin-svg>
+        <div class="ml-5">
+          <div class="h5 mb-2">達成條件 :<span class="badge bg-series-EM ml-5 ml-xs-2 mr-2">消防救護系</span> 累積3輛
+            </span>
+          </div>
+          <div class="d-flex flex-wrap align-items-center mb-2">
+            <span class="mr-5 mb-2">累積進度 :</span>
+            <div class="level-progress">
+              <div v-for='item in activePinCol(memberSeriesGroupCountList[4])' class="level-progress__col level-progress__col--active">
+              </div>
+              <div v-for='item in (24-activePinCol(memberSeriesGroupCountList[4]))' class="level-progress__col"></div>
+              <span class="font-s ml-2">{{memberSeriesGroupCountList.length>0?memberSeriesGroupCountList[4].count
+                                : 0}}
+                                /
+                                3輛</span>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <li class="d-flex flex-wrap align-items-center w-50  w-md-100 pl-5 pl-sm-0">
+        <pin-svg :disabled="!isMemberHasSeriesPin('PM')" series="PM"></pin-svg>
+        <div class="ml-5">
+          <div class="h5 mb-2">達成條件 :<span class="badge bg-series-PM ml-5 ml-xs-2 mr-2">PREMIUM系</span> 累積3輛
+          </div>
+          <div class="d-flex flex-wrap align-items-center  mb-2">
+            <span class="mr-5 mb-2">累積進度 :</span>
+            <div class="level-progress">
+              <div v-for='item in activePinCol(memberSeriesGroupCountList[5])' class="level-progress__col level-progress__col--active">
+              </div>
+              <div v-for='item in (24-activePinCol(memberSeriesGroupCountList[5]))' class="level-progress__col"></div>
+              <span class="font-s ml-2">{{memberSeriesGroupCountList.length>0?memberSeriesGroupCountList[5].count
+                                : 0}}/3輛</span>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li class="d-flex flex-wrap align-items-center w-50  w-md-100 pl-5 pl-sm-0">
+        <pin-svg :disabled="!isMemberHasSeriesPin('RV')" series="RV"></pin-svg>
+        <div class="ml-5">
+          <div class="h5 mb-2">達成條件 :<span class="badge bg-series-RV ml-5 ml-xs-2 mr-2">RV休旅系</span><span class="badge bg-series-BS mr-2">巴士系</span>各累積 1 輛
+          </div>
+          <div class="d-flex flex-wrap align-items-center  mb-2">
+            <span class="mr-5 mb-2">累積進度 :</span>
+            <div class="level-progress">
+              <div v-for='item in activePinCol(memberSeriesGroupCountList[0])' class="level-progress__col level-progress__col--active">
+              </div>
+              <div v-for='item in (24-activePinCol(memberSeriesGroupCountList[0]))' class="level-progress__col"></div>
+              <span class="font-s ml-2">{{memberSeriesGroupCountList.length>0?memberSeriesGroupCountList[0].count
+                                : 0}}
+                                /
+                                2輛</span>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li class="d-flex flex-wrap align-items-center w-50 w-md-100 pl-5 pl-sm-0">
+        <pin-svg :disabled="!isMemberHasSeriesPin('TA')" series="TA"></pin-svg>
+        <div class="ml-5">
+          <div class="h5 mb-2">達成條件 :<span class="badge bg-series-TA ml-5 ml-xs-2 mr-2">計程車系</span> 累積3輛
+            </span>
+          </div>
+          <div class="d-flex flex-wrap align-items-center  mb-2">
+            <span class="mr-5 mb-2">累積進度 :</span>
+            <div class="level-progress">
+              <div v-for='item in activePinCol(memberSeriesGroupCountList[6])' class="level-progress__col level-progress__col--active">
+              </div>
+              <div v-for='item in (24-activePinCol(memberSeriesGroupCountList[6]))' class="level-progress__col"></div>
+              <span class="font-s ml-2">{{memberSeriesGroupCountList.length>0?memberSeriesGroupCountList[6].count
+                                : 0}}
+                                /
+                                3輛</span>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li class="d-flex flex-wrap align-items-center w-50 w-md-100 pl-5 pl-sm-0">
+        <pin-svg :disabled="!isMemberHasSeriesPin('PA')" series="PA"></pin-svg>
+        <div class="ml-5">
+          <div class="h5 mb-2">達成條件 :<span class="badge bg-series-PA ml-5 ml-xs-2 mr-2">警車系</span><span class="badge bg-series-CA mr-2">轎車系</span>各累積 1 輛
+          </div>
+          <div class="d-flex flex-wrap align-items-center  mb-2">
+            <span class="mr-5 mb-2">累積進度 :</span>
+            <div class="level-progress">
+              <div v-for='item in activePinCol(memberSeriesGroupCountList[3])' class="level-progress__col level-progress__col--active">
+              </div>
+              <div v-for='item in (24-activePinCol(memberSeriesGroupCountList[3]))' class="level-progress__col"></div>
+              <span class="font-s ml-2">{{memberSeriesGroupCountList.length>0?memberSeriesGroupCountList[3].count
+                                : 0}}
+                                /
+                                2輛</span>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li class="d-flex flex-wrap align-items-center w-50 w-md-100 pl-5 pl-sm-0">
+        <pin-svg :disabled="!isMemberHasSeriesPin('EN')" series="EN"></pin-svg>
+        <div class="ml-5">
+          <div class="h5 mb-2">達成條件 :<span class="badge bg-series-EN ml-5 ml-xs-2 mr-2">工程系</span>累積3輛
+          </div>
+          <div class="d-flex flex-wrap align-items-center  mb-2">
+            <span class="mr-5 mb-2">累積進度 :</span>
+            <div class="level-progress">
+              <div v-for='item in activePinCol(memberSeriesGroupCountList[7])' class="level-progress__col level-progress__col--active">
+              </div>
+              <div v-for='item in (24-activePinCol(memberSeriesGroupCountList[7]))' class="level-progress__col"></div>
+              <span class="font-s ml-2">{{memberSeriesGroupCountList.length>0?memberSeriesGroupCountList[7].count
+                                : 0}}
+                                /
+                                3輛</span>
+            </div>
+          </div>
+        </div>
+      </li>
+
+    </ul>
+
+
+  </section>
+</section>
+
+
+
+
+
+
+
+
+<!-- <div class=" container">
+        <div class="row member__info">
+            <section class="member__data d-flex w-100">
+                <h2 id="memberCoupon">點數兑換紀錄</h2>
+            </section>
+        </div>
+        <div class="row only__mymember">
+            <div class="notice__cupon  mt-5  col-10 col-lg-6">
+                <ul class="d-flex justify-content-around w-100">
+
+                    <li class="only__cupon--color">
+                        <span class="only__nigold">+NI</span>
+                    </li>
+                    <li class=" pt-0 w-50">
+                        <ul class="only__title">
+                            <li class="h5">獲得Ni幣10點</li>
+                            <li class="h4">註冊新會員獎勵，獲得Ni幣10點</li>
+                            <li class="h6">3小時前</li>
+                        </ul>
+                    </li>
+
+                    <div class="only__data d-flex w-100"> </div>
+
+
+                    <li class="only__cupon">
+                        <span class="only__nigold">-NI</span>
+                    </li>
+                    <li class=" pt-0 w-50">
+                        <ul class="only__title">
+                            <li class="h5">花費Ni幣100點</li>
+                            <li class="h4">訂單201098299299已成立，花費Ni幣100點</li>
+                            <li class="h6">3小時前</li>
+                        </ul>
+                    </li>
+
+                    <div class="only__data d-flex w-100"> </div>
+
+                    <li class="only__cupon--color">
+                        <span class="only__nigold">+NI</span>
+                    </li>
+                    <li class=" pt-0 w-50">
+                        <ul class="only__title">
+                            <li class="h5">獲得Ni幣7點</li>
+                            <li class="h4">訂單201098299299已完成，獲得Ni幣7點</li>
+                            <li class="h6">3小時前</li>
+                        </ul>
+                    </li>
+
+                    <div class="only__data d-flex w-100">
+                    </div>
+
+                    <div class="only__readMore">
+                        <p class="only__more">閱讀更多</p>
+                        <img src="./assets/img/icon/icon-down.svg" class="only__icon">
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </div> -->

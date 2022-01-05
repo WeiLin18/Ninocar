@@ -1,0 +1,13 @@
+<script>
+    Vue.component('post-pin', {
+        template: `
+            <svg class="pin" width="80" height="80">
+                <circle cx="40" cy="40" r="30" stroke-width="4" />
+                <circle cx="40" cy="40" r="25" stroke-width="2" />
+                <path d="M 23,30 A 20,20 0 0 1 57,30" stroke-width="1" />
+                <path d="M 23,50 A 20,20 0 0 0 57,50" stroke-width="1" />
+                <text x="20" y="48" class="pin__text pin__text--lg">GET</text>
+            </svg>
+     `,
+    });
+</script>

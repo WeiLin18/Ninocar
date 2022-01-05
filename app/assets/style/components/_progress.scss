@@ -1,0 +1,100 @@
+.progress {
+    display: flex;
+    color: $white;
+    text-align: center;
+    position: relative;
+    font-size: 24px;
+    margin-left: 100px;
+    @include rwd-lg {
+        margin-left: 50px;
+    }
+    @include rwd-md {
+        margin-left: 0px;
+    }
+    &__item {
+        @include circle(42px, 42px);
+        margin: 0 100px;
+        position: relative;
+        background-color: $gray-500;
+        line-height: 42px;
+        @include rwd-md {
+            margin: 0 90px;
+        }
+        @include rwd-sm {
+            margin: 0 50px;
+        }
+        @include rwd-xs {
+            margin: 0 30px;
+        }
+        &::after {
+            content: "";
+            width: 500%;
+            height: 3px;
+            position: absolute;
+            background-color: $gray-500;
+            top: 50%;
+            left: -478%;
+            z-index: 1;
+            @include rwd-md {
+                width: 430%;
+                left: -428%;
+            }
+            @include rwd-sm {
+                width: 250%;
+                left: -240%;
+            }
+            @include rwd-xs {
+                width: 150%;
+                left: -140%;
+            }
+        }
+        &:nth-child(1) {
+            &::after {
+                display: none;
+            }
+        }
+        &:nth-child(4) {
+            &::after {
+                width: 500%;
+            }
+        }
+        &--active {
+            background-color: $secondary;
+            &::after {
+                content: "";
+                width: 500%;
+                height: 3px;
+                position: absolute;
+                background-color: $secondary;
+                top: 50%;
+                left: -478%;
+                z-index: 2;
+                @include rwd-md {
+                    width: 430%;
+                    left: -428%;
+                }
+                @include rwd-sm {
+                    width: 250%;
+                    left: -240%;
+                }
+                @include rwd-xs {
+                    width: 150%;
+                    left: -140%;
+                }
+            }
+        }
+    }
+    &__text {
+        position: absolute;
+        width: 150px;
+        top: 100%;
+        left: -120%;
+        color: $black;
+        @extend .h3;
+    }
+    &__bar {
+        @include rwd-md {
+            justify-content: center;
+        }
+    }
+}

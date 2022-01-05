@@ -1,0 +1,51 @@
+<script>
+  Vue.component('success-sign-up-content', {
+    template: '#successSignUp',
+    data() {
+      return {
+
+      }
+    },
+    computed: {
+      countDown() {
+
+      }
+    },
+    methods: {
+
+    }
+  });
+</script>
+<template id="successSignUp">
+    <div>
+        <h2 class="modal__title mb-18">
+            註冊成功
+        </h2>
+        <svg
+            width="80"
+            height="80"
+        >
+            <circle
+                cx="40"
+                cy="40"
+                r="40"
+                fill="#fadd61"
+            />
+            <polyline
+                points="25,43 38,58 58,28"
+                style="fill:none;stroke:#522613;stroke-width:7;stroke-linecap:round ;stroke-linejoin:round"
+            >
+            </polyline>
+        </svg>
+        <h3 class="h4 mb-10">歡迎加入</h3>
+        <p class="h4 text-left mb-4">72 小時內首次購物享 9 折優惠，剩餘有效時間 {{countDown}}</p>
+        <a
+            href="./product.html"
+            class="btn btn--fluid mb-4"
+        >逛逛熱門商品</a>
+        <a
+            href="./memberNotice.html"
+            class="btn btn--fluid btn--outline"
+        >查看我的優惠券</a>
+    </div>
+</template>

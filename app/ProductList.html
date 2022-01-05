@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="./assets/css/all.css">
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vuex/3.6.2/vuex.min.js"></script>
+<link rel="shortcut icon" href="./assets/img/loho-icon.ico" />
+<script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js' integrity='sha512-otOZr2EcknK9a5aa3BbMR9XOjYKtxxscwyRHN6zmdXuRfJ5uApkHB7cz1laWk2g8RKLzV9qv/fl3RPwfCuoxHQ==' crossorigin='anonymous'></script>
+<link rel="stylesheet" href="./assets/css/pages/memberNew.css">
+<script src="./assets/js/utils.js"></script>
+<script src="./assets/js/all.js"></script>
+<title>Order List</title>
+</head>
+
+<body>
+  <div id="productList">
+    <vue-header></vue-header>
+    <main class="container pt-25 pb-15 px-20 mb-10">
+      <div class="row">
+        <div class="col-8  col-lg-6 offset-lg-0 col-sm-4">
+          <h2 class="mb-5 mt-10 font-bold highlight d-inbl">詳細訂單</h2>
+        </div>
+      </div>
+      <div class="row block member__order">
+        <div class="col-12 col-lg-6" v-for="(item,index) of localBuyList" v-show="index==0">
+          <ul class="member__orderDetail">
+            <li class="member__orderList w-70">訂單編號：<span class="h4">{{item.order_id}}</span></li>
+            <li class="member__orderList">花費點數：<span class="h4">{{item.order_points}} 點</span></li>
+            <li class="member__orderList w-70">訂單金額：<span class="h4">{{item.order_cost}} 元</span></li>
+            <li class="member__orderList">訂單狀態：<span class="h4">{{item.order_type}}</span></li>
+            <li class="member__orderList w-70">收貨方式：<span class="h4">{{item.deliver_type}}</span></li>
+            <li class="member__orderList">付款方式：<span class="h4">{{item.pay_type}}</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="row  block mt-10 px-15 px-xs-1 d-flex" v-for="(item,index) of localBuyList">
+        <div class="member__blockLeft col-5 col-lg-6">
+          <img class="member__orderListImg mr-3" :src="item.imgURL" alt="">
+          <div>
+            <p class="member__orderListText">{{item.name}}</p>
+            <p class="member__orderListText--small">{{item.eName}}</p>
+          </div>
+        </div>
+        <div class="member__blockMid  col-4 col-lg-3">
+
+          <p class="mb-1">系列：{{item.series}}</p>
+          <p class="mb-1">年份：{{item.year}}</p>
+          <p class="mb-3">尺寸：{{item.size}}</p>
+          <p class="member__orderListText--mid">{{item.script}}</p>
+        </div>
+        <div class="member__blockRight col-3 col-lg-3">
+          <p class="mb-1">點數：{{item.points}}點</p>
+          <p class="mb-1">金額：{{item.price}}元</p>
+        </div>
+    </main>
+
+
+
+
+
+
+
+    @@include('./components/Footer.html')
+    </div>
+
+
+    @@include('./components/VueHeader.html')
+
+
+    <script>
+      new Vue({
+        el: '#productList',
+        store,
+        data: {
+
+          nowOrderId: "",
+          localBuyList: [],
+
+        },
+        computed: {
+          memberId() {
+            return this.$store.state.memberId
+          },
+
+        },
+        mounted() {
+
+          this.nowOrderId = JSON.parse(localStorage.getItem('buyListId')) || '';
+
+          axios.post('./assets/php/getCurrentOrderList.php', {
+            "memberId": this.memberId,
+            "orderId": parseInt(this.nowOrderId),
+          }).then((res) => {
+            console.log(res.data);
+            this.localBuyList = res.data.map((list) => {
+
+              const seriesList = [{
+                eName: "EN",
+                name: "工程系",
+              }, {
+                eName: "RV",
+                name: "RV休旅系",
+              }, {
+                eName: "TA",
+                name: "計程車系",
+              }, {
+                eName: "BS",
+                name: "巴士系",
+              }, {
+                eName: "PA",
+                name: "警車系",
+              }, {
+                eName: "EM",
+                name: "消防救護系",
+              }, {
+                eName: "CA",
+                name: "轎車系",
+              }, {
+                eName: "PM",
+                name: "PREMIUM系",
+              }];
+
+              let deliver = list.deliver_type == "0" ? '處理中' : list.deliver_type == "1" ? '出貨中' : list.deliver_type == "2" ? '已送達' : '請稍等我們客服查詢中';
+              let pay = list.pay_type == "0" ? '貨到付款' : list.pay_type == "1" ? '線上刷卡' : list.pay_type == "2" ? '門市結帳' : list.pay_type == "3" ? 'ATM轉帳' : '請稍等我們客服查詢中';
+              let type = list.order_type == "0" ? '成立' : list.order_type == "1" ? '取消' : '請稍等我們客服查詢中';
+              let thisSeriesIndex = parseInt(list[`product_series`]) - 1;
+              thisSeriesIndex.toString();
+              let thisPoints = parseInt(list['product_points']);
+              let thisPrice = parseInt(list['product_price']);
+              // 系列Id若是單位數，前面加0
+              let thisSeriesId;
+              let url; //新增商品路徑
+              if (list[`product_seriesid`].length === 1) {
+                thisSeriesId = 0 + list[`product_seriesid`];
+              } else {
+                thisSeriesId = list[`product_seriesid`];
+              };
+              if (list['product_year'] == '2021') {
+
+                url = `./upload/${list['product_img']}`;
+
+              } else {
+
+                url = list['product_img'];
+
+              };
+
+
+              return {
+                deliver_type: deliver,
+                member_id: list.member_id,
+                order_cost: list.order_cost,
+                order_id: list.order_id,
+                order_points: list.order_points,
+                series: seriesList[thisSeriesIndex].name,
+                order_type: type,
+                pay_type: pay,
+                name: list[`product_name`].trim(),
+                eName: list['product_ename'].trim(),
+                seriesIndex: thisSeriesIndex,
+                seriesId: thisSeriesId,
+                imgURL: url,
+                displayImgURL: list['product_img1'],
+                productId: list['product_id'],
+                year: list['product_year'],
+                size: list['product_size'],
+                price: thisPrice,
+                points: thisPoints,
+                script: list['product_des'],
+
+
+              }
+
+            });
+
+
+
+
+
+          }).catch((error) => {
+            console.log(error)
+          })
+
+
+
+
+        },
+
+      });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="./assets/css/all.css">
+<link rel="stylesheet" href="./assets/css/pages/dictionary.css">
+<link rel="shortcut icon" href="./assets/img/loho-icon.ico" />
+<script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vuex/3.6.2/vuex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script src="./assets/js/utils.js"></script>
+<title>Dictionary</title>
+</head>
+
+<body>
+  <div id="dictionary" v-cloak>
+    <vue-header></vue-header>
+    <main class="container pt-25 pb-15">
+      <!-- display -->
+      <transition name="fade">
+        @@include('./pages/DictionaryPage/DictionaryModalDiv.html')
+      </transition>
+      <!--  list -->
+      <section class="block">
+        @@include('./pages/DictionaryPage/DictionaryPostNav.html')
+        <transition name="collapse">
+          @@include('./pages/DictionaryPage/DictionaryFilterForm.html')
+        </transition>
+        <empty-state-div v-if="isLoginEmptyStateDivShow" class="block__body">
+          <template v-slot:details>此頁面為會員專屬功能，<br>
+            請先登入會員，以查看您的圖鑑和成就徽章</template>
+        </empty-state-div>
+        <empty-state-div v-if="isMemberEmptyStateDivShow" class="block__body">
+          <template v-slot:details>尚未收集到圖鑑和成就，<br>
+            完成訂單的車子，將在三天內匯入個人圖鑑</template>
+          <template v-slot:link>
+            <a
+              href="./member.html"
+              class="btn d-inbl text-center"
+            >查看訂單</a>
+          </template>
+        </empty-state-div>
+        @@include('./pages/DictionaryPage/DictionaryPostList.html')
+      </section>
+    </main>
+    @@include('./components/Footer.html')
+  </div>
+
+  @@include('./components/VueHeader.html') @@include('./components/PinSvg.html') @@include('./components/EmptyStateDiv.html') @@include('./pages/DictionaryPage/DictionaryPostItem.html') @@include('./pages/DictionaryPage/DictionaryPostPinSvg.html')
+  <script src="./assets/js/mixins/productMixins.js"></script>
+
+  <script>
+    new Vue({
+      el: '#dictionary',
+      mixins: [productMixins],
+      data: { //變數存放的地方
+        searchType: 'keyword',
+        activeNav: 'all',
+        isModalShow: false,
+        yearList: ['1970~1989', '1990~2009', '2010後'],
+        limitList: ['無限定', '期間限定', '點數限定'],
+        selectedSeriesList: [],
+        selectedYearList: [],
+        selectedLimitList: [],
+      },
+      store,
+      computed: {
+        //從store裡拿東西
+        memberId() {
+          return this.$store.state.memberId
+        },
+        seriesList() {
+          return this.$store.state.seriesList
+        },
+
+        isLoginEmptyStateDivShow() {
+          if (!this.memberId && this.activeNav === 'my') {
+            return true
+          } else {
+            return false
+          }
+        },
+        isMemberEmptyStateDivShow() {
+          if (this.memberId && this.activeNav === 'my') {
+            return this.myProductList.length === 0 ? true : false;
+          } else {
+            return false;
+          }
+        },
+        yearAllCheck: {
+          get() {
+            return this.selectedYearList ? this.selectedYearList
+              .length === this.yearList.length : false
+          },
+          set(value) {
+            value ? this.selectedYearList = [...this.yearList] : this
+              .selectedYearList = [];
+          }
+        },
+        seriesAllCheck: {
+          get() {
+            return this.selectedSeriesList ? this.selectedSeriesList.length === this.seriesList
+              .length : false
+          },
+          set(value) {
+            value ? this.selectedSeriesList = this.seriesList.map(series =>
+                series.eName) : this
+              .selectedSeriesList = [];
+          }
+        },
+        limitAllCheck: {
+          get() {
+            return this.selectedLimitList ? this.selectedLimitList
+              .length === this.limitList.length : false
+          },
+          set(value) {
+            value ? this.selectedLimitList = [...this.limitList] : this
+              .selectedLimitList = [];
+          }
+        },
+      },
+      watch: {
+        selectedYearList() {
+          this.handleShowProductListChange();
+        },
+        selectedSeriesList() {
+          this.handleShowProductListChange();
+        },
+        selectedLimitList() {
+          this.handleShowProductListChange();
+        },
+        myProductList(list) {
+          if (this.activeNav === 'my') {
+            this.showProductList = this.myProductList;
+          }
+        },
+        searchType(type) {
+          if (type === 'sort') {
+            this.selectedSeriesList.splice(0);
+            this.selectedYearList.splice(0);
+            this.selectedLimitList.splice(0);
+          }
+        },
+      },
+      methods: {
+        handleSearchTypeChange() {
+          this.showProductList = this.productList;
+          if (this.searchType === 'sort') {
+            this.searchType = 'keyword'
+            this.keywordText = ''
+          } else {
+            this.searchType = 'sort';
+            this.handleFilterAllCheck()
+          }
+        },
+        handleShowProductListChange() {
+
+          const filterYearProductList = this.productList.filter(product => {
+            let isYearInclude = false;
+            if (this.selectedYearList.length === 0) {
+              isYearInclude = true
+            }
+            this.selectedYearList.includes('1970~1989') && product.year <= 1989 ?
+              isYearInclude =
+              true : '';
+            this.selectedYearList.includes('2010後') && product.year >= 2010 ?
+              isYearInclude =
+              true :
+              '';
+            if (this.selectedYearList.includes('1990~2009')) {
+              product.year >= 1990 && product.year <= 2009 ? isYearInclude = true : '';
+            }
+            return isYearInclude;
+          })
+
+
+          const filterSeriesProductList = filterYearProductList.filter(product => {
+            if (this.selectedSeriesList.length === 0) {
+              return true
+            }
+            return this.selectedSeriesList.includes(product.series);
+          })
+          const filterLimitProductList = filterSeriesProductList.filter(product => {
+            let isLimitInclude = false;
+            if (this.selectedLimitList.length === 0) {
+              isLimitInclude = true
+            }
+            this.selectedLimitList.includes('期間限定') && product.limitLabel === '2' ?
+              isLimitInclude =
+              true : '';
+            this.selectedLimitList.includes('點數限定') && product.limitLabel === '4' ?
+              isLimitInclude =
+              true : '';
+            if (this.selectedLimitList.includes('無限定')) {
+              product.limitLabel !== '2' && product.limitLabel !== '4' ? isLimitInclude =
+                true : '';
+            }
+            return isLimitInclude;
+          })
+          this.showProductList = filterLimitProductList;
+        },
+        handleFilterReset() {
+          this.yearAllCheck = false;
+          this.seriesAllCheck = false;
+          this.limitAllCheck = false;
+        },
+        handleFilterAllCheck() {
+          this.yearAllCheck = true;
+          this.seriesAllCheck = true;
+          this.limitAllCheck = true;
+        },
+        handlePostClick(theProductId) {
+          this.targetProduct = this.showProductList.find(product => product.productId ===
+            theProductId)
+          this.isModalShow = true;
+        },
+        handleNavBarChange(state) {
+          if (state === 'my') {
+            this.activeNav = state;
+            this.showProductList = this.myProductList;
+          } else if (state === 'all') {
+            this.activeNav = state;
+            this.showProductList = this.productList;
+            this.searchType = 'keyword';
+            this.keywordText = '';
+          }
+        },
+        handleModalProductChange(order) {
+          const currentIndex = this.showProductList.indexOf(this.targetProduct);
+          if (order === 'prev') {
+            this.targetProduct = this.showProductList[currentIndex - 1];
+          } else if (order === 'next') {
+            this.targetProduct = this.showProductList[currentIndex + 1];
+          }
+        },
+        handleKeywordSearch() {
+          const filteredProductList = this.getProductListByKeyword();
+          this.showProductList = filteredProductList;
+        },
+
+      },
+    })
+  </script>
+</body>
+
+</html>

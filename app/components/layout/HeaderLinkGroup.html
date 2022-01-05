@@ -1,0 +1,86 @@
+<script>
+  Vue.component('link-group', {
+    template: `
+            <div class="container">
+            <nav class="link-group" @mouseover="isPopover = true">
+                <ul>
+                    <li>
+                        <a href="cart.html" aria-label="cart"  @mouseenter="isPopover = false">
+                          <span v-if="carts_list.length>=1" class="popovers__num">{{carts_list.length}}</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 80 80" class="icon">
+                                <g transform="translate(-715 -383)">
+                                    <circle cx="40" cy="40" r="37" transform="translate(715 383)" fill="#fadd61"  stroke="#ffffff" stroke-width="3"/>
+                                    <g transform="translate(734 402.037)">
+                                    <path  d="M16.627,32.313A2.313,2.313,0,1,1,14.313,30,2.313,2.313,0,0,1,16.627,32.313Z" transform="translate(0.072 4.523)" fill="none" stroke="#522613" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/>
+                                    <path d="M16.627,32.313A2.313,2.313,0,1,1,14.313,30,2.313,2.313,0,0,1,16.627,32.313Z" transform="translate(19.072 4.523)" fill="none" stroke="#522613" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/>
+                                    <path  d="M1.5,1.5H8.97l5,25.006a3.735,3.735,0,0,0,3.735,3.007H35.862A3.735,3.735,0,0,0,39.6,26.506l2.988-15.668H10.837" transform="translate(-2.5 1.276)" fill="none" stroke="#522613" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/>
+                                    <line  x1="6" transform="translate(-3 23.462)" fill="none" stroke="none" stroke-linecap="round" stroke-width="4" class="hover-stroke-coffee"/>
+                                    <line x1="6" transform="translate(-1 30.462)" fill="none" stroke="none" stroke-linecap="round" stroke-width="4" class="hover-stroke-coffee"/>
+                                    </g>
+                                </g>
+                            </svg>
+                    <transition name="fade">  
+                    <popovers  v-if="isPopover"></popovers>
+                    </transition>
+                        </a>
+
+                    </li>
+                    <li>
+                        <a href="#" aria-label="top" v-show="isTopBtnVisible" @click.prevent="scrollTop">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 80 80" class="icon">
+                                <g transform="translate(-1660 -805)">
+                                    <g transform="translate(76 -122.041)">
+                                        <circle cx="40" cy="40" r="37" transform="translate(1584 927.041)" fill="#fadd61" stroke="#ffffff" stroke-width="3"/>
+                                    </g>
+                                    <text transform="translate(1700 862)" fill="#522613" font-size="32" font-family="NotoSans-Bold, Noto Sans" font-weight="700"><tspan x="-31.891" y="0">TOP</tspan></text>
+                                    <g transform="translate(1995.252 1047.249) rotate(180)">
+                                    <path d="M301.122,234.488a1.2,1.2,0,0,1-.864-.366l-6.664-6.875a1.2,1.2,0,0,1,1.729-1.676l5.741,5.922,4.986-5.864a1.2,1.2,0,0,1,1.834,1.559l-5.845,6.875a1.2,1.2,0,0,1-.878.423Z" transform="translate(-5.703 -8.294)" fill="#522613"/>
+                                    </g>
+                                    <g transform="translate(1995.252 1037.967) rotate(180)">
+                                    <path d="M301.122,234.488a1.2,1.2,0,0,1-.864-.366l-6.664-6.875a1.2,1.2,0,0,1,1.729-1.676l5.741,5.922,4.986-5.864a1.2,1.2,0,0,1,1.834,1.559l-5.845,6.875a1.2,1.2,0,0,1-.878.423Z" transform="translate(-5.703 -8.294)" fill="none" class="hover-fill-coffee"/>
+                                    </g>
+                                </g>
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+            `,
+    data() {
+      return {
+        isTopBtnVisible: false,
+        isPopover: false,
+        carts_list: [],
+      }
+    },
+    methods: {
+      scrollTop() {
+        this.intervalId = setInterval(() => {
+          if (window.pageYOffset === 0) {
+            clearInterval(this.intervalId)
+          }
+          window.scroll(0, window.pageYOffset - 50)
+        }, 20)
+      },
+      scrollListener() {
+        this.isTopBtnVisible = window.scrollY > 100
+      },
+      checkCarts_list() {
+        setInterval(() => {
+          this.carts_list = JSON.parse(localStorage.getItem('cartsList')) || [];
+        }, 100);
+
+      },
+
+    },
+    mounted() {
+      window.addEventListener('scroll', this.scrollListener);
+      this.checkCarts_list();
+    },
+    beforeDestroy() {
+      window.removeEventListener('scroll', this.scrollListener)
+    }
+
+  });
+</script>

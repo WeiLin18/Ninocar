@@ -1,0 +1,55 @@
+{
+    "name": "nino-car",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "script comment": {
+        "dev": "安裝套件有更新套件時",
+        "renew": "更新dist每次pull下來時",
+        "watch": "執行監聽開始開發時",
+        "browser": "同步檢視更新"
+    },
+    "scripts": {
+        "dev": "npm install",
+        "renew": "gulp u",
+        "watch": "gulp w",
+        "browser": "gulp browser"
+    },
+    "contributors": [
+        "Wei Lin <chiwei991814@gmail.com> （https://github.com/WeiLin18）",
+        "Allen Chou <eepson123@gmail.com>  (https://github.com/eepson123tw)",
+        "Richard Hung<rustyperfume@gmail.com>  (https://github.com/Meitaku0519)",
+        "lili Wang<wanglt242@gmail.com>  (https://github.com/tempura327)",
+        "bensoen<marilyn780913@gmail.com>  (https://github.com/bensoen)",
+        "xing <jackjohnton789@gmail.com> (https://github.com/XING-76)"
+    ],
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/eepson123tw/Ninocar"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.12.13",
+        "@babel/preset-env": "^7.12.13",
+        "browser-sync": "^2.26.14",
+        "gulp": "^4.0.2",
+        "gulp-babel": "^8.0.0",
+        "gulp-clean": "^0.4.0",
+        "gulp-clean-css": "^4.3.0",
+        "gulp-concat": "^2.6.1",
+        "gulp-file-include": "^2.3.0",
+        "gulp-imagemin": "^7.1.0",
+        "gulp-rename": "^2.0.0",
+        "gulp-sass": "^4.1.0",
+        "gulp-sourcemaps": "^3.0.0",
+        "gulp-uglify": "^3.0.2",
+        "node-sass": "^5.0.0"
+    },
+    "dependencies": {
+        "crypto-js": "^4.0.0",
+        "jquery": "^3.5.1",
+        "swiper": "^6.4.11",
+        "vue": "^2.6.12",
+        "vuex": "^3.6.2"
+    }
+}

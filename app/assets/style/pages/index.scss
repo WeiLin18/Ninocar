@@ -1,0 +1,1317 @@
+@import "../helpers/variables";
+@import "../helpers/mixin";
+@import "../helpers/rwd";
+
+.index {
+    overflow: hidden;
+    margin-bottom: -400px; //end top
+
+    @include rwd-sm {
+        margin-bottom: 40px;
+    }
+
+
+    &__title {
+        font-size: 48px;
+        font-weight: 700;
+        display: inline-block;
+
+        &:before {
+            height: 30px;
+        }
+
+        @include rwd-xl {
+            font-size: 40px;
+
+            &:before {
+                height: 24px;
+            }
+        }
+
+        @include rwd-md {
+            font-size: 31px;
+
+            &:before {
+                height: 24px;
+            }
+        }
+
+        @include rwd-xs {
+            font-size: 28px;
+
+            &:before {
+                height: 16px;
+            }
+        }
+
+
+
+    }
+
+    .parking {
+        position: relative;
+        margin-top: 80px;
+        margin-bottom: 220px;
+
+        @include rwd(1400px) {
+            margin-top: 40px;
+        }
+
+        @include rwd-lg {
+            margin-bottom: 120px;
+        }
+
+        &__car {
+            position: absolute;
+            width: 20%;
+            top: 40.5%;
+            left: 44%;
+            z-index: 30;
+
+            @include rwd-lg {
+                top: 42.5%;
+                width: 19%;
+            }
+        }
+
+        &--animation {
+            z-index: 40;
+            position: absolute;
+            background-position: 0 0;
+            background-size: 200%;
+        }
+
+
+
+        &__call {
+            top: 18%;
+            right: 24%;
+            @include size(30px, 80px);
+            background: url('../../img/illust/illust-parking-call.svg');
+            animation: indexHero 2s infinite steps(2) alternate;
+            background-size: 200%;
+            background-repeat: no-repeat;
+
+            @include rwd-md {
+                animation: none;
+                width: 3%;
+
+            }
+        }
+
+        &__close {
+            top: 28%;
+            left: 25%;
+            @include size(180px, 150px);
+            background: url('../../img/illust/illust-parking-close.svg');
+            animation: indexHero 5s infinite steps(2) alternate;
+            background-size: 200%;
+            animation: indexHero 3s infinite steps(2) alternate;
+            background-repeat: no-repeat;
+
+            @include rwd(1400px) {
+                animation: none;
+                width: 20%;
+
+            }
+        }
+
+        &__delivery {
+            top: 40%;
+            left: 5%;
+            @include size(187px, 180px);
+            background: url('../../img/illust/illust-parking-delivery.svg');
+            background-size: 200%;
+            animation: indexHero 3s infinite steps(2) alternate;
+            background-repeat: no-repeat;
+
+            @include rwd(1400px) {
+                animation: none;
+                width: 20%;
+
+            }
+        }
+
+        &__billboard {
+            position: absolute;
+            bottom: -22%;
+            right: 25%;
+            z-index: 60;
+            @include size(220px, 371.96px);
+            background: url('../../img/illust/illust-parking-billboard.svg');
+            animation: heroBillboard 6s infinite steps(7);
+
+            @include rwd(1400px) {
+                bottom: -30%;
+            }
+
+            @include rwd-md {
+                display: none;
+            }
+        }
+
+
+        &__start {
+            position: absolute;
+            bottom: 6%;
+            left: 7%;
+            z-index: 40;
+            width: 25%;
+        }
+
+
+    }
+
+    .mountain {
+        position: relative;
+        padding: 400px 0;
+        background-image: url('../../img/illust/illust-mountain.svg');
+        background-size: cover;
+
+        @include rwd-xl {
+            margin-top: -160px;
+        }
+
+        @include rwd-xs {
+            padding-top: 200px;
+        }
+
+        &__container {
+            max-width: 1200px
+        }
+
+        &__road {
+            position: absolute;
+            bottom: -20px;
+        }
+
+        &__cars {
+            position: absolute;
+            bottom: 250px;
+            display: flex;
+            justify-content: space-around;
+            width: 200%;
+            z-index: 50;
+            animation: carsRun 13s -10s linear infinite backwards;
+        }
+
+
+
+        &__car {
+            position: absolute;
+            bottom: 60px;
+            left: -250px;
+
+            @include rwd(1400px) {
+                width: 280px;
+            }
+        }
+    }
+
+    .factory {
+        &__all {
+            @include rwd-lg {
+                width: 60%;
+                margin: 0 auto;
+            }
+        }
+
+        &__house {
+            position: relative;
+            z-index: 30;
+            width: 100%;
+
+        }
+
+        &__inner {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 5;
+        }
+
+        &__door {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 20;
+        }
+
+        &__car {
+            position: absolute;
+            width: 20%;
+            top: -36%;
+            left: 22%;
+            z-index: 10;
+            transform: translateY(100px);
+
+            @include rwd(1400px) {
+                left: 24%;
+            }
+
+            @include rwd-xl {
+                top: -30%;
+            }
+
+            @include rwd-lg {
+                left: 30%;
+                width: 12%;
+            }
+
+            @include rwd-md {
+                left: 26%;
+                width: 14%;
+                top: -24%;
+            }
+
+        }
+
+        &__road {
+            width: 100%;
+            position: relative;
+            top: -150px;
+
+            @include rwd-lg {
+                left: 4%;
+            }
+
+            @include rwd-md {
+                left: 8%;
+            }
+        }
+
+        &__text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+
+
+            @include rwd-lg {
+                margin: auto;
+            }
+        }
+
+
+
+
+
+    }
+
+    .thumb {
+        position: absolute;
+        right: -80px;
+        top: 0;
+        transform: translateY(-40%);
+        animation: messageXShake 1s ease-in infinite;
+
+        @include rwd-xs {
+            top: -10px;
+            right: -100px;
+        }
+
+        &--down {
+            top: -60px;
+            right: 0;
+            animation: messageYShake 1s ease-in infinite;
+        }
+
+        &--stop {
+            right: -120px;
+            top: 120px;
+            animation: none;
+            opacity: 0;
+        }
+
+        &__text {
+            font-size: 28px;
+            font-weight: 700;
+            color: $coffee;
+            position: absolute;
+            left: 30px;
+            top: 12px;
+        }
+
+        &__text--down {
+            left: 27px;
+            top: 7px;
+        }
+
+        &__text--stop {
+            left: 35px;
+            top: 5px;
+        }
+
+        &__svg--down,
+        &__svg--stop {
+
+            transform: rotate(-90deg);
+        }
+
+
+
+    }
+
+
+    .delivery {
+        position: relative;
+
+        &__text {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            top: 5px;
+            left: 8px;
+            font-size: 24px;
+
+            @include rwd-xs {
+                font-size: 16px;
+                top: 12px;
+                left: -7px;
+            }
+        }
+
+        &__text__num {
+            font-size: 60px;
+            font-weight: 700;
+
+            &:before {
+                height: 30px;
+            }
+
+            @include rwd-xl {
+                font-size: 52px;
+
+                &:before {
+                    height: 24px;
+                }
+            }
+
+            @include rwd-xs {
+                font-size: 40px;
+            }
+        }
+    }
+
+
+
+    .frame {
+        background-color: #fff;
+        border: 3px solid $coffee;
+        position: relative;
+        z-index: 50;
+
+        &:before {
+            content: " ";
+            position: absolute;
+            z-index: -1;
+            top: 7px;
+            left: 7px;
+            right: 7px;
+            bottom: 7px;
+            border: 2px dashed $coffee;
+        }
+    }
+
+    .turn-road {
+        position: relative;
+        top: -160px;
+        width: 100%;
+        margin: 0 auto;
+
+        @include rwd-md {
+            width: 120%;
+            left: -10%;
+            top: -140px;
+        }
+    }
+
+    .address {
+        top: -360px;
+        display: flex;
+
+        @include rwd-md {
+            flex-wrap: wrap;
+        }
+
+        @include rwd-sm {
+            top: 0;
+        }
+
+
+        &__pic--up {
+            // animation: picShake 3s infinite both;
+            top: 0;
+            right: 5%;
+            width: 40%;
+
+            @include rwd-md {
+                display: none;
+            }
+        }
+
+        &__pic--down {
+            // animation: picShake 3s 1.5s infinite both;
+            bottom: 0;
+            left: 2%;
+            width: 55%;
+
+            @include rwd-md {
+                display: none;
+            }
+        }
+
+
+        &__illust {
+            bottom: 10%;
+            right: 10%;
+
+            @include rwd-sm {
+                display: none;
+            }
+        }
+
+        &__map {
+            width: 100%;
+
+            @include rwd-md {
+                height: 400px;
+            }
+
+            @include rwd-xs {
+                height: 280px;
+            }
+        }
+    }
+
+    .end {
+        position: relative;
+        top: -400px;
+        padding-bottom: 200px;
+
+        @include rwd-xl {
+            top: -480px;
+        }
+
+        &__turn {
+            position: relative;
+
+            @include rwd(1024px) {
+                left: -80px;
+            }
+
+            @include rwd-md {
+                left: -145px;
+            }
+        }
+
+        &__road {
+            width: 100%;
+
+            @include rwd-md {
+                width: 120%;
+                position: relative;
+                left: -10%;
+            }
+        }
+
+        &__illust {
+            position: absolute;
+            top: 30%;
+            left: 55%;
+            width: 80px;
+
+            @include rwd-xl {
+                left: 70%;
+            }
+
+            @include rwd-md {
+                left: 85%;
+            }
+
+
+
+        }
+
+        &__illust__girl {
+
+            animation: girlShake 3s 1s ease-in-out infinite both;
+        }
+
+        &__path {
+            @include rwd-xl {
+                stroke-width: 140;
+            }
+
+            @include rwd(1024px) {
+                stroke-width: 120;
+
+            }
+
+            @include rwd-md {
+                stroke-width: 110;
+
+            }
+        }
+
+
+        &__road--extend {
+            width: 100%;
+            bottom: 0px;
+            position: absolute;
+
+            @include rwd(1400px) {
+                width: 94%;
+                bottom: -4px;
+                right: -1400px;
+            }
+
+            @include rwd-xl {
+                bottom: -7px;
+            }
+
+            @include rwd(1024px) {
+                display: none;
+            }
+        }
+
+        &__frame {
+            position: relative;
+            padding: 40px 60px;
+            text-align: center;
+            max-width: 560px;
+            margin: 0 auto;
+
+        }
+
+        &__frame__sign {
+            position: absolute;
+            bottom: 30px;
+            right: 40px;
+            font-weight: 500;
+            color: $secondary
+        }
+
+
+        &__girl--lg {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-48%);
+            width: 400px;
+            bottom: -720px;
+        }
+
+
+
+
+
+
+
+    }
+
+    .car-shake {
+        cursor: pointer;
+        animation: carShake .3s ease-in-out infinite;
+    }
+
+    .car-shake--team1 {
+        animation: carShake .3s .1s ease-in-out infinite;
+    }
+
+    .car-shake--team2 {
+        animation: carShake .3s .2s ease-in-out infinite;
+    }
+
+    @keyframes carShake {
+        0% {
+            transform: translate(.3px, .3px);
+        }
+
+        50% {
+            transform: translate(0px, -.2px);
+        }
+
+        100% {
+            transform: translate(-.3px, 0);
+        }
+    }
+
+    @keyframes messageXShake {
+        0% {
+            transform: translateX(0px);
+        }
+
+        50% {
+            transform: translateX(5px);
+        }
+
+        100% {
+            transform: translateX(0px);
+        }
+
+    }
+
+    @keyframes messageYShake {
+        0% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(5px);
+        }
+
+        100% {
+            transform: translateY(0px);
+        }
+    }
+
+    @keyframes carsRun {
+        0% {
+            transform: translateX(0);
+        }
+
+        100% {
+            transform: translateX(-1920px);
+        }
+
+    }
+
+    @keyframes girlShake {
+        0% {
+            transform: translateY(0px);
+        }
+
+        10% {
+            transform: translateY(10px);
+
+        }
+
+        20% {
+            transform: translateY(-2px);
+        }
+
+        30% {
+            transform: translateY(0);
+
+        }
+
+    }
+
+    @include rwd-xl {
+
+        @each $level in 0,
+        2 {
+            .mr-xl-#{$level} {
+                margin-right: $space-unit * $level;
+            }
+        }
+
+    }
+
+
+}
+
+@mixin grid($col-start:1, $col-end:1, $row-start:1, $row-end:1) {
+    grid-column-start: $col-start;
+    grid-column-end: $col-end;
+    grid-row-start: $row-start;
+    grid-row-end: $row-end;
+}
+
+.grid-container {
+    display: grid;
+    // outline: 1px solid #f00;
+    grid-column-gap: 40px;
+    grid-row-gap: 33px;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(9, 1fr);
+
+    @include rwd-xl {
+        grid-column-gap: 28px;
+        grid-row-gap: 22px;
+    }
+
+    @include rwd-lg {
+        grid-column-gap: 16px;
+        grid-row-gap: 16px;
+    }
+
+    @include rwd-sm {
+        grid-column-gap: 16px;
+        grid-row-gap: 16px;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+    }
+}
+
+.grid-bg-lg {
+    background-image: url('../../img/pic/index-product1.png');
+    background-size: 400%;
+    position: relative;
+    padding-top: 77.94%;
+    height: 0;
+
+
+
+    &:before {
+        content: '查看更多';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        font-size: 20px;
+        background-color: rgba(#000, .5);
+        color: #fff;
+        opacity: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: .3s;
+    }
+
+    &:hover:before {
+        opacity: 1;
+    }
+}
+
+
+.grid-3-4-1-2 {
+    //em03
+    @include grid(3, 4, 1, 2);
+    background-position: 66.6% 71.4%;
+
+    @include rwd-sm {
+        @include grid(1, 2, 1, 2);
+    }
+}
+
+.grid-3-4-2-3 {
+    // pa16
+    @include grid(3, 4, 2, 3);
+    background-position: 33.3% 57%;
+
+    @include rwd-sm {
+        @include grid(2, 3, 1, 2);
+    }
+}
+
+.grid-1-3-1-3 {
+    // en
+    @include grid(1, 3, 1, 3);
+    background-position: 0 43%;
+    animation: picPlay1313 10s infinite;
+
+    &:before {
+        content: '工程車系';
+    }
+
+    @include rwd-md {
+        @include grid(1, 4, 1, 4);
+    }
+
+    @include rwd-sm {
+        @include grid(1, 2, 1, 2);
+    }
+
+}
+
+@keyframes picPlay1313 {
+    0% {
+        background-position: 0 43%;
+    }
+
+    20% {
+        background-position: 0% 28.5%;
+    }
+
+    40% {
+        background-position: 33.3% 28.5%;
+    }
+
+    60% {
+        background-position: 33.3% 43%;
+    }
+
+    100% {
+        background-position: 0 43%;
+    }
+}
+
+.grid-4-7-1-4 {
+    //bs
+    @include grid(4, 7, 1, 4);
+    background-position: 33.3% 0;
+    animation: picPlay4714 10s infinite;
+
+    &:before {
+        content: '公車系';
+    }
+
+    @include rwd-sm {
+        @include grid(2, 3, 1, 2);
+    }
+}
+
+@keyframes picPlay4714 {
+
+    0% {
+        background-position: 33.3% 0;
+    }
+
+    20% {
+        background-position: 33.3% 14.5%;
+    }
+
+    40% {
+        background-position: 0% 14.5%;
+    }
+
+    60% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 33.3% 0;
+    }
+
+
+}
+
+.grid-5-7-4-6 {
+    // ta
+    @include grid(5, 7, 4, 6);
+    background-position: 100% 42.8%;
+    animation: picPlay2435 10s infinite;
+
+    &:before {
+        content: '計程車系';
+    }
+
+    @include rwd-md {
+        @include grid(4, 7, 3, 5);
+    }
+
+    @include rwd-sm {
+        @include grid(2, 3, 3, 4);
+    }
+}
+
+@keyframes picPlay2435 {
+    0% {
+        background-position: 100% 42.8%;
+    }
+
+    20% {
+        background-position: 66.6% 42.8%;
+    }
+
+    40% {
+        background-position: 66.6% 28%;
+    }
+
+    60% {
+        background-position: 100% 28%;
+    }
+
+    100% {
+        background-position: 100% 42.8%;
+    }
+}
+
+
+
+
+.grid-1-4-3-5 {
+    //text
+    @include grid(1, 4, 3, 5);
+
+    @include rwd-sm {
+        @include grid(1, 3, 2, 3);
+    }
+}
+
+
+.grid-4-5-4-5 {
+    //em06
+    @include grid(4, 5, 4, 5);
+    background-position: 100% 71.4%;
+
+    @include rwd-sm {
+        @include grid(1, 2, 5, 6);
+    }
+}
+
+.grid-4-5-5-6 {
+    // bs06
+    @include grid(4, 5, 5, 6);
+    background-position: 0% 14.5%;
+
+
+}
+
+.grid-1-4-5-8 {
+    //pm
+    @include grid(1, 4, 5, 8);
+    background-position: 66.6% 0;
+    animation: picPlay1458 10s infinite;
+
+    &:before {
+        content: 'PREMIUM系';
+    }
+
+    @include rwd-sm {
+        @include grid(1, 2, 3, 4);
+    }
+}
+
+@keyframes picPlay1458 {
+    0% {
+        background-position: 66.6% 0;
+    }
+
+    20% {
+        background-position: 66.6% 14.5%;
+    }
+
+    40% {
+        background-position: 100% 14.5%;
+    }
+
+    60% {
+        background-position: 100% 0;
+    }
+
+    100% {
+        background-position: 66.6% 0;
+    }
+}
+
+
+
+.grid-6-7-6-7 {
+    //pm05
+    @include grid(6, 7, 6, 7);
+    background-position: 100% 0%;
+
+
+}
+
+.grid-6-7-7-8 {
+    //en06
+    @include grid(6, 7, 7, 8);
+    background-position: 0% 42.8%;
+
+
+}
+
+.grid-4-6-6-8 {
+    //PA
+    @include grid(4, 6, 6, 8);
+    background-position: 0 57%;
+    animation: picPlay5768 10s infinite;
+
+    &:before {
+        content: '警車系';
+    }
+
+    @include rwd-md {
+        @include grid(4, 7, 5, 8);
+    }
+
+    @include rwd-sm {
+        @include grid(1, 2, 4, 5);
+    }
+}
+
+@keyframes picPlay5768 {
+    0% {
+        background-position: 0 57%;
+    }
+
+    20% {
+        background-position: 33.3% 57%;
+    }
+
+    40% {
+        background-position: 33.3% 71.4%;
+    }
+
+    60% {
+        background-position: 0% 71.4%;
+    }
+
+    100% {
+        background-position: 0 57%;
+    }
+}
+
+.grid-1-3-8-10 {
+    //em
+    @include grid(1, 3, 8, 10);
+    background-position: 100% 71.4%;
+    animation: picPlay24810 10s infinite;
+
+    &:before {
+        content: '消防救護系';
+    }
+
+    @include rwd-md {
+        @include grid(1, 3, 7, 9);
+    }
+
+    @include rwd-sm {
+        @include grid(2, 3, 4, 5);
+    }
+}
+
+@keyframes picPlay24810 {
+
+    0% {
+        background-position: 100% 71.4%;
+    }
+
+    20% {
+        background-position: 100% 57%;
+    }
+
+    40% {
+        background-position: 66.6% 57%;
+    }
+
+    60% {
+        background-position: 66.6% 71.4%;
+    }
+
+    100% {
+        background-position: 100% 71.4%;
+    }
+}
+
+.grid-3-5-8-10 {
+    //rv
+    @include grid(3, 5, 8, 10);
+    background-position: 33.3% 100%;
+    animation: picPlay35810 10s infinite;
+
+    &:before {
+        content: 'RV休旅系';
+    }
+
+    @include rwd-md {
+        @include grid(3, 5, 7, 9);
+    }
+
+    @include rwd-sm {
+        @include grid(1, 2, 5, 6);
+    }
+}
+
+@keyframes picPlay35810 {
+
+    0% {
+        background-position: 33.3% 100%;
+    }
+
+    20% {
+        background-position: 0% 100%;
+    }
+
+    40% {
+        background-position: 0% 85.7%;
+    }
+
+    60% {
+        background-position: 33.3% 85.7%;
+    }
+
+    100% {
+        background-position: 33.3% 100%;
+    }
+}
+
+.grid-5-7-8-10 {
+    //ca
+    @include grid(5, 7, 8, 10);
+    background-position: 66.6% 100%;
+    animation: picPlay57810 10s infinite;
+
+    &:before {
+        content: '轎車系';
+    }
+
+    @include rwd-md {
+        @include grid(5, 7, 7, 9);
+    }
+
+    @include rwd-sm {
+        @include grid(2, 3, 5, 6);
+    }
+}
+
+@keyframes picPlay57810 {
+
+    0% {
+        background-position: 66.6% 100%;
+    }
+
+    20% {
+        background-position: 66.6% 85.7%;
+    }
+
+    40% {
+        background-position: 100% 85.7%;
+    }
+
+    60% {
+        background-position: 100% 100%;
+    }
+
+    100% {
+        background-position: 66.6% 100%;
+    }
+}
+
+
+
+
+
+.product {
+    &__car {
+        position: absolute;
+        left: -3000px;
+        bottom: 0px;
+
+        z-index: 20;
+    }
+
+    &__text {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    &__road--first {
+        position: absolute;
+        top: 8%;
+        right: 10%;
+
+        @include rwd-xl {
+            right: -480px;
+            height: 120px;
+        }
+
+
+        @include rwd-md {
+            height: 80px;
+        }
+    }
+
+    &__road--second {
+        position: absolute;
+        top: 23%;
+        right: 8%;
+
+        @include rwd-xl {
+            top: 17%;
+            right: 5%;
+        }
+
+
+        @include rwd-xl {
+            opacity: 0;
+            right: -2000px;
+        }
+    }
+
+    &__road--end {
+        position: absolute;
+        bottom: 20px;
+        left: 200px;
+
+        @include rwd-xl {
+            opacity: 0;
+            left: -2000px;
+
+        }
+    }
+
+    &__road--end-md {
+        display: none;
+        position: absolute;
+        bottom: 20px;
+        left: 0px;
+        height: 120px;
+        left: -480px;
+
+        @include rwd-xl {
+            display: block;
+        }
+
+        @include rwd-md {
+            height: 80px;
+        }
+
+        @include rwd-sm {
+            display: none;
+        }
+    }
+
+
+}
+
+.z-index-50 {
+    z-index: 50;
+}
+
+@include rwd-xl {
+
+    .mb-xl-2 {
+        margin-bottom: 8px;
+    }
+}
+
+.h4 {
+    @include rwd-md {
+        font-size: 16px;
+    }
+}
+
+.opacity-0 {
+    opacity: 0;
+}
+
+
+
+@keyframes heroBillboard {
+    from {
+        background-position: 0px;
+    }
+
+    to {
+        background-position: -700%;
+    }
+}
+
+@keyframes indexHero {
+    from {
+        background-position: 0px;
+    }
+
+    to {
+        background-position: 200%;
+    }
+}
+
+@-webkit-keyframes indexHero {
+    from {
+        background-position: 0px;
+    }
+
+    to {
+        background-position: 700%;
+    }
+}

@@ -1,0 +1,58 @@
+/*----------------------------------------text color */
+@each $key,
+$value in $colors {
+    .text-#{$key} {
+        color: #{$value};
+    }
+}
+
+/*----------------------------------------text align */
+.text {
+    &-left {
+        text-align: left;
+    }
+
+    &-center {
+        text-align: center;
+    }
+
+    &-right {
+        text-align: right;
+    }
+}
+
+/* ----------------------------------------font weight */
+.font {
+    &-light {
+        font-weight: 300;
+    }
+
+    &-normal {
+        font-weight: 400;
+    }
+
+    &-medium {
+        font-weight: 500;
+    }
+
+    &-bold {
+        font-weight: 700;
+    }
+
+    &-black {
+        font-weight: 900;
+    }
+}
+
+/* ----------------------------------------line height */
+.lh-1 {
+    line-height: 1;
+}
+
+.lh-2 {
+    line-height: 2;
+}
+
+.underline {
+    text-decoration: underline;
+}

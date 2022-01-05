@@ -1,0 +1,1068 @@
+.container {
+    padding-top: 176px;
+}
+
+#factory .header .container {
+    padding-top: 8px;
+    padding-bottom: 0;
+}
+
+#factory .header .icon {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+#factory .footer .container {
+    padding-top: 0;
+}
+
+.intro {
+    display: flex;
+    // &_pic{
+    // outline: 2px solid red;
+    // }
+    &_content {
+        float: right;
+        // outline: 2px solid pink;
+        &_title {
+            color: white;
+            -webkit-text-stroke: 1px #522613;
+            margin-bottom: 36px;
+        }
+        &_text {
+            margin-bottom: 56px;
+            color: #522613;
+        }
+    }
+}
+
+.makeCar {
+    display: none;
+    // outline: 1px solid orange;
+}
+
+.model {
+    width: 800px;
+}
+
+.lable {
+    width: 148px;
+    height: 148px;
+    background-color: #FADD61;
+    border-radius: 50%;
+    text-align: center;
+    color: #522613;
+    // padding: 20px;
+    position: relative;
+    top: -9.7vw;
+    left: 33vw;
+}
+
+.emphasis {
+    font-size: 64px;
+    font-weight: bold;
+}
+
+// ------------作品區的按鈕-----------------------
+.workBar {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0;
+    // outline: 2px solid gold;
+    &_left, &_right{
+        display: flex;
+    }
+
+    &_right{
+        align-items: center;
+    }
+}
+
+.filter{
+    padding: 8px;
+}
+
+.workButton {
+    margin: 0 40px;
+    background-color: transparent;
+    outline: none;
+    color: #522613;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.works {
+    background-image: linear-gradient(transparent 60%, #FADD61 60%)
+}
+
+// --------------作品區內容---------------------
+
+
+.othersWorks {
+//     // outline: 3px solid firebrick;
+//     overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+// .grid-item{
+//     float: left;
+//     width: 466px;
+//     // min-height: 835px;
+//     margin-bottom: 10px;
+// }
+
+// .grid-item--height1{
+//     min-height: 830px;
+// }
+
+// .grid-item--height2{
+
+//     min-height: 887px;
+// }
+
+.mywork {
+    display: none;
+    background: #fff;
+    
+}
+
+.othersWorks,
+.mywork {
+    padding-bottom: 60px;
+}
+
+.putMywork {
+    display: flex;
+}
+
+.work {
+    height: 100%;
+    background-color: #fff;
+    
+    // outline: 1px solid blue;
+    &_pic {
+        cursor: pointer;
+        padding: 0 32px;
+        // outline: 1px solid;
+    }
+    // 
+    &_reply {
+        padding: 28px;
+    }
+    &Name {
+        margin-bottom: 16px;
+    }
+}
+// &_author,
+.work_reply,
+.workInfo,
+.moreReply,
+.closeReply,
+.readMore,
+.closeMore,
+.closeTextarea {
+    border-bottom: 1px solid #ccc;
+}
+
+.work_ {
+    &_reply{
+        display: flex;
+        flex-direction: column;  
+    }
+}
+
+.putMywork .work_pic{
+    height: 182px;
+}
+
+.work .hiddenReply,
+.work .hiddenSubReply {
+    display: none;
+}
+
+.typeReply {
+    padding: 28px;
+    border-bottom: 1px solid #ccc;
+}
+
+.user {
+    &Pic {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        margin: 0 28px;
+        &--big {
+            width: 84px;
+            height: 84px;
+            border-radius: 50%;
+            margin: 0 28px;
+        }
+        &--small {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin: 0 28px;
+        }
+    }
+    &Context {
+        display: flex;
+        // border-bottom: 1px solid #ccc;
+        // padding-bottom: 28px;
+    }
+    &Context_top {
+        width: 100%;
+    }
+    &Name{
+        margin-bottom: 16px;
+    }
+
+    &Content{
+        width: 100%;
+        @extend .userName;
+    }
+}
+
+.subUserContext {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    padding-top: 28px;
+    padding-left: 38px;
+    border-top: 1px solid #ccc;
+    margin-top: 16px;
+    display: none;
+}
+
+.num, .work-goodNum, .work-commentNum {
+    font-weight: bold;
+    color: #E59807;
+}
+
+.pin--secondary {
+    stroke: #E59807;
+    fill: #E59807;
+}
+  
+.work_author, .typeReply, .typeSubReply{
+    display: flex;
+}
+
+.typeSubReply{
+    border-bottom: none;
+    border-top: 1px solid #ccc;
+    padding: 0;
+    padding-top: 28px;
+    margin-top: 28px;
+    display: none;
+}
+
+.editTextArea{
+    display: none;
+}
+
+.work {
+    &Info,
+    &Info_reply,
+    &Info_good {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+}
+
+.workInfo {
+    padding-bottom: 8px;
+}
+
+.other {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+
+    &InModal{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    }
+}
+
+
+.icon {
+    margin-left: 8px;
+    margin-right: 14px;
+}
+
+.toggleIcon1, .toggleIcon2{
+    width: 24px;
+}
+
+.readMore, .closeReply, .closeMore, .closeTextarea{
+    padding: 12.5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.moreReply {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12.5px;
+}
+
+.closeReply,
+.closeMore,
+.hiddenMR {
+    display: none;
+}
+
+.layer{
+    &2{
+        position: relative;
+        top: -181px;
+    }
+    &3{
+        position: relative;
+        top: -362px;
+    }
+    &4{
+        position: relative;
+        top: -543px;
+    }
+}
+// -----------------------------------
+.typeReply {
+    display: flex;
+}
+
+// ----------------彈窗-------------------
+
+.mask {
+    width: 100vw;
+    background-color: #0808084D;
+    z-index: 2010;
+    // z-index: 1;
+    position: absolute;
+    left: 0;
+    top: 0;
+    position: fixed;
+    // display: none;
+}
+
+.work_left {
+
+    height: 90vh;
+    background-color: #fff;
+    // outline: 1px solid red;
+}
+
+.work_right {
+    background-color: #fff;
+    height: 90vh;
+    overflow-y: scroll;
+
+}
+
+.factoryModalOut{
+    padding: 5vh 0;
+}
+
+.closeIcon {
+    // position: relative;
+    // left: 33vw;
+    // top: -2.36vw;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    float: right;
+    margin-top: -28px;
+}
+
+.frame {
+    width: 100%;
+    height: 32vw;
+    overflow: hidden;
+    // outline: 1px solid blue;
+    display: flex;
+    align-items: center;
+}
+
+.workPic--big {
+    width: 100%;
+    // outline: 1px solid; 
+}
+
+.price {
+    display: flex;
+}
+
+.work_right {
+    padding: 52px;
+}
+
+.typeReply_right {
+    width: 100%;
+}
+
+// ----------------進度條-------------------
+.progressBar {
+    display: none;
+    // margin-bottom: 60px;
+    // outline: 1px solid green;
+}
+
+.bar {
+    width: 960px;
+    // width: 50%;
+    height: 4px;
+    background-color: #D8D8D8;
+    position: relative;
+    top: 30px;
+    left: 200px;
+    z-index: -1;
+}
+
+.bar-front {
+    width: 0;
+    top: 26px;
+    background-color: #E59807;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // margin-right: 7.8125vw;
+}
+
+.explanations {
+    display: flex;
+    justify-content: center;
+}
+
+.circle {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    margin-right: 150px;
+    text-align: center;
+    line-height: 42px;
+    background-color: #D8D8D8;
+    font-size: 24px;
+    color: #fff;
+
+    &--able{
+        cursor: pointer;
+    }
+
+    &--active{
+        background-color: rgb(229, 152, 7);
+    }
+}
+
+.explanation {
+    font-size: 24px;
+    margin-right: 150px;
+    color: #333333;
+}
+
+.content:last-child .circle,
+.content:last-child .explanation {
+    margin-right: 0
+}
+
+// ----------------製作車子的主區域-------------------
+.mainAreaPic {
+    margin: 0 auto;
+}
+
+// ----------------標示步驟、金額的區域-------------------
+.totalPrice {
+    font-size: 32px;
+    color: #522613;
+    font-weight: bold;
+    margin-left: 60px;
+}
+
+.tip{
+    &Price{
+        display: flex;
+    }
+
+    &Area{
+        @extend .tipPrice;
+        padding: 20px 0;
+        border-bottom: 1px solid #E59807;
+        background-color: #fff;
+
+        &_right{
+            display: flex;
+            justify-content: space-between;
+        }
+
+        &_left .invisible{
+            opacity: 0;
+            pointer-events: none;
+        }
+    }
+}
+
+
+.pleaseSelect {
+    display: none;
+    position: absolute;
+    top: -80px;
+    right: 20px;
+    padding: 20px 12px;
+    background-color: #fff;
+    border: 1px solid #E59807;
+}
+
+// ----------------CANVAS區域-------------------
+.mainArea {
+    display: flex;
+    justify-content: center;
+    background-color: #fff;
+}
+
+.canvas, .canvasA1, .canvasA2, .canvasA3{
+    position: relative;
+} 
+
+.canvas{
+    left: 600px;
+    &A1{
+        left: 198px;   
+    }
+
+    &A2{
+        right: 204px;
+    }
+
+    &A3{
+        right: 606px;
+    }
+}
+
+
+// ----------------製作車子的選項區域-------------------
+.select{
+    &Area{
+        position: relative;
+        display: flex;
+        margin-bottom: 20px;
+
+        &Out{
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+
+    &Btn{
+        width: 97%;
+        display: flex;
+        justify-content: space-between;
+        position: absolute;
+        top: 360px;
+        z-index: 1;
+    }
+}
+
+.selectAreaOut-previous {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    z-index: 1;
+    cursor: pointer;
+}
+
+// .canNotSee{
+//     display: none;
+// }
+
+// .canSeeFlex{
+//     display: flex;
+// }
+
+// .catSeeBlock{
+//     display: block;
+// }
+
+.selectAreaOut-next {
+    // background-image: url("../../img/icon/icon-right.svg");
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    // position: relative;
+    // top: 200px;
+    // left: 760px;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.shapeCard,
+.colorCard,
+.tireCard,
+.accessoryCard {
+    background-color: #fff;
+}
+
+.cardOut {
+    height: 150px;
+}
+
+.shapeCards,
+.colorCards,
+.tireCards,
+.accessoryCards {
+    display: flex;
+}
+
+.shape,
+.tire,
+.accessory {
+    width: 200px;
+    margin: 0 auto;
+}
+
+.makeCar-price {
+    font-size: 20px;
+    font-weight: bold;
+    color: #522613;
+}
+
+.makeCar-price,
+.makeCar-name {
+    text-align: center;
+}
+
+.shape,
+.makeCar-price,
+.tire,
+.accessory {
+    margin-bottom: 20px;
+}
+
+.colorCard,
+.tireCard,
+.accessoryCard,
+.giveName {
+    display: none;
+}
+
+.giveName {
+    padding: 20px 80px;
+}
+
+.color {
+    // width: 300px;
+    // height: 300px;
+    padding-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    margin: 0 auto 20px;
+}
+
+.white {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+}
+
+.red {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: red;
+}
+
+.orange {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: orange;
+}
+
+.yellow {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: yellow;
+}
+
+.purple {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: rgb(173, 85, 224);
+}
+
+.nameTip {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.typeWorkName,
+.typeNickName {
+    width: 320px;
+}
+
+.notice {
+    color: #9D9D9D;
+    font-size: 14px;
+}
+
+.description {
+    margin-bottom: 8px;
+}
+
+// -----------------我的作品----------------------
+    .btn--publicMyWork{
+        border-radius: 8px;
+        color: #ffffff;
+        background-color: #E59807;
+        padding: 12px 0px;
+        white-space: nowrap;
+        cursor: pointer;
+
+        position: relative;
+        top: -710px;
+        min-width: 80px;
+        height: 30px;
+        line-height: 10px;
+    }
+
+
+// -----------------1440 & 1280----------------------
+
+@media screen and (max-width:1440px) {
+    .bar{
+        left: 220px;
+    }
+}
+
+@media screen and (max-width:1280px) {
+    .bar{
+        left: 110px;
+    }
+    .btn--publicMyWork{
+        top: -570px;
+    }
+
+    .layer{
+        &2{
+            top: -145px;
+        }
+
+        &3{
+            top: -291px;
+        }
+
+        &4{
+            top: -436px;
+        }
+    }
+}
+// ----------------992-----------------------
+@media screen and (max-width:992px) {
+    .bar {
+        left: 50px;
+        
+        &-back{
+            width: 830px;
+        }
+    }
+    //.typeReply 
+    .work_author,
+    .work_reply,
+    {
+        display: block;
+    }
+    .user{
+        &Pic{
+            margin: 0 auto;
+            margin-right: 12px;
+        }
+        &Content{
+            width: 100%;
+        }
+    }
+
+    .work_author .userPic{
+        margin: 0;
+        margin-bottom: 8px;
+    }
+
+    .other {
+        width: auto;
+    }
+    .textarea {
+        margin: 0 auto;
+        display: flex;
+        margin-bottom: 8px;
+    }
+
+    .editTextArea{
+        display: none;
+    }
+
+    .explanation, .circle{
+        margin-right: 120px;
+    }
+
+    .tipArea{
+        margin-bottom: 1px;
+    }
+
+    .layer{
+        &2{
+            top: -112px;
+        }
+
+        &3{
+            top:-225px;
+        }
+
+        &4{
+            top: -337px;
+        }
+    }
+
+    .btn--publicMyWork{
+        top: -440px;
+    }
+
+    .putMywork .work_pic{
+        margin-bottom: -69px;
+    }
+
+    .replyerName{
+        margin-bottom: 2px;
+    }
+}
+
+// ---------------------------------------
+// -----------------576 & 414----------------------
+@media screen and (max-width:576px) {
+    .intro {
+        display: flex;
+        flex-direction: column;
+
+        &_pic{
+            margin-bottom: -40px;
+        }
+    }
+    .emphasis {
+        font-size: 44px;
+    }
+    .lable {
+        width: 120px;
+        height: 120px;
+        top: -14.7vw;
+        left: 49vw;
+    }
+    .progressBar {
+        margin-top: 20px;
+    }
+
+    .workBar{
+        display: flex;
+        flex-direction: column;
+
+        &_left{
+            margin-bottom: 20px;
+        }
+
+        &_right p{
+            margin-left: 40px;
+        }
+
+        &_right .filter{
+            width: 55vw;
+        }
+    }
+
+    .bar {
+        display: none;
+    }
+    .circle,
+    .explanation {
+        margin: 0;
+    }
+    .explanation {
+        font-size: 16px;
+    }
+    .content {
+        margin-right: 8px;
+
+        &:last-child {
+        margin-right: 0;
+        }
+    }
+    .content
+    .work {
+        margin-bottom: 20px;
+        
+        &_author{
+            display: flex;
+
+            .userPic{
+                display: inline;
+                margin-right: 16px;
+            }
+        }
+    }
+    .tipArea {
+        flex-direction: column;
+        &_left {
+            margin-bottom: 8px;
+        }
+    }
+    .selectBtn {
+        top: 420px;
+    }
+
+    .makeCar .giveName {
+        // display: flex; //這個flex要動態改CSS
+        display: none;
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .typeInspiration {
+        width: 320px;
+    }
+
+    .selectArea {
+        .colorCard,
+        .accessoryCard {
+            max-width: 50%;
+        }
+    }
+
+    .textarea{
+        margin: 0;
+        margin-bottom: 8px;
+    }
+
+    .layer{
+        &2{
+            top: -134px;
+        }
+
+        &3{
+            top: -272px;
+        }
+
+        &4{
+            top: -413px;
+        }
+    }
+
+    // #factory .modal__group{
+    //     width: 90%;
+    // }
+
+    .replyerName{
+        margin-bottom: 4px;
+    }
+
+    .previousStep{
+        display: flex;
+        align-items: center;
+    }
+
+    .otherInModal{
+        // justify-content: initial;
+
+        .btn{
+            width: auto;
+        }
+
+        .price{
+            margin-right: 10px;
+        }
+    }
+
+    .mask .row{
+        display: flex;
+        flex-direction: column;
+        // flex-flow:row initial;
+        // height: 100vh;
+    }
+
+    .workPic--big{
+        width: 70%;
+    }
+
+    .frame{
+        justify-content: center;
+    }
+
+    .work_left .h2, .work_left .otherInModal{
+        margin-bottom: 8px;
+    }
+
+    .row .work_left, .row .work_right{
+        padding-right: 12px;
+        padding-left: 12px;
+    }
+
+    .userPic--big{
+        margin: 0;
+        margin-right: 8px;
+    }
+
+    .workInfo{
+        justify-content: space-between;
+    }
+
+    .work_author{
+        display: auto;
+    }
+
+    .work_right{
+        // overflow-y: initial;
+        overflow-x: scroll;
+        height: 500px;
+        overflow: hidden;
+    }
+
+    .typeReply{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .typeReply_right textarea{
+        width: 100%;
+    }
+
+    // .closeIcon{
+    //     z-index: 5000;
+    //     position: relative;
+    //     top: -240px;
+    // }
+
+    .work_author{
+        display: flex;
+    }
+
+    .mask{
+        // position: absolute;
+        height: 100vh;
+
+        .container{
+            height: 90vh;
+            overflow-y: scroll;
+        }
+    }
+}

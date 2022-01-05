@@ -1,0 +1,11 @@
+  <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 52 52" class="icon">
+    <g>
+        <circle cx="16.5" cy="16.5" r="16.5" transform="translate(7.175 5.413)" fill="none"
+            stroke="#E59807" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" />
+        <circle cx="16.5" cy="16.5" r="10" transform="translate(7.175 5.413)" fill="none"
+            stroke="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            class="hover-stroke-coffee" />
+        <line x1="10" y1="10" transform="translate(35.163 34.349)" fill="none" stroke="#E59807"
+            stroke-linecap="round" stroke-linejoin="round" stroke-width="5" />
+    </g>
+</svg>

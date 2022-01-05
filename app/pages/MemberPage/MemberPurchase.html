@@ -1,0 +1,338 @@
+<template id="member_purchase">
+
+  <div class='mb-5'>
+    <div class="container mt-20">
+      <div class="row member__info ">
+        <section class="member__data col-12 col-lg-6 col-xs-12">
+          <h2
+            class="block  block__header__title"
+            id="memberCoupon"
+          >尚未付款</h2>
+        </section>
+      </div>
+      <div
+        class="row block member__order"
+        v-for="(item,index) of buyList"
+        v-show="item.deliver_type =='尚未付款'"
+      >
+        <div class="col-9 col-lg-6">
+          <ul class="member__orderDetail">
+            <li class="member__orderList w-70">訂單編號：<span class="h4">{{item.order_id}}</span></li>
+            <li class="member__orderList">花費點數：<span class="h4">{{item.order_points}} 點</span></li>
+            <li class="member__orderList w-70">訂單金額：<span class="h4">{{item.order_cost}} 元</span></li>
+            <li class="member__orderList">訂單狀態：<span class="h4">{{item.order_type}}</span></li>
+            <li class="member__orderList w-70">收貨方式：<span class="h4">{{item.deliver_type}}</span></li>
+            <li class="member__orderList">付款方式：<span class="h4">{{item.pay_type}}</span></li>
+          </ul>
+        </div>
+        <div class="member__order_btn col-3 col-lg-6 mt-10">
+          <button class="btn btn--link   member__cuponBtn--black mr-10 pb-5 ">購買明細</button>
+          <button class="btn btn--link   member__cuponBtn--red ml-10 pb-5 ">取消訂單</button>
+        </div>
+      </div>
+      <div
+        class="row block member__order"
+        v-show="buyList"
+      >
+        <div class="member__orderImg">
+          <img
+            class="member__orderImg--mid"
+            src="./assets/img/illust/illust-empty.png"
+          >
+          <p>
+            沒有處理中的訂單
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="container mt-20">
+      <div class="row member__info ">
+        <section class="member__data col-12 col-lg-6 col-xs-12">
+          <h2 class="block  block__header__title">處理中</h2>
+        </section>
+      </div>
+      <div v-for="(item,index) of buyList">
+        <div
+          class="row block member__order"
+          v-if="item.deliver_type =='處理中' &&item.order_type !=='取消' "
+        >
+          <div class="col-9 col-lg-6">
+            <ul class="member__orderDetail">
+              <li class="member__orderList w-70">訂單編號：<span class="h4">{{item.order_id}}</span></li>
+              <li class="member__orderList">花費點數：<span class="h4">{{item.order_points}} 點</span></li>
+              <li class="member__orderList w-70">訂單金額：<span class="h4">{{item.order_cost}} 元</span></li>
+              <li class="member__orderList">訂單狀態：<span class="h4">{{item.order_type}}</span></li>
+              <li class="member__orderList w-70">收貨方式：<span class="h4">{{item.deliver_type}}</span></li>
+              <li class="member__orderList">付款方式：<span class="h4">{{item.pay_type}}</span></li>
+            </ul>
+          </div>
+          <div class="member__order_btn col-3 col-lg-6 mt-10">
+            <button
+              class="btn btn--link   member__cuponBtn--black mr-10 pb-5"
+              @click="getCurrentOrder(item)"
+            >購買明細</button>
+            <button
+              class="btn btn--link   member__cuponBtn--red ml-10 pb-5 "
+              @click="cancelOrder(item)"
+            >取消訂單</button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="row block member__order"
+        v-show="buyList.length == 0"
+      >
+        <div class="member__orderImg">
+          <img
+            class="member__orderImg--mid"
+            src="./assets/img/illust/illust-empty.png"
+          >
+          <p>
+            沒有處理中的訂單
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="container mt-20">
+      <div class="row member__info ">
+        <section class="member__data col-12 col-lg-6 col-xs-12">
+          <h2 class="block  block__header__title">已出貨</h2>
+        </section>
+      </div>
+      <div v-for="(item,index) of buyList">
+        <div
+          class="row block member__order"
+          v-if="item.deliver_type =='出貨中' && item.order_type !=='取消'"
+        >
+          <div class="col-9 col-lg-6">
+            <ul class="member__orderDetail">
+              <li class="member__orderList w-70">訂單編號：<span class="h4">{{item.order_id}}</span></li>
+              <li class="member__orderList">花費點數：<span class="h4">{{item.order_points}} 點</span></li>
+              <li class="member__orderList w-70">訂單金額：<span class="h4">{{item.order_cost}} 元</span></li>
+              <li class="member__orderList">訂單狀態：<span class="h4">{{item.order_type}}</span></li>
+              <li class="member__orderList w-70">收貨方式：<span class="h4">{{item.deliver_type}}</span></li>
+              <li class="member__orderList">付款方式：<span class="h4">{{item.pay_type}}</span></li>
+            </ul>
+          </div>
+          <div class="member__order_btn col-3 col-lg-6 mt-10">
+            <button class="btn btn--link   member__cuponBtn--black mr-10 pb-5 ">購買明細</button>
+            <button class="btn btn--link   member__cuponBtn--red ml-10 pb-5 ">取消訂單</button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="row block member__order"
+        v-show="buyList.length == 0 "
+      >
+        <div class="member__orderImg">
+          <img
+            class="member__orderImg--mid"
+            src="./assets/img/illust/illust-empty.png"
+          >
+          <p>
+            沒有處理中的訂單
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="container mt-20">
+      <div class="row member__info ">
+        <section class="member__data col-12 col-lg-6 col-xs-12">
+          <h2 class="block  block__header__title">已完成</h2>
+        </section>
+      </div>
+      <div v-for="(item,index) of buyList">
+        <div
+          class="row block member__order"
+          v-if="item.deliver_type =='已送達' &&item.order_type !=='取消'"
+        >
+          <div class="col-9 col-lg-6">
+            <ul class="member__orderDetail">
+              <li class="member__orderList w-70">訂單編號：<span class="h4">{{item.order_id}}</span></li>
+              <li class="member__orderList">花費點數：<span class="h4">{{item.order_points}} 點</span></li>
+              <li class="member__orderList w-70">訂單金額：<span class="h4">{{item.order_cost}} 元</span></li>
+              <li class="member__orderList">訂單狀態：<span class="h4">{{item.order_type}}</span></li>
+              <li class="member__orderList w-70">收貨方式：<span class="h4">{{item.deliver_type}}</span></li>
+              <li class="member__orderList">付款方式：<span class="h4">{{item.pay_type}}</span></li>
+            </ul>
+          </div>
+          <div class="member__order_btn col-3 col-lg-6 mt-10">
+            <button class="btn btn--link   member__cuponBtn--black mr-10 pb-5 ">購買明細</button>
+            <button class="btn btn--link   member__cuponBtn--red ml-10 pb-5 ">取消訂單</button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="row block member__order"
+        v-show="buyList.length<1"
+      >
+        <div class="member__orderImg">
+          <img
+            class="member__orderImg--mid"
+            src="./assets/img/illust/illust-empty.png"
+          >
+          <p>
+            沒有處理中的訂單
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="container mt-20">
+      <div class="row member__info ">
+        <section class="member__data col-12 col-lg-6 col-xs-12">
+          <h2 class="block  block__header__title">已取消</h2>
+        </section>
+      </div>
+      <div
+        class="row block member__order"
+        v-show="cancelList.length<1"
+      >
+        <div class="member__orderImg">
+          <img
+            class="member__orderImg--mid"
+            src="./assets/img/illust/illust-empty.png"
+          >
+          <p>
+            沒有處理中的訂單
+          </p>
+        </div>
+      </div>
+      <div v-for="(item,index) of cancelList">
+        <div
+          class="row block member__order"
+          v-if="item.order_type =='取消'"
+        >
+          <div class="col-9 col-lg-6">
+            <ul class="member__orderDetail">
+              <li class="member__orderList w-70">訂單編號：<span class="h4">{{item.order_id}}</span></li>
+              <li class="member__orderList">花費點數：<span class="h4">{{item.order_points}} 點</span></li>
+              <li class="member__orderList w-70">訂單金額：<span class="h4">{{item.order_cost}} 元</span></li>
+              <li class="member__orderList">訂單狀態：<span class="h4">{{item.order_type}}</span></li>
+              <li class="member__orderList w-70">收貨方式：<span class="h4">{{item.deliver_type}}</span></li>
+              <li class="member__orderList">付款方式：<span class="h4">{{item.pay_type}}</span></li>
+            </ul>
+          </div>
+          <!-- <div class="member__order_btn col-3 col-lg-6 mt-10">
+            <button class="btn btn--link   member__cuponBtn--black mr-10 pb-5 ">購買明細</button>
+            <button class="btn btn--link   member__cuponBtn--red ml-10 pb-5 ">取消訂單</button>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+</template>
+
+<script>
+  Vue.component('member_purchase', {
+
+    template: '#member_purchase',
+    store,
+    data() {
+
+      return {
+
+        buyList: [],
+        nowOrderId: '',
+        cancelList: [],
+
+      }
+
+    },
+    methods: {
+      getCurrentOrder(val) {
+
+        console.log(val.order_id);
+        // this.localBuyList.push(res.data);
+        this.nowOrderId = val.order_id;
+
+        localStorage.setItem('buyListId', JSON.stringify(this.nowOrderId));
+
+        window.location.href = "./productList.html";
+      },
+      cancelOrder(val) {
+
+        console.log(val);
+        val.order_type = "取消";
+        this.cancelList.push(val);
+
+      },
+      handleCancel() {
+
+        for (let num in this.buyList) {
+
+          if (this.buyList[num]['order_type'] == "取消") {
+
+            this.cancelList.push(this.buyList[num]);
+
+
+          }
+
+
+        }
+
+      },
+
+    },
+    computed: {
+      memberId() {
+        return this.$store.state.memberId
+      },
+    },
+    mounted() {
+
+
+      if (this.memberId === null) {
+        window.location.replace('./index-front.html')
+      };
+
+      axios.post('./assets/php/getMemberOrder.php', {
+        "memberId": this.memberId,
+      }).then(res => {
+
+        console.log(res);
+        if (res.data == "尚未擁有任何車車") {
+          return
+        } else {
+
+          this.buyList = res.data.map((list) => {
+
+            let deliver = list.deliver_type == "0" ? '處理中' : list.deliver_type == "1" ? '出貨中' : list.deliver_type == "2" ? '已送達' : '請稍等我們客服查詢中';
+            let pay = list.pay_type == "0" ? '貨到付款' : list.pay_type == "1" ? '線上刷卡' : list.pay_type == "2" ? '門市結帳' : list.pay_type == "3" ? 'ATM轉帳' : '請稍等我們客服查詢中';
+            let type = list.order_type == "0" ? '成立' : list.order_type == "1" ? '取消' : '請稍等我們客服查詢中';
+
+            return {
+
+              deliver_type: deliver,
+              member_id: list.member_id,
+              order_cost: list.order_cost,
+              order_id: list.order_id,
+              order_points: list.order_points,
+              order_type: type,
+              pay_type: pay,
+            }
+          });
+
+        }
+
+      }).catch(error => {
+        console.log(error)
+      })
+
+
+      this.nowOrderId = JSON.parse(localStorage.getItem('buyListId')) || '';
+
+
+      setTimeout(() => {
+        this.handleCancel();
+      }, 100)
+
+
+
+    }
+
+
+
+
+  })
+</script>

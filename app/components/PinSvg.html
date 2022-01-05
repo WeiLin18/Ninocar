@@ -1,0 +1,58 @@
+<script>
+    Vue.component('pin-svg', {
+        template: `
+     <svg :class="thisPin.className" width="120" height="120" viewBox="0 0 80 80">
+        <circle cx="40" cy="40" r="30" stroke-width="4" />
+
+        <path d="M 18.4,27.5 A 25,25 0 0 1 61.6,27.5" stroke-width="2" />
+        <path d="M 18.4,52.5 A 25,25 0 0 0 61.6,52.5" stroke-width="2" />
+        <path d="M 23,30 A 20,20 0 0 1 57,30" stroke-width="1" />
+        <path d="M 23,50 A 20,20 0 0 0 57,50" stroke-width="1" />
+        <text x="15" y="45" class="pin__text">{{thisPin.name}}</text>
+      </svg>
+     `,
+        props: ['series', 'disabled'],
+        computed: {
+            thisPin() {
+                const pinNames = {
+                    BS: {
+                        name: '旅行達人',
+                        className: 'pin pin--green'
+                    },
+                    EN: {
+                        name: '工程大王',
+                        className: 'pin pin--coffee'
+                    },
+                    TA: {
+                        name: '小皇大帝',
+                        className: 'pin pin--yellow'
+                    },
+                    EM: {
+                        name: '救火英雄',
+                        className: 'pin pin--red'
+                    },
+                    PM: {
+                        name: '收藏大王',
+                        className: 'pin pin--gray'
+                    },
+                    PA: {
+                        name: '小鎮守衛',
+                        className: 'pin pin--blue'
+                    },
+                    RV: {
+                        name: '旅行達人',
+                        className: 'pin pin--green'
+                    },
+                    CA: {
+                        name: '小鎮守衛',
+                        className: 'pin pin--blue'
+                    }
+                }
+                if (this.disabled) {
+                    pinNames[this.series]['className'] = 'pin pin--disabled'
+                }
+                return pinNames[this.series];
+            }
+        }
+    });
+</script>

@@ -1,0 +1,26 @@
+    <form class="bg-white po-re px-10 py-5" v-if="activeNav==='all' && searchType === 'sort'">
+        <ul>
+            <li>
+                <label class="h4 d-block mb-3">年代</label>
+                <label v-for="(yearRange) in yearList" class="custom-input ml-3 mb-5">{{yearRange}}
+                    <input type="checkbox" :value="yearRange" v-model="selectedYearList" class="custom-input__input">
+                    <span class="custom-input__checkmark"></span>
+                </label>
+            </li>
+            <li>
+                <label class="h4 d-block mb-3">系列</label>
+                <label v-for="seriesName in seriesList" class="custom-input ml-3 mb-5">{{seriesName.name}}
+                    <input type="checkbox" :value="seriesName.eName" v-model="selectedSeriesList"
+                        class="custom-input__input">
+                    <span class="custom-input__checkmark"></span>
+                </label>
+            </li>
+            <li>
+                <label class="h4 d-block mb-3">限定</label>
+                <label v-for="limit in limitList" class="custom-input ml-3 mb-5">{{limit}}
+                    <input type="checkbox" :value="limit" v-model="selectedLimitList" class="custom-input__input">
+                    <span class="custom-input__checkmark"></span>
+                </label>
+            </li>
+        </ul>
+    </form>

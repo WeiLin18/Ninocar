@@ -1,0 +1,164 @@
+<template id="member_notices">
+
+  <div class=" container mt-20">
+    <div class="row member__info">
+      <section class="member__data d-flex w-100">
+        <h2 id="memberCoupon">通知中心</h2>
+      </section>
+    </div>
+    <div class="row member__info d-flex justify-content-around py-10">
+      <div
+        class="member__cupon  mt-5  col-6 col-lg-6"
+        v-for="(item,index) of  couponList"
+      >
+        <ul class="d-flex justify-content-center w-100 ">
+          <li class="member__cuponText">
+            <div class="member__cuponBackGround">
+
+              </span class="member__cuponText--small">優惠卷通知</span>
+            </div>
+          </li>
+          <li class="member__cuponText">
+            <div class="member__cuponContent">
+              <p class="h5"> 嗨！{{item.name}},很高興您的加入！</p>
+              <p class="h4">恭喜您獲得!!!!!!! 來自NINOCAR的神秘小禮物！</p>
+              <p class="h5 ">通知時間:<span> {{item.couponGetDate}}</span></p>
+              <p class="h3  btn--link">{{item['couponText']}}</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div
+      class="row member__info d-flex justify-content-around py-10"
+      v-if="orderList !=='尚未擁有任何車車'"
+    >
+      <div
+        class="
+      member__cupon
+      mt-5
+      col-5
+      col-lg-6"
+        v-for="(item,index) of  orderList"
+      >
+        <ul class="d-flex justify-content-center w-100 ">
+          <li class="member__cuponText">
+            <div class="member__cuponBackGround">
+
+              </span class="member__cuponText--small">訂單成立</span>
+            </div>
+          </li>
+          <li class="member__cuponText">
+            <div class="member__cuponContent">
+              <p class="h5"> 您的訂單{{item.order_id}}已成立！</p>
+              <p class="h4">詳情請前往購買清單查看！</p>
+              <p class="h5 ">成立時間:<span> {{item.order_date}}</span></p>
+              <p class="h5 "> 消費金額為：{{item.order_cost}}元！</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+</template>
+
+
+<script>
+  Vue.component('member_notices', {
+
+    template: '#member_notices',
+    store,
+    computed: {
+      memberId() {
+        return this.$store.state.memberId
+      },
+
+    },
+    data() {
+      return {
+        couponList: [],
+        orderList: [],
+        // collapse: false,
+        currentIndex: null,
+      }
+    },
+    methods: {
+      collapse(index) {
+        this.currentIndex = index;
+      }
+
+    },
+    mounted() {
+
+
+
+      const params = new URLSearchParams()
+      params.append('ID', this.memberId)
+
+      axios({
+        method: 'post',
+        url: 'assets/php/getMemberCoupon.php',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        data: params,
+      }).then((res) => {
+        console.log(res.data)
+
+        this.couponList = res.data.map((coupon) => {
+
+          let hightLine;
+
+          coupon.coupon_id == "0" ? hightLine = "九折" : coupon.coupon_id == "1" ? hightLine = "免運" : coupon.coupon_id == "2" ? hightLine = "買一送一" : coupon.coupon_id == "3" ? hightLine = "七折" : hightLine = "???"
+
+          return {
+            couponTitle: coupon.coupon_name,
+            couponId: coupon.coupon_id,
+            couponText: coupon.coupon_des,
+            coupon_On: coupon.coupon_type,
+            couponGetDate: coupon.type_date,
+            couponDeadDate: coupon.dead_date,
+            couponHightLine: hightLine,
+            name: coupon.member_name,
+          }
+
+
+
+        });
+
+      }).catch((error) => {
+        console.log(error)
+      })
+
+
+
+      setTimeout(() => {
+
+        axios.post('./assets/php/getMemberOrder.php', {
+          "memberId": this.memberId,
+        }).then(res => {
+          console.log(res.data);
+          this.orderList = res.data;
+        }).catch(error => {
+          console.log(error)
+        })
+
+
+      }, 1000);
+
+
+
+
+
+    },
+
+
+
+
+
+
+
+  })
+</script>

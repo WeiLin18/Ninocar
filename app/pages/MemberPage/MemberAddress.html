@@ -1,0 +1,219 @@
+<template id="member_address">
+
+  <div class="container">
+    <div class="row  mt-xs-5 member__info mt-15">
+      <section class="member__data d-flex w-100">
+        <h2 id="memberAddress">我的地址</h2>
+        <button
+          :class="checkLogin"
+          @click="openModal"
+        >{{btn}}</button>
+      </section>
+    </div>
+    <div class="row member__info">
+      <!-- <div class="member__address  w-100" v-show="addressShow">
+        <div class=" member__address--right col-8 col-lg-6 ">
+          <ul>
+            <li class=" h3 member__addressText mt-5 ">姓名: <span class=" h4 ml-5 ">{{defaultReceiverList.name}}</span>
+              <span class=" btn h5 member__cuponBtn--text">預設</span>
+            </li>
+            </li>
+            <li class=" h3 mt-5 ">聯絡電話: <span class=" h4 ml-5 ">{{defaultReceiverList.phone}}</span></li>
+            <li class=" h3 member__addressText mt-5 ">地址: <span class=" h4 ml-5 ">235
+                {{defaultReceiverList.address}}</span></li>
+          </ul>
+        </div>
+        <div class=" col-4 d-flex align-items-center ">
+          <ul class=" member__address--left ">
+            <li class=" ml-15 mr-5 "><button class=" btn btn--link member__cuponBtn--black ">設為預設</button> </li>
+            <li class=" mr-5 "><button class=" btn btn--link member__cuponBtn--black ">編輯</button></li>
+            <li class=" mr-5 "><button class=" btn btn--link member__cuponBtn--red " @click=" deleteAddress">刪除</button></li>
+          </ul>
+        </div>
+      </div> -->
+      <div
+        class=" member__address member__info w-100 "
+        v-if="addressList"
+        v-for=" (receiver,index) of addressList "
+      >
+        <div class=" member__address--right col-8 col-lg-6 ">
+          <ul>
+            <li
+              class=" h3 member__addressText mt-5 "
+              v-if="receiver.receiverName"
+            >姓名: <span class=" h4 ml-5 ">{{receiver.receiverName}}</span> <span
+                v-show="defaultAddress && defaultIndex == index "
+                class=" btn h5 member__cuponBtn--text "
+              >預設</span></li>
+            <li class=" h3 mt-5 ">聯絡電話: <span class=" h4 ml-5 ">{{receiver.receiverPhone}}</span></li>
+            <li class=" h3 member__addressText mt-5 ">地址: <span class=" h4 ml-5 ">{{receiver.receiverAddressCode}}
+                {{receiver.receiverCity}}{{receiver.receiverTown}}{{receiver.receiverRoad}}</span></li>
+          </ul>
+        </div>
+        <div class=" col-4 d-flex align-items-center ">
+          <ul class=" member__address--left ">
+            <li class=" ml-15 mr-5 "><button
+                class=" btn btn--link member__cuponBtn--black "
+                @click=" defaultHandler($event,index) "
+              >設為預設</button> </li>
+            <li class=" mr-5 "><button
+                class=" btn btn--link member__cuponBtn--black"
+                @click="
+                updateAddress(index,receiver)"
+              >編輯</button></li>
+            <li class=" mr-5 "><button
+                class=" btn btn--link member__cuponBtn--red "
+                @click=" deleteAddress(index) "
+              >刪除</button></li>
+          </ul>
+        </div>
+
+      </div>
+      <div
+        class=" member__address member__info w-100 "
+        v-if="localAddress"
+        v-for=" (receiver,index) of localAddress "
+      >
+        <div class=" member__address--right col-8 col-lg-6 ">
+          <ul>
+            <li
+              class=" h3 member__addressText mt-5 "
+              v-if="receiver.receiverName"
+            >姓名: <span class=" h4 ml-5 ">{{receiver.receiverName}}</span> <span
+                v-show="defaultIndex == index "
+                class=" btn h5 member__cuponBtn--text "
+              >預設</span></li>
+            <li class=" h3 mt-5 ">聯絡電話: <span class=" h4 ml-5 ">{{receiver.receiverPhone}}</span></li>
+            <li class=" h3 member__addressText mt-5 ">地址: <span
+                class=" h4 ml-5 ">{{receiver.receiverAddressCode}}{{receiver.receiverCity}}{{receiver.receiverTown}}{{receiver.receiverRoad}}</span>
+            </li>
+          </ul>
+        </div>
+        <div class=" col-4 d-flex align-items-center ">
+          <ul class=" member__address--left ">
+            <li class=" ml-15 mr-5 "><button
+                class=" btn btn--link member__cuponBtn--black "
+                @click=" defaultHandler($event,index) "
+              >設為預設</button> </li>
+            <li class=" mr-5 "><button
+                class=" btn btn--link member__cuponBtn--black"
+                @click="
+                updateAddress(index,receiver)"
+              >編輯</button></li>
+            <li class=" mr-5 "><button
+                class=" btn btn--link member__cuponBtn--red "
+                @click=" deleteAddress(index) "
+              >刪除</button></li>
+          </ul>
+        </div>
+
+      </div>
+
+
+
+    </div>
+  </div>
+
+
+</template>
+
+
+<script>
+  Vue.component('member_address', {
+
+    props: ['list'],
+    template: '#member_address',
+    data() {
+      return {
+        defaultAddress: true,
+        defaultIndex: 0,
+        localAddress: null,
+        btn: '新增地址',
+        checkLogin: "btn btn-small",
+      }
+    },
+    methods: {
+      openModal() {
+
+        if (this.memberId == null) {
+          return
+        }
+        if (this.addressList.length == 3) {
+          this.btn = `地址不得超過3筆`;
+          return
+
+        } else {
+          this.$emit('open-handler', true);
+        }
+      },
+      defaultHandler(e, index) {
+        this.defaultIndex = index;
+        localStorage.setItem('defaultIndex', JSON.stringify(this.defaultIndex));
+        this.$emit('default', this.defaultIndex);
+      },
+      updateAddress(index, receiver) {
+        this.$emit('update', receiver, index, true);
+      },
+      deleteAddress(index) {
+        this.addressList.splice(index, 1);
+        this.localAddress.splice(index, 1);
+        localStorage.setItem('receiverList', JSON.stringify(this.addressList));
+      },
+    },
+    computed: {
+      addressList: {
+        get() {
+          return this.list;
+        },
+        set(val) {
+          this.$emit('update', val)
+        },
+      },
+      memberId() {
+        return this.$store.state.memberId
+      },
+    },
+    watch: {
+      addressList: {
+        handler() {
+          // console.log(this.addressList); //問學長
+        },
+        deep: true,
+        // immediate: true,
+      }
+    },
+    mounted() {
+      // const params = new URLSearchParams()
+      // params.append('ID', this.memberId)
+
+      // axios({
+      //   method: 'post',
+      //   url: 'assets/php/getMemberAddress.php',
+      //   headers: {
+      //     'Content-Type': 'application/x-www-form-urlencoded',
+      //   },
+      //   data: params,
+      // }).then((res) => {
+      //   this.localAddress = JSON.parse(res.data[0].member_address);
+      // }).catch((error) => {
+      //   console.log(error)
+
+      // })
+
+
+      this.addressList = [];
+      this.localAddress = JSON.parse(localStorage.getItem('receiverList')) || [];
+      this.defaultIndex = JSON.parse(localStorage.getItem('defaultIndex')) || 0;
+
+
+    }
+
+
+
+
+
+
+
+
+  })
+</script>

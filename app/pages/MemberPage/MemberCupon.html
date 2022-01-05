@@ -1,0 +1,147 @@
+<template id="member_coupon">
+  <div class=" container">
+    <div class="row member__info">
+      <section class="member__data col-12 col-lg-6 col-xs-12">
+        <h2
+          class="block  block__header__title"
+          id="memberCoupon"
+        >我的折價卷</h2>
+      </section>
+    </div>
+    <div class="row member__info d-flex justify-content-around py-10">
+      <div
+        class="member__cupon  mt-5  col-5 col-lg-6"
+        v-for="(item,index) of  couponList"
+      >
+        <ul class="d-flex justify-content-center  w-100 ">
+          <li class="member__cuponText">
+            <div class="member__cuponBackGround">
+              <!-- <span class="member__cuponText--big">{{item['couponHightLine']}}</span> -->
+              </span class="member__cuponText--small">{{item['couponHightLine']}}</span>
+            </div>
+          </li>
+
+          <li class="member__cuponText">
+            <div class="member__cuponContent">
+              <p class="h5">【{{item['couponTitle']}}】</p>
+              <p class="h4">{{item['couponText']}}</p>
+              <transition
+                name="fade"
+                mode="out-in"
+              >
+                <p
+                  v-if="item.couponId =='0'"
+                  class=" h4 member__cuponContent--warning "
+                  key="p1"
+                >即將到期:<span> {{ timer | hoursMinutesAndSeconds }} </span></p>
+                <p
+                  v-else
+                  class=" h4 member__cuponContent--warning "
+                  key="p2"
+                >即將到期:<span> {{item.couponDeadDate}}</span></p>
+              </transition>
+            </div>
+          </li>
+
+          <li class="member__cuponText">
+            <a
+              class="member__cuponBtn"
+              href="./product.html"
+            ><button class="btn btn--link   member__cuponBtn--black pb-5 ">去逛逛</button>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+</template>
+
+<script>
+  Vue.component('member_coupon', {
+
+    template: '#member_coupon',
+    data() {
+      return {
+        couponList: [],
+        count: null,
+        timer: THREE_DAYS,
+      }
+    },
+    mounted() {
+
+      const params = new URLSearchParams()
+      params.append('ID', this.memberId)
+
+      axios({
+        method: 'post',
+        url: 'assets/php/getMemberCoupon.php',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        data: params,
+      }).then((res) => {
+        console.log(res.data)
+
+        this.couponList = res.data.map((coupon) => {
+
+          let hightLine;
+
+          coupon.coupon_id == "0" ? hightLine = "九折" : coupon.coupon_id == "1" ? hightLine = "免運" : coupon.coupon_id == "2" ? hightLine = "買一送一" : coupon.coupon_id == "3" ? hightLine = "七折" : hightLine = "???"
+
+          const dateObject = new Date(coupon.dead_date);
+          const date = dateObject.getDate()
+          const month = dateObject.getMonth() + 1;
+          const year = dateObject.getFullYear()
+          return {
+            couponTitle: coupon.coupon_name,
+            couponId: coupon.coupon_id,
+            couponText: coupon.coupon_des,
+            coupon_On: coupon.coupon_type,
+            couponGetDate: coupon.type_date,
+            couponDeadDate: `${year}-${month}-${date}`,
+            couponHightLine: hightLine,
+          }
+        })
+      }).catch((error) => {
+        console.log(error)
+      })
+
+
+      setInterval(() => this.timer -= 1, 1000);
+
+    },
+    methods: {
+
+    },
+    computed: {
+      memberId() {
+        return this.$store.state.memberId
+      },
+      getDate() {
+        return Date.parse(this.couponList[0].couponGetDate);
+      },
+      deadDate() {
+        return Date.parse(this.couponList[0].couponDeadDate);
+      },
+      resetTime() {
+        return this.deadDate - this.getDate;
+      },
+    },
+    filters: {
+      hoursMinutesAndSeconds(value) {
+        // let hours = Math.floor(value / 60 * 60);
+        let hours = Math.floor(value / (60 * 60));
+        let minutes = Math.floor((value / 60) % 60);
+        let seconds = Math.floor(value % 60);
+
+        return `${hours} : ${minutes} : ${seconds}`;
+      }
+    },
+
+
+
+
+  })
+</script>

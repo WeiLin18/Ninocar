@@ -1,0 +1,49 @@
+<script>
+  Vue.component('success-login-content', {
+    template: '#successLogin',
+    data() {
+      return {
+
+      }
+    },
+    computed: {
+
+    },
+    methods: {
+
+    }
+  });
+</script>
+<template id="successLogin">
+    <div>
+        <h2 class="modal__title mb-18">
+            登入成功
+        </h2>
+        <svg
+            width="80"
+            height="80"
+        >
+            <circle
+                cx="40"
+                cy="40"
+                r="40"
+                fill="#fadd61"
+            />
+            <polyline
+                points="25,43 38,58 58,28"
+                style="fill:none;stroke:#522613;stroke-width:7;stroke-linecap:round ;stroke-linejoin:round"
+            >
+            </polyline>
+        </svg>
+        <h3 class="h4 mb-10">歡迎回來</h3>
+        <p class="h4 text-left mb-4">你不在的這段時間，有新商品推出囉！點擊下方按鈕查看最新商品</p>
+        <a
+            href="./product.html"
+            class="btn btn--fluid mb-4"
+        >看看最新商品</a>
+        <a
+            href="./membermain.html"
+            class="btn btn--fluid btn--outline"
+        >查看我的帳戶</a>
+    </div>
+</template>

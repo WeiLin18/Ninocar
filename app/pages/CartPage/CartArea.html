@@ -1,0 +1,512 @@
+<template id="cartArea">
+	<div
+		v-if="isExist"
+		class="mb-10"
+	>
+		<div class="container cart">
+			<header class="row mt-20 block order-sm-1">
+				<ul class="cart__title  w-100">
+					<li class="block__header__title">購物車</li>
+					<li>單價</li>
+					<li class="cart__title--left">數量</li>
+					<li class="cart__title--left">總計</li>
+					<li><button
+							@click="deleteAllHandler"
+							class="btn btn--link cart__link"
+						>全部刪除</button></li>
+					<li><img
+							src="./assets/img/icon/icon-up.svg"
+							alt=""
+						></li>
+				</ul>
+			</header>
+			<div class="row  block">
+				<div
+					class="d-flex cart__group w-100"
+					v-for="(item,listIndex) of buyerList"
+				>
+					<div class="cart__group--dflex  cart__group__firstArea">
+						<div class="cart__groupImg">
+							<img
+								:src="item.imgURL"
+								alt=""
+							>
+							<p :class=" bgClass(item['series']) ">{{item.series}} <br> {{item.seriesId}}</p>
+						</div>
+						<div class="cart__product">
+							<p>{{item.name}}</p>
+							<p>{{item.eName}}</p>
+						</div>
+					</div>
+					<div
+						v-if="item.points"
+						class="cart__group--dflex "
+					>
+						<div class="cart__member">
+							<p>Ni</p>
+							<span>{{item.points}}</span>
+						</div>
+					</div>
+					<div
+						v-else
+						class="cart__group--dflex "
+					>
+						<p class="font-black"> NT$<span>{{item.price}}</span></p>
+					</div>
+					<div class="cart__group--dflex">
+						<select
+							name=""
+							class="cart__num"
+							@change="changeNum(listIndex,$event)"
+						>
+							<option
+								:value="index"
+								v-for=" (num ,index) in 20"
+							>{{num}}</option>
+						</select>
+					</div>
+					<div
+						v-if="item.points"
+						class="cart__group--dflex"
+					>
+						<div class="cart__member">
+							<p>Ni</p>
+							<span>{{item.totalPointCost}}</span>
+						</div>
+					</div>
+					<div
+						v-else
+						class="cart__group--dflex"
+					>
+						<p class="font-black"> NT$<span>{{item.totalPrice}}</span></p>
+					</div>
+					<div>
+						<button
+							@click="deleteHandler(listIndex)"
+							class="btn btn--link cart__link--small"
+						>刪除</button>
+					</div>
+					<p
+						class="cart__cancel"
+						@click="deleteHandler(listIndex)"
+					><img
+							src="./assets/img/icon/icon-close.svg"
+							alt=""
+						></p>
+				</div>
+			</div>
+			<footer class="row order-sm-1 block">
+				<ul class="cart__footer d-flex w-100">
+					<li class="cart__text--hide">總計 <span>{{totalProductNum}}</span> 件商品 </li>
+					<li class="cart__text">總花點數</li>
+					<li class="cart__member">
+						<p>Ni</p>
+						<span>{{totalPointCost}}</span>
+					</li>
+					<li class="cart__text">總金額</li>
+					<li> NT$ <span>{{totalMoneyCost}}</span> </li>
+				</ul>
+			</footer>
+		</div>
+		<div class="container">
+			<div class="row  pt-md-5 mt-20">
+				<section class="cart__payment  col-6 col-lg-6 col-xs-12 ">
+					<h2 class="block  block__header block__header__title">收貨和付款方式 （折價卷）</h2>
+					<div class="pt-5 pb-20 px-5 form__group block ">
+						<label
+							for="productTake"
+							class="form__text mb-2 h5"
+						>選擇運送方式</label> <span
+							v-if="noConfirm"
+							class="form__text form__text--warning"
+						>皆為必選</span>
+						<div class="form__section mb-5">
+							<select
+								name=""
+								id="productTake"
+								:class="classList"
+								v-model="selectShipping"
+								@change='countSendPrice'
+							>
+								<option
+									value=""
+									disabled
+								>請選擇</option>
+								<option v-for="(methods,index) of shippingList">{{methods}}</option>
+							</select>
+						</div>
+						<label
+							for="paymentChoose"
+							class="form__text mb-2 h5"
+						>選擇付款方式</label>
+						<div class="form__section mb-5">
+							<select
+								id="paymentChoose"
+								:class="classList"
+								v-model="selectPayment"
+							>
+								<option
+									value=""
+									disabled
+								>請選擇</option>
+								<option v-for="(payment,index) of paymentList">{{payment}}</option>
+							</select>
+						</div>
+						<label
+							for="coupon"
+							class="form__text mb-2 h5"
+						>使用優惠卷</label>
+						<div class="form__section mb-5">
+							<select
+								id="coupon"
+								:class="classList"
+								v-model="selectCoupon"
+								@change='countDiscount'
+							>
+								<option
+									value=""
+									disabled
+								>請選擇</option>
+								<option v-for="(value,objvalue) of couponList">{{value}}</option>
+							</select>
+						</div>
+					</div>
+				</section>
+
+				<section class="cart__payment  col-6 col-lg-6 col-xs-12 block ">
+					<h2 class="  block__header block__header__title">訂單明細</h2>
+					<div class='px-5'>
+						<header class="d-flex justify-content-center mt-5   ">
+							<div class="cart__pointCount d-flex w-50  flex-sm-wrap">
+								<p>商品花費點數</p>
+								<div class="cart__member">
+									<p>Ni</p>
+									<span>{{totalPointCost}}</span>
+								</div>
+							</div>
+							<ul class="cart__moneyCount  w-50">
+								<li>
+									<p>商品總金額</p>
+									<p class="font-black">NT$<span>{{totalMoneyCost}}</span></p>
+								</li>
+								<li>
+									<p>運費總計</p>
+									<p class="font-black">NT$<span>{{sendPrice}}</span></p>
+								</li>
+								<li>
+									<p>折價卷折抵</p>
+									<p class="font-black"><span class="font-black pr-3">-</span>NT$<span>{{discountPrice}}</span></p>
+								</li>
+							</ul>
+
+						</header>
+						<div>
+							<ul class="cart__countTotal d-flex align-items-center mb-10 ">
+								<li class="cart__pointCount d-flex flex-sm-wrap">
+									<p>總花費點數</p>
+									<div class="cart__member ">
+										<p>Ni</p>
+										<span>{{totalPointCost}}</span>
+									</div>
+								</li>
+								<li>
+									<p>總金額</p>
+									<p class="cart__TotalText font-black">NT$ <span>{{totalCount}}</span> </p>
+								</li>
+							</ul>
+						</div>
+						<button
+							v-if="memberId == null"
+							@click="pageHandler"
+							class="btn  btn--fluid btn--disabled mb-5"
+						>請先登入</button>
+						<button
+							v-else
+							@click="pageHandler"
+							class="btn  btn--fluid mb-5"
+						>確認結帳</button>
+						<footer class="cart__pointRespond ">
+							<p>結帳後剩餘點數為<span>{{leastPoint}}</span>,此筆訂單將另外獲得<span>{{countGetPoints}}</span>點</p>
+							<p class="cart__hint ">點數將在訂單完成3天內匯入</p>
+						</footer>
+					</div>
+				</section>
+			</div>
+		</div>
+	</div>
+	<div v-else>
+		<main class="container cart   mb-15">
+			<header class="
+			row
+			mt-20
+			mb-10
+			order-sm-1">
+				<ul class="cart__title d-flex   block w-100">
+					<li>購物車</li>
+					<li>單價</li>
+					<li>數量</li>
+					<li>總計</li>
+					<li><button class="btn btn--link cart__link">全部刪除</button></li>
+					<li><img
+							src="./assets/img/icon/icon-up.svg"
+							alt=""
+						></li>
+				</ul>
+			</header>
+			<div class="row">
+				<div class="cart__empty w-100 d-flex flex-wrap">
+					<div class="cart__empty--left">
+						<img
+							src="./assets/img/illust/illust-empty.png"
+							alt=""
+						/>
+					</div>
+					<div class="cart__empty--right">
+						<p>您的購物車是空的</p>
+						<p>推薦您可透過商品分類找到喜歡的車子,或查看熱門商品</p>
+						<p><a href="./product.html"><button class='btn btn--small'>熱門商品</button></a></p>
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
+
+
+</template>
+
+
+
+
+<script>
+	Vue.component('cartArea', {
+		template: "#cartArea",
+		props: ['list', 'isExist', 'current'],
+		mixins: [cartMixins],
+		data() {
+			return {
+				//購買清單
+				// buyerList: this.list,
+				// 初始全部金額
+				totalProductNum: null,
+				totalPointCost: 0,
+				totalMoneyCost: 0,
+				// 目前頁面
+				currentData: this.current,
+				// 折價卷種類
+				couponList: {
+					discountOne: "全項商品不限金額結帳九折優惠！",
+					discountTwo: "結帳享買一送一",
+					discountThree: "宅配享一次免運優惠！",
+					discountFour: '本月壽星你最大享五折優惠！',
+				},
+				//  付款方式種類
+				paymentList: ["線上刷卡", "ATM轉帳", "門市結帳", "貨到付款"],
+				shippingList: ['自取', '宅配'],
+				classList: {
+					form__select: true,
+					cart__select: true,
+				},
+				//選擇cupon
+				selectCoupon: "",
+				// 選擇payment
+				selectPayment: "",
+				// shipping methods
+				selectShipping: "",
+				discountPrice: 0,
+				sendPrice: 0,
+				finallyPrice: 0,
+				noConfirm: false,
+			}
+		},
+		mounted() {
+
+
+			//  資料傳入時先渲染
+
+			for (let listNum in this.list) {
+
+				this.list[listNum].totalPointCost = this.list[listNum].points;
+				this.list[listNum].totalPrice = this.list[listNum].price;
+				this.totalProductNum = parseInt(this.list.length);
+				if (this.list[listNum].points !== 0) {
+					this.totalPointCost += parseInt(this.list[listNum].points);
+				}
+				if (this.list[listNum].points == 0) {
+					this.totalMoneyCost += parseInt(this.list[listNum].price);
+				}
+			};
+
+		},
+		methods: {
+			bgClass(productSeries) {
+				return `bg-series-${productSeries}`;
+			},
+			pageHandler() {
+
+				if (this.memberId == null) {
+					this.$emit('login-check', true);
+					return
+				}
+				if (this.memberCurrentPoint < this.countTotalPoint) {
+					alert(`您所擁有的會員點數不足！！！`);
+				} else {
+					if (this.selectCoupon == "") {
+						this.classList = {
+							form__select: false,
+							cart__select: true,
+							form__warning: true
+						};
+						this.noConfirm = true;
+					} else if (this.selectPayment == "") {
+						this.classList = {
+							form__select: false,
+							cart__select: true,
+							form__warning: true
+						};
+						this.noConfirm = true;
+					} else if (this.selectShipping == "") {
+						this.classList = {
+							form__select: false,
+							cart__select: true,
+							form__warning: true
+						};
+						this.noConfirm = true;
+					} else {
+						this.currentData += 1;
+						this.$emit('data-handler', this.currentData);
+						//傳送更新 store 的值
+						this.$store.commit('selectCoupon', this.selectCoupon);
+						this.$store.commit('selectShipping', this.selectShipping);
+						this.$store.commit('selectPayment', this.selectPayment);
+						this.$store.commit('addBuyList', this.buyerList);
+						this.$store.commit('addBuyNum', this.totalProductNum);
+						this.$store.commit('addFinalPrice', this.finallyPrice);
+						this.$store.commit('addTotalPointCost', this.totalPointCost);
+						this.$store.commit('addDiscountPrice', this.discountPrice);
+						this.$store.commit('addSendPrice', this.sendPrice);
+						this.$store.commit('addTotalMoney', this.totalMoneyCost);
+						this.$store.commit('addGetPoints', this.countGetPoints);
+
+					}
+				};
+
+			},
+
+			changeNum(listIndex, e) {
+
+				let chooseNum = e.target.value * 1 + 1;
+				let totalPrice = this.buyerList[listIndex].price;
+				let totalPoint = this.buyerList[listIndex].points;
+				let newTotalPrice = totalPrice * chooseNum;
+				let newTotalPoint = totalPoint * chooseNum;
+				this.buyerList[listIndex].productNum = chooseNum;
+				this.buyerList[listIndex].totalPrice = newTotalPrice;
+				this.buyerList[listIndex].totalPointCost = newTotalPoint;
+				this.renew();
+
+			},
+			deleteHandler(listIndex) {
+				this.buyerList.splice(listIndex, 1);
+
+				let cartJson = JSON.stringify(this.buyerList);
+				localStorage.setItem('cartsList', cartJson);
+				this.renew();
+
+			},
+			deleteAllHandler() {
+				this.list = "";
+				let cartJson = JSON.stringify(this.list);
+				localStorage.setItem('cartsList', cartJson);
+				this.renew();
+			},
+			renew() {
+				// 重render畫面
+				this.totalProductNum = 0;
+				this.totalPointCost = 0;
+				this.totalMoneyCost = 0;
+
+				for (let listNum in this.buyerList) {
+					this.totalProductNum += this.buyerList[listNum].productNum;
+					if (this.buyerList[listNum].points > 0) {
+						this.totalPointCost += this.buyerList[listNum].totalPointCost;
+					}
+					if (!this.buyerList[listNum].pointProduct) {
+						this.totalMoneyCost += this.buyerList[listNum].totalPrice;
+					}
+
+				};
+			},
+			countDiscount() {
+				// 折扣選取器
+				for (let key in this.couponList) {
+					if (this.couponList[key] == this.selectCoupon && key == 'discountOne') {
+						this.discountPrice = Math.round(this.totalMoneyCost - (this.totalMoneyCost * 0.9));
+					}
+					if (this.couponList[key] == this.selectCoupon && key == 'discountTwo') {
+						this.discountPrice = Math.round((this.totalMoneyCost + this.totalPointCost) / this.totalProductNum);
+					}
+					if (this.couponList[key] == this.selectCoupon && key == 'discountThree') {
+						this.discountPrice = this.sendPrice;
+					}
+					if (this.couponList[key] == this.selectCoupon && key == 'discountFour') {
+						this.discountPrice = Math.round(this.totalMoneyCost - (this.totalMoneyCost * 0.5));
+					}
+				}
+			},
+			countSendPrice() {
+				// 運費選取
+				for (let sendMethods in this.shippingList) {
+
+					if (this.shippingList[sendMethods] == this.selectShipping && this.selectShipping == "宅配") {
+						this.sendPrice = 80;
+					} else {
+						this.sendPrice = 0;
+					}
+				}
+
+
+			},
+
+
+		},
+		computed: {
+
+			totalCount() {
+
+				let final = this.totalMoneyCost - this.discountPrice + this.sendPrice;
+				this.finallyPrice = final;
+				return final;
+
+			},
+			buyerList: {
+
+				set(value) {
+
+					return this.buyerList = ""
+
+				},
+				get() {
+					return this.list
+				},
+
+			},
+			countGetPoints() {
+				return Math.floor(this.finallyPrice / 100 + this.totalPointCost / 100);
+
+			},
+			memberId() {
+				return this.$store.state.memberId
+			},
+			memberCurrentPoint() {
+				return this.$store.state.memberCurrentPoint
+			},
+			leastPoint() {
+				let point = this.memberCurrentPoint - this.countTotalPoint;
+				return point;
+			}
+
+
+		}
+
+	})
+</script>

@@ -1,0 +1,28 @@
+<script>
+    Vue.component('post', {
+        template: `
+            <transition name="slide-fade">
+        <li class="col-4 col-lg-3 col-sm-4 mb-5">
+            <div class="post">
+                <div class="post__text">
+                    <h2 class="h6 mb-1">{{name}}</h2>
+                    <h3 class="h6">{{eName}}</h3>
+                <div :class="postCarIDClass">{{series}}<span>{{seriesId}}</span></div>
+                </div>
+                <div class="post__pic">
+                    <img :src="imgURL">
+                    <post-pin v-if="showPin"></post-pin>
+                </div>
+            </div>
+        </li>
+        </transition>
+            `,
+        props: ['name', 'eName', 'series', 'seriesId', 'productId', 'imgURL', 'active', 'show-pin'],
+        computed: {
+            postCarIDClass() {
+                return `carID bg-series-${this.series}`
+            },
+
+        }
+    });
+</script>
